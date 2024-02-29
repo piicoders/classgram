@@ -14,15 +14,29 @@ generator client {
   binaryTargets = "native"
 }
 
+// Define your own datamodels here and run `yarn redwood prisma migrate dev`
+// to create migrations for them and apply to your dev DB.
+// TODO: Please remove the following example:
 model User {
-  id    String     @id @default(uuid())
-  email String @unique
-  name  String
-  hashedPassword String
-  salt String
-  type UserType
-  resetToken String? @default("")
-  resetTokenExpiredAt DateTime? @default("")
+  id                  String      @id @default(uuid())
+  email               String      @unique
+  name                String
+  hashedPassword      String
+  salt                String
+  type                UserType
+  resetToken          String?
+  resetTokenExpiredAt DateTime?
+  classesAsProfessor  Classroom[] @relation("professor")
+  classesAsStudent    Classroom[] @relation("classStudents")
+}
+
+model Classroom {
+  id          Int     @id @default(autoincrement())
+  name        String
+  code        String? @unique
+  professor   User    @relation("professor", fields: [professorId], references: [id])
+  professorId String
+  students    User[]  @relation("classStudents")
 }
 
 enum UserType {
