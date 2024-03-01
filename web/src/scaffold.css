@@ -60,6 +60,7 @@
   margin-left: 1rem;
   margin-right: 1rem;
   padding-bottom: 1rem;
+  margin-top: 10rem;
 }
 .rw-segment {
   border-radius: 0.5rem;
@@ -367,21 +368,59 @@
 .rw-text-center {
   text-align: center;
 }
-.rw-login-container {
+
+.login-container {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24rem;
   margin: 4rem auto;
   flex-wrap: wrap;
+  background-color: #505050;
+  border-radius: 5%;
 }
+
+.login-container{
+  padding: 1rem;
+}
+
+.login-label {
+  display: block;
+  margin-top: 1.5rem;
+  color: #dde5f3;
+  font-weight: 600;
+  text-align: left;
+}
+
+.login-heading.login-heading-secondary{
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: 'Nome da Fonte', sans-serif;
+  color: #F0FFF0;
+}
+
+.login-button{
+  width: 100%;
+}
+
+.selectType{
+  margin-top: 25px;
+  width: 100%;
+  text-align: center;
+  background-color: #004c93;
+  border: none;
+  padding: 10px;
+  border-radius: 2%;
+  color: #ffff;
+}
+
 .rw-login-container .rw-form-wrapper {
   width: 100%;
   text-align: center;
 }
 .rw-login-link {
   margin-top: 1rem;
-  color: #4a5568;
+  color: #cee3f5;
   font-size: 90%;
   text-align: center;
   flex-basis: 100%;

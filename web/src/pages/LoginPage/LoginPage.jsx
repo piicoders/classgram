@@ -24,14 +24,14 @@ const LoginPage = () => {
     }
   }, [isAuthenticated])
 
-  const usernameRef = useRef(null)
+  const emailRef = useRef(null)
   useEffect(() => {
-    usernameRef.current?.focus()
+    emailRef.current?.focus()
   }, [])
 
   const onSubmit = async (data) => {
     const response = await logIn({
-      username: data.username,
+      username: data.email,
       password: data.password,
     })
 
@@ -40,7 +40,7 @@ const LoginPage = () => {
     } else if (response.error) {
       toast.error(response.error)
     } else {
-      toast.success('Welcome back!')
+      toast.success('Bem vindo de volta!')
     }
   }
 
@@ -50,43 +50,47 @@ const LoginPage = () => {
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
+        <div className="rw-scaffold login-container">
           <div className="rw-segment">
-            <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">Login</h2>
-            </header>
+            <h2 className="login-heading login-heading-secondary">
+              Bem-vindo!
+            </h2>
 
-            <div className="rw-segment-main">
+            <div className="login-container-main">
               <div className="rw-form-wrapper">
                 <Form onSubmit={onSubmit} className="rw-form-wrapper">
                   <Label
-                    name="username"
-                    className="rw-label"
-                    errorClassName="rw-label rw-label-error"
+                    name="email"
+                    className="login-label"
+                    errorClassName="login-label rw-label-error"
                   >
-                    Username
+                    Email
                   </Label>
                   <TextField
-                    name="username"
+                    name="email"
                     className="rw-input"
                     errorClassName="rw-input rw-input-error"
-                    ref={usernameRef}
+                    ref={emailRef}
                     validation={{
                       required: {
                         value: true,
-                        message: 'Username is required',
+                        message: 'Informe o email',
+                      },
+                      pattern: {
+                        value: /^[^@]+@[^.]+\..+$/,
+                        message: 'Informe um email válido',
                       },
                     }}
                   />
 
-                  <FieldError name="username" className="rw-field-error" />
+                  <FieldError name="email" className="rw-field-error" />
 
                   <Label
                     name="password"
-                    className="rw-label"
-                    errorClassName="rw-label rw-label-error"
+                    className="login-label"
+                    errorClassName="login-label rw-label-error"
                   >
-                    Password
+                    Senha
                   </Label>
                   <PasswordField
                     name="password"
@@ -96,7 +100,7 @@ const LoginPage = () => {
                     validation={{
                       required: {
                         value: true,
-                        message: 'Password is required',
+                        message: 'Informe a senha',
                       },
                     }}
                   />
@@ -104,16 +108,18 @@ const LoginPage = () => {
                   <FieldError name="password" className="rw-field-error" />
 
                   <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">Login</Submit>
+                    <Submit className="rw-button rw-button-blue login-button">
+                      Login
+                    </Submit>
                   </div>
                 </Form>
               </div>
             </div>
           </div>
           <div className="rw-login-link">
-            <span>Don&apos;t have an account?</span>{' '}
+            <span>Não possui conta?</span>{' '}
             <Link to={routes.signup()} className="rw-link">
-              Sign up!
+              Registre-se!
             </Link>
           </div>
         </div>
