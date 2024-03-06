@@ -3,8 +3,8 @@ import { Link, routes } from '@redwoodjs/router'
 import Classrooms from 'src/components/Classroom/Classrooms'
 
 export const QUERY = gql`
-  query FindClassrooms {
-    classrooms {
+  query FindProfessorClasses($professorId: String!) {
+    professorClasses(professorId: $professorId) {
       id
       name
       code
@@ -30,6 +30,7 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ classrooms }) => {
-  return <Classrooms classrooms={classrooms} />
+export const Success = ({ professorClasses }) => {
+  console.log(professorClasses)
+  return <Classrooms classrooms={professorClasses} />
 }
