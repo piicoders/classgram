@@ -148,8 +148,8 @@ const SignupPage = () => {
                       },
                     }}
                   >
-                    <option value={'STUDENT'}>Aluno</option>
-                    <option value={'PROFESSOR'}>Professor</option>
+                    <option value={'S'}>Aluno</option>
+                    <option value={'P'}>Professor</option>
                   </SelectField>
                   <FieldError name="type" style={{ color: 'red' }} />
                   <div className="rw-button-group">
