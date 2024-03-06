@@ -11,7 +11,9 @@ export const schema = gql`
   type Query {
     classrooms: [Classroom!]! @requireAuth
     classroom(id: Int!): Classroom @requireAuth
+    professorClasses(professorId: String!): [Classroom!]! @requireAuth
   }
+
 
   input CreateClassroomInput {
     name: String!

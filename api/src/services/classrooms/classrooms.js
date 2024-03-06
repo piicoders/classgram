@@ -10,6 +10,12 @@ export const classroom = ({ id }) => {
   })
 }
 
+export const professorClasses = ({ professorId }) => {
+  return db.classroom.findMany({
+    where: { professorId: { equals: professorId } }
+  })
+}
+
 export const createClassroom = ({ input }) => {
   return db.classroom.create({
     data: input,
