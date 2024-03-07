@@ -34,6 +34,28 @@ export const createClassroom = ({ input }) => {
   })
 }
 
+export const addStudentClass = async ({ classCode, studentId }) => {
+  const classroom = await db.classroom.findUnique({
+    where: { code: classCode },
+    include: { students: true },
+  });
+
+  if (!classroom) {
+    throw new Error(`Class with code ${classCode} not found.`);
+  }
+  const isStudentInClass = classroom.students.some((student) => student.id === studentId);
+  if (isStudentInClass) {
+    throw new Error(`Student with ID ${studentId} is already in the class.`);
+  }
+
+  return db.classroom.update({
+    where: { code: classCode },
+    data: {
+      students: { connect: { id: studentId } },
+    },
+  });
+}
+
 export const updateClassroom = ({ id, input }) => {
   return db.classroom.update({
     data: input,
