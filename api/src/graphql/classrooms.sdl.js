@@ -12,6 +12,7 @@ export const schema = gql`
     classrooms: [Classroom!]! @requireAuth
     classroom(id: Int!): Classroom @requireAuth
     professorClasses(professorId: String!): [Classroom!]! @requireAuth
+    studentClasses(studentId: String!): [Classroom!]! @requireAuth
   }
 
 

@@ -16,6 +16,18 @@ export const professorClasses = ({ professorId }) => {
   })
 }
 
+export const studentClasses = ({ studentId }) => {
+  return db.classroom.findMany({
+    where: {
+      students: {
+        some: {
+          id: studentId,
+        },
+      },
+    },
+  })
+}
+
 export const createClassroom = ({ input }) => {
   return db.classroom.create({
     data: input,
