@@ -11,6 +11,7 @@ const ClassroomsList = ({ classrooms }) => {
           >
             <div className="h-16 rounded-md bg-slate-400">
               <h1 className="text-lg font-bold">{classroom.name}</h1>
+              <h1 className="text-lg font-bold">{classroom.professor.name}</h1>
             </div>
           </Link>
           <div className="activities-section h-40 overflow-y-auto rounded bg-slate-200">

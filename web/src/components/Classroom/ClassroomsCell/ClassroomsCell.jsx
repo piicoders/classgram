@@ -8,7 +8,10 @@ export const QUERY = gql`
       id
       name
       code
-      professorId
+      professor {
+        email
+        name
+      }
     }
   }
 `
@@ -31,5 +34,7 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ professorClasses }) => {
+  console.log(professorClasses)
+  console.log('testes')
   return <Classrooms classrooms={professorClasses} />
 }

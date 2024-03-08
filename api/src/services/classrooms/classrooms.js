@@ -12,7 +12,8 @@ export const classroom = ({ id }) => {
 
 export const professorClasses = ({ professorId }) => {
   return db.classroom.findMany({
-    where: { professorId: { equals: professorId } }
+    where: { professorId: { equals: professorId } },
+    include: { professor: true},
   })
 }
 
@@ -25,6 +26,7 @@ export const studentClasses = ({ studentId }) => {
         },
       },
     },
+    include: {professor: true},
   })
 }
 
