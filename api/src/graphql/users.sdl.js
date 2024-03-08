@@ -13,8 +13,8 @@ export const schema = gql`
   }
 
   enum UserType {
-    PROFESSOR
-    STUDENT
+    P
+    S
   }
 
   type Query {

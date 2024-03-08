@@ -114,26 +114,26 @@ const UserForm = (props) => {
           <RadioField
             id="user-type-0"
             name="type"
-            defaultValue="PROFESSOR"
-            defaultChecked={props.user?.type?.includes('PROFESSOR')}
+            defaultValue="P"
+            defaultChecked={props.user?.type?.includes('P')}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
 
-          <div>Professor</div>
+          <div>P</div>
         </div>
 
         <div className="rw-check-radio-items">
           <RadioField
             id="user-type-1"
             name="type"
-            defaultValue="STUDENT"
-            defaultChecked={props.user?.type?.includes('STUDENT')}
+            defaultValue="S"
+            defaultChecked={props.user?.type?.includes('S')}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
 
-          <div>Student</div>
+          <div>S</div>
         </div>
 
         <FieldError name="type" className="rw-field-error" />
