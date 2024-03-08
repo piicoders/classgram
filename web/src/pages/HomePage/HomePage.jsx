@@ -1,5 +1,6 @@
 import { Link, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
+
 import { useAuth } from 'src/auth'
 
 const HomePage = () => {
@@ -14,15 +15,17 @@ const HomePage = () => {
         Find me in <code>./web/src/pages/HomePage/HomePage.jsx</code>
       </p>
       {isAuthenticated ? (
-            <div>
-              <span>Logged in as {currentUser?.email}</span>{' '}
-              <button type="button" onClick={logOut}>
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link to={routes.login()}>Login</Link>
-          )}
+        <div>
+          <span>Logged in as {currentUser?.email}</span>{' '}
+          <span>id: {currentUser?.id}</span>{' '}
+          <span>type: {currentUser?.type}</span>{' '}
+          <button type="button" onClick={logOut}>
+            Logout
+          </button>
+        </div>
+      ) : (
+        <Link to={routes.login()}>Login</Link>
+      )}
       <p>
         My default route is named <code>home</code>, link to me with `
         <Link to={routes.home()}>Home</Link>`

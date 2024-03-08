@@ -31,6 +31,5 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ professorClasses }) => {
-  console.log(professorClasses)
   return <Classrooms classrooms={professorClasses} />
 }
