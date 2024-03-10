@@ -98,8 +98,8 @@ model Subfactor {
 model Criterion {
   id        Int         @id @default(autoincrement())
   name      String      @db.VarChar()
-  prompt    Prompt?     @relation(fields: [promtId], references: [id])
-  promtId   Int
+  prompt    Prompt?     @relation(fields: [promptId], references: [id])
+  promptId   Int
   Subfactor Subfactor[]
 }
 
