@@ -116,7 +116,14 @@ yarn rw setup auth --help
 
 The best way to learn Redwood is by going through the comprehensive [tutorial](https://redwoodjs.com/docs/tutorial/foreword) and joining the community (via the [Discourse forum](https://community.redwoodjs.com) or the [Discord server](https://discord.gg/redwoodjs)).
 
+
+
 ## Quick Links
 
 - Stay updated: read [Forum announcements](https://community.redwoodjs.com/c/announcements/5), follow us on [Twitter](https://twitter.com/redwoodjs), and subscribe to the [newsletter](https://redwoodjs.com/newsletter)
 - [Learn how to contribute](https://redwoodjs.com/docs/contributing)
+
+## Contribuidores
+
+| [<img src="https://avatars.githubusercontent.com/u/70920004?v=4" width=115><br><sub>Alfredo Andrade</sub>](https://github.com/AlfredoAndrade14) | [<img src="https://avatars.githubusercontent.com/u/72308168?v=4" width=115><br><sub>Anthony Ferreira</sub>](https://github.com/anthony-s-ferreira) |  [<img src="https://avatars.githubusercontent.com/u/109104329?v=4" width=115><br><sub>Bruno Grangeiro</sub>](https://github.com/Bruno-Grangeiro) |  [<img src="https://avatars.githubusercontent.com/u/31012485?v=4" width=115><br><sub>Diego Cruz</sub>](https://github.com/Diego-lcruz) |[<img src="https://avatars.githubusercontent.com/u/91812687?v=4" width=115><br><sub>Gabriel de Vasconcelos</sub>](https://github.com/gabrielvsc) |[<img src="https://avatars.githubusercontent.com/u/94625698?v=4" width=115><br><sub>Paulo Victor</sub>](https://github.com/paulonc) |
+| :---: | :---: | :---: | :---: | :---: | :---: |
