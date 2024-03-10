@@ -10,14 +10,28 @@ export const classroom = ({ id }) => {
   })
 }
 
-export const professorClasses = ({ professorId }) => {
+export const professorClasses = async ({ professorId }) => {
+  const professor = await db.user.findUnique({
+    where: { id: professorId },
+  })
+
+  if (!professor) {
+    throw new Error(`Professor with ID ${professorId} does not exist.`)
+  }
+
   return db.classroom.findMany({
     where: { professorId: { equals: professorId } },
-    include: { professor: true},
+    include: { professor: true },
   })
 }
 
-export const studentClasses = ({ studentId }) => {
+export const studentClasses = async ({ studentId }) => {
+  const student = await db.user.findUnique({ where: { id: studentId } })
+
+  if (!student) {
+    throw new Error(`Student with ID ${studentId} does not exist.`)
+  }
+
   return db.classroom.findMany({
     where: {
       students: {
@@ -26,7 +40,7 @@ export const studentClasses = ({ studentId }) => {
         },
       },
     },
-    include: {professor: true},
+    include: { professor: true },
   })
 }
 
@@ -37,17 +51,26 @@ export const createClassroom = ({ input }) => {
 }
 
 export const addStudentClass = async ({ classCode, studentId }) => {
+  const student = await db.user.findUnique({ where: { id: studentId } })
+
+  if (!student) {
+    throw new Error(`Student with ID ${studentId} does not exist.`)
+  }
+
   const classroom = await db.classroom.findUnique({
     where: { code: classCode },
     include: { students: true },
-  });
+  })
 
   if (!classroom) {
-    throw new Error(`Class with code ${classCode} not found.`);
+    throw new Error(`Class with code ${classCode} not found.`)
   }
-  const isStudentInClass = classroom.students.some((student) => student.id === studentId);
+
+  const isStudentInClass = classroom.students.some(
+    (student) => student.id === studentId
+  )
   if (isStudentInClass) {
-    throw new Error(`Student with ID ${studentId} is already in the class.`);
+    throw new Error(`Student with ID ${studentId} is already in the class.`)
   }
 
   return db.classroom.update({
@@ -55,7 +78,7 @@ export const addStudentClass = async ({ classCode, studentId }) => {
     data: {
       students: { connect: { id: studentId } },
     },
-  });
+  })
 }
 
 export const updateClassroom = ({ id, input }) => {
