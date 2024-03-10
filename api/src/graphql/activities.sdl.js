@@ -15,6 +15,8 @@ export const schema = gql`
   type Query {
     activities: [Activity!]! @requireAuth
     activity(id: Int!): Activity @requireAuth
+    activityByClassId(classId: Int!): [Activity!]! @requireAuth
+    unfinishedActivitiesByStudentIdAndClassId(classId: Int!, studentId: String!): [Activity!]! @requireAuth
   }
 
   input CreateActivityInput {
