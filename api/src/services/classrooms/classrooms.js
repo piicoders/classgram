@@ -21,7 +21,7 @@ export const professorClasses = async ({ professorId }) => {
 
   return db.classroom.findMany({
     where: { professorId: { equals: professorId } },
-    include: { professor: true },
+    include: { professor: true, Activity: true, students: true },
   })
 }
 
@@ -32,7 +32,7 @@ export const studentClasses = async ({ studentId }) => {
     throw new Error(`Student with ID ${studentId} does not exist.`)
   }
 
-  return db.classroom.findMany({
+  return await db.classroom.findMany({
     where: {
       students: {
         some: {
@@ -40,8 +40,18 @@ export const studentClasses = async ({ studentId }) => {
         },
       },
     },
-    include: { professor: true },
-  })
+    include: {
+      Activity: {
+        where: {
+          Document: {
+            some: {
+              studentId: studentId,
+            },
+         },
+        },
+      },
+    },
+  });
 }
 
 export const createClassroom = ({ input }) => {
