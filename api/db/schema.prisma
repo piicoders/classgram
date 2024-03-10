@@ -48,18 +48,18 @@ model Activity {
   createdAt   DateTime   @default(now())
   dueDate     DateTime
   maxSize     Int
-  prompt      Prompt?    @relation(fields: [promptId], references: [id])
-  promptId    Int?       @unique
   Classroom   Classroom? @relation(fields: [classroomId], references: [id])
-  classroomId Int?
+  classroomId Int
+  promptId    Int
   Document    Document[]
+  Prompt      Prompt?    @relation(fields: [promptId], references: [id])
 }
 
 model Prompt {
   id          Int         @id @default(autoincrement())
   description String      @db.VarChar()
   Criterion   Criterion[]
-  Activity    Activity?
+  Activity    Activity[]
 }
 
 model Document {
