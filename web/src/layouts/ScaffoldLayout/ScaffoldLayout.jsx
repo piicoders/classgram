@@ -4,10 +4,10 @@ import Header from 'src/components/Header/Header'
 
 const ScaffoldLayout = ({ children }) => {
   return (
-    <div className="rw-scaffold">
+    <div>
       <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <Header />
-      <main>{children}</main>
+      <main className="px-10 py-5">{children}</main>
     </div>
   )
 }
