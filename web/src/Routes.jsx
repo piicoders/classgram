@@ -18,18 +18,17 @@ const Routes = () => {
     <Router useAuth={useAuth}>
       <PrivateSet unauthenticated="login">
         <Set wrap={ScaffoldLayout} title="Users">
-          <Route path="/users/new" page={UserNewUserPage} name="newUser" />
-          <Route path="/users/{id}/edit" page={UserEditUserPage} name="editUser" />
-          <Route path="/users/{id}" page={UserUserPage} name="user" />
-          <Route path="/users" page={UserUsersPage} name="users" />
+          <Route path="/usuarios/{id}/edit" page={UserEditUserPage} name="editUser" />
+          <Route path="/usuarios/{id}" page={UserUserPage} name="user" />
+          <Route path="/usuarios" page={UserUsersPage} name="users" />
 
-          <Route path="/classrooms/new" page={ClassroomNewClassroomPage} name="newClassroom" />
-          <Route path="/classrooms/{id:Int}/edit" page={ClassroomEditClassroomPage} name="editClassroom" />
-          <Route path="/classrooms/{id:Int}" page={ClassroomClassroomPage} name="classroom" />
-          <Route path="/" page={ClassroomClassroomsPage} name="classrooms" />
+          <Route path="/turmas/new" page={ClassroomNewClassroomPage} name="newClassroom" />
+          <Route path="/turmas/{id:Int}/edit" page={ClassroomEditClassroomPage} name="editClassroom" />
+          <Route path="/turmas/{id:Int}" page={ClassroomClassroomPage} name="classroom" />
+          <Route path="/turmas" page={ClassroomClassroomsPage} name="classrooms" />
         </Set>
       </PrivateSet>
-      <Route path="/login" page={LoginPage} name="login" />
+      <Route path="/" page={LoginPage} name="login" />
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route notfound page={NotFoundPage} />
     </Router>
