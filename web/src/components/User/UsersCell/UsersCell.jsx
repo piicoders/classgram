@@ -35,5 +35,17 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ users }) => {
-  return <Users users={users} />
+  return (
+    <>
+      <div className="rw-header">
+        <h1 className="rw-heading rw-heading-primary">
+          <p className="rw-link">Users</p>
+        </h1>
+        <Link to={routes.newUser()} className="rw-button rw-button-green">
+          <div className="rw-button-icon">+</div> New User
+        </Link>
+      </div>
+      <Users users={users} />
+    </>
+  )
 }
