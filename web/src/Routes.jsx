@@ -17,19 +17,17 @@ const Routes = () => {
   return (
     <Router useAuth={useAuth}>
       <PrivateSet unauthenticated="login">
-        <Set wrap={ScaffoldLayout} title="Users" titleTo="users" buttonLabel="New User" buttonTo="newUser">
+        <Set wrap={ScaffoldLayout} title="Users">
           <Route path="/users/new" page={UserNewUserPage} name="newUser" />
           <Route path="/users/{id}/edit" page={UserEditUserPage} name="editUser" />
           <Route path="/users/{id}" page={UserUserPage} name="user" />
           <Route path="/users" page={UserUsersPage} name="users" />
-        </Set>
-        <Set wrap={ScaffoldLayout}>
+
           <Route path="/classrooms/new" page={ClassroomNewClassroomPage} name="newClassroom" />
           <Route path="/classrooms/{id:Int}/edit" page={ClassroomEditClassroomPage} name="editClassroom" />
           <Route path="/classrooms/{id:Int}" page={ClassroomClassroomPage} name="classroom" />
-          <Route path="/classrooms" page={ClassroomClassroomsPage} name="classrooms" />
+          <Route path="/" page={ClassroomClassroomsPage} name="classrooms" />
         </Set>
-        <Route path="/" page={HomePage} name="home" />
       </PrivateSet>
       <Route path="/login" page={LoginPage} name="login" />
       <Route path="/signup" page={SignupPage} name="signup" />
