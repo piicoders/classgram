@@ -10,8 +10,8 @@
 //
 // See https://storybook.js.org/docs/react/writing-stories/args.
 
-import HeaderClassroom from './HeaderClassroom'
+import Header from './Header'
 
-export default { component: HeaderClassroom }
+export default { component: Header }
 
 export const Primary = {}

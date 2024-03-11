@@ -5,7 +5,7 @@ import { Link, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
 
-const HeaderClassroom = () => {
+const Header = () => {
   const { currentUser, logOut } = useAuth()
 
   return (
@@ -55,4 +55,4 @@ const HeaderClassroom = () => {
   )
 }
 
-export default HeaderClassroom
+export default Header

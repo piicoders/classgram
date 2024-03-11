@@ -1,12 +1,12 @@
 import { Toaster } from '@redwoodjs/web/toast'
 
-import HeaderClassroom from 'src/components/Classroom/HeaderClassroom/HeaderClassroom'
+import Header from 'src/components/Header/Header'
 
 const ScaffoldLayout = ({ children }) => {
   return (
     <div className="rw-scaffold">
       <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-      <HeaderClassroom />
+      <Header />
       <main>{children}</main>
     </div>
   )
