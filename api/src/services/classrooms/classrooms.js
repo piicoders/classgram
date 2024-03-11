@@ -10,35 +10,29 @@ export const classroom = ({ id }) => {
   })
 }
 
-export const professorClasses = async ({ professorId }) => {
-  const professor = await db.user.findUnique({
-    where: { id: professorId },
+export const classes = async ({ userId }) => {
+  const user = await db.user.findUnique({
+    where: { id: userId },
   })
 
-  if (!professor) {
-    throw new Error(`Professor with ID ${professorId} does not exist.`)
-  }
-
-  return db.classroom.findMany({
-    where: { professorId: { equals: professorId } },
-    include: { professor: true },
-  })
-}
-
-export const studentClasses = async ({ studentId }) => {
-  const student = await db.user.findUnique({ where: { id: studentId } })
-
-  if (!student) {
-    throw new Error(`Student with ID ${studentId} does not exist.`)
+  if (!user) {
+    throw new Error(`User with ID ${userId} does not exist.`)
   }
 
   return db.classroom.findMany({
     where: {
-      students: {
-        some: {
-          id: studentId,
+      OR: [
+        {
+          professorId: { equals: userId },
         },
-      },
+        {
+          students: {
+            some: {
+              id: userId,
+            },
+          },
+        },
+      ],
     },
     include: { professor: true },
   })

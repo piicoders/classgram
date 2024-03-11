@@ -18,8 +18,7 @@ const NewClassroom = ({ currentUser }) => {
     CREATE_CLASSROOM_MUTATION,
     {
       onCompleted: () => {
-        if (currentUser.type == 'P') toast.success('Turma criada!')
-        else toast.success('Bem vindo à turma')
+        toast.success('Turma criada!')
         navigate(routes.classrooms())
       },
       onError: (error) => {

@@ -8,7 +8,7 @@ const ClassroomsPage = () => {
   return (
     <>
       <Metadata title="Classrooms" />
-      <ClassroomsCell professorId={currentUser.id} />
+      <ClassroomsCell userId={currentUser.id} />
     </>
   )
 }

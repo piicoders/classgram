@@ -25,8 +25,7 @@ const JoinClassForm = (props) => {
 
     {
       onCompleted: () => {
-        toast.success('User created')
-
+        toast.success('Bem vindo à turma')
         navigate(routes.classrooms())
       },
 
