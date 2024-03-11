@@ -1,4 +1,5 @@
 import { navigate, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
@@ -33,6 +34,7 @@ const NewClassroom = ({ currentUser }) => {
 
   return (
     <>
+      <Metadata title="Turmas" />
       {currentUser.type == 'P' ? (
         <div className="rw-segment">
           <header className="rw-segment-header">
