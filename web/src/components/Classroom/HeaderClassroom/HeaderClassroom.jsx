@@ -10,7 +10,7 @@ const HeaderClassroom = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   return (
-    <header className="flex items-center justify-between bg-gray-800 px-6 py-4 text-white mb-5">
+    <header className="mb-5 flex items-center justify-between bg-gray-800 px-6 py-2 text-white">
       <Link className="flex items-center" to={routes.home()}>
         <img src="/icon.png" alt="Classgram" className="mr-2 h-8 w-8" />
         <h1 className="text-xl font-semibold">Classgram</h1>
@@ -18,7 +18,7 @@ const HeaderClassroom = () => {
       <div className="flex items-center">
         <Menu as="div" className="relative">
           <Menu.Button className="focus:outline-none">
-            <UserCircleIcon className="h-6 w-6" />
+            <UserCircleIcon className="h-8 w-8" />
           </Menu.Button>
           <Menu.Items className="absolute right-0 mt-2 w-40 divide-y divide-gray-200 rounded bg-white shadow-lg outline-none">
             <Menu.Item>
