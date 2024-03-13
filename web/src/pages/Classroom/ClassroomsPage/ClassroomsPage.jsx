@@ -17,7 +17,7 @@ const ClassroomsPage = () => {
         </Link>
       </div>
       <Metadata title="Turmas" />
-      <ClassroomsCell userId={currentUser.id} />
+      <ClassroomsCell userId={currentUser?.id} />
     </>
   )
 }
