@@ -15,6 +15,15 @@ const Header = () => {
         <h1 className="text-xl font-semibold">Classgram</h1>
       </Link>
       <div className="flex items-center">
+        {currentUser.type == 'P' ? (
+          <span className="inline-flex items-center rounded-md bg-gray-800 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">
+            Professor
+          </span>
+        ) : (
+          <span className="inline-flex items-center rounded-md bg-gray-800 px-2 py-1 text-xs font-medium text-rose-500 ring-1 ring-inset ring-rose-500">
+            Aluno
+          </span>
+        )}
         <Menu as="div" className="relative">
           <Menu.Button className="focus:outline-none">
             <UserCircleIcon className="h-8 w-8" />
