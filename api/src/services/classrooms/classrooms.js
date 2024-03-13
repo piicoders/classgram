@@ -41,11 +41,11 @@ export const classes = async ({ userId }) => {
             some: {
               studentId: userId,
             },
-         },
+          },
         },
       },
     },
-  });
+  })
 }
 
 export const createClassroom = ({ input }) => {
