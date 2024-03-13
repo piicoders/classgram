@@ -10,11 +10,6 @@ export const QUERY = gql`
       id
       email
       name
-      hashedPassword
-      salt
-      type
-      resetToken
-      resetTokenExpiredAt
     }
   }
 `
@@ -25,11 +20,6 @@ const UPDATE_USER_MUTATION = gql`
       id
       email
       name
-      hashedPassword
-      salt
-      type
-      resetToken
-      resetTokenExpiredAt
     }
   }
 `
