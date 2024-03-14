@@ -15,17 +15,20 @@ const Header = () => {
         <h1 className="text-xl font-semibold">Classgram</h1>
       </Link>
       <div className="flex items-center">
-        {currentUser.type == 'P' ? (
-          <span className="inline-flex items-center rounded-md bg-gray-800 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">
-            Professor
-          </span>
-        ) : (
-          <span className="inline-flex items-center rounded-md bg-gray-800 px-2 py-1 text-xs font-medium text-rose-500 ring-1 ring-inset ring-rose-500">
-            Aluno
-          </span>
-        )}
+        <div className="flex flex-col px-2">
+          <span>{currentUser?.name}</span>
+          {currentUser?.type == 'P' ? (
+            <span className="text-center rounded-md bg-gray-800 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">
+              Professor
+            </span>
+          ) : (
+            <span className="text-center rounded-md bg-gray-800 px-2 py-1 text-xs font-medium text-rose-500 ring-1 ring-inset ring-rose-500">
+              Aluno
+            </span>
+          )}
+        </div>
         <Menu as="div" className="relative">
-          <Menu.Button className="focus:outline-none">
+          <Menu.Button className="focus:outline-none pt-2">
             <UserCircleIcon className="h-8 w-8" />
           </Menu.Button>
           <Menu.Items className="absolute right-0 mt-2 w-40 divide-y divide-gray-200 rounded bg-white shadow-lg outline-none">
