@@ -42,7 +42,7 @@ export const unfinishedActivitiesByStudentIdAndClassId = async ({classId, studen
         none: {
           studentId: studentId,
         },
-    },
+     },
   }
   })
 }

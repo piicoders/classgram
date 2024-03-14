@@ -1,6 +1,7 @@
 export const schema = gql`
   type Activity {
     id: Int!
+    name: String!
     description: String!
     createdAt: DateTime!
     dueDate: DateTime!
@@ -20,6 +21,7 @@ export const schema = gql`
   }
 
   input CreateActivityInput {
+    name: String!
     description: String!
     dueDate: DateTime!
     maxSize: Int!
@@ -28,6 +30,7 @@ export const schema = gql`
   }
 
   input UpdateActivityInput {
+    name: String
     description: String
     dueDate: DateTime
     maxSize: Int
