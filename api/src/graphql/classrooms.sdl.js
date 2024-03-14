@@ -6,6 +6,7 @@ export const schema = gql`
     professor: User!
     professorId: String!
     students: [User]!
+    Activity: [Activity]!
   }
 
   type Query {

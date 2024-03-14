@@ -37,9 +37,11 @@ export const classes = async ({ userId }) => {
     include: {
       Activity: {
         where: {
-          Document: {
-            some: {
-              studentId: userId,
+          NOT: {
+            Document: {
+              some: {
+                studentId: userId,
+              },
             },
           },
         },
