@@ -6,6 +6,7 @@ export const QUERY = gql`
   query FindActivities {
     activities {
       id
+      name
       description
       createdAt
       dueDate
