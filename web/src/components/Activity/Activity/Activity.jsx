@@ -1,4 +1,4 @@
-import { Link, routes, navigate } from '@redwoodjs/router'
+import { Link, routes, Route, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 
 import { toast } from '@redwoodjs/web/toast'
@@ -45,6 +45,10 @@ const Activity = ({ activity }) => {
               <td>{activity.id}</td>
             </tr>
             <tr>
+              <th>Name</th>
+              <td>{activity.name}</td>
+            </tr>
+            <tr>
               <th>Description</th>
               <td>{activity.description}</td>
             </tr>
@@ -73,7 +77,7 @@ const Activity = ({ activity }) => {
       </div>
       <nav className="rw-button-group">
         <Link
-          to={routes.editActivity({ id: activity.id })}
+          to={routes.editActivity({ activityId: activity.id, classId: activity.classroomId })}
           className="rw-button rw-button-blue"
         >
           Edit

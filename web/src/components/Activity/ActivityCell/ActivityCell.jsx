@@ -4,6 +4,7 @@ export const QUERY = gql`
   query FindActivityById($id: Int!) {
     activity: activity(id: $id) {
       id
+      name
       description
       createdAt
       dueDate

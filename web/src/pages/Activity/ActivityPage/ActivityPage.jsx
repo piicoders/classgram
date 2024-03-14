@@ -1,7 +1,7 @@
 import ActivityCell from 'src/components/Activity/ActivityCell'
 
-const ActivityPage = ({ id }) => {
-  return <ActivityCell id={id} />
+const ActivityPage = ({ activityId }) => {
+  return <ActivityCell id={activityId} />
 }
 
 export default ActivityPage

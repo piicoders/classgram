@@ -1,7 +1,7 @@
 import EditActivityCell from 'src/components/Activity/EditActivityCell'
 
-const EditActivityPage = ({ id }) => {
-  return <EditActivityCell id={id} />
+const EditActivityPage = ({ activityId }) => {
+  return <EditActivityCell id={activityId} />
 }
 
 export default EditActivityPage

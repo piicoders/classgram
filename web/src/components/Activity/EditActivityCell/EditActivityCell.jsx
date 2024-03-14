@@ -9,6 +9,7 @@ export const QUERY = gql`
   query EditActivityById($id: Int!) {
     activity: activity(id: $id) {
       id
+      name
       description
       createdAt
       dueDate
@@ -23,6 +24,7 @@ const UPDATE_ACTIVITY_MUTATION = gql`
   mutation UpdateActivityMutation($id: Int!, $input: UpdateActivityInput!) {
     updateActivity(id: $id, input: $input) {
       id
+      name
       description
       createdAt
       dueDate
@@ -45,7 +47,7 @@ export const Success = ({ activity }) => {
     {
       onCompleted: () => {
         toast.success('Activity updated')
-        navigate(routes.activities())
+        navigate(routes.activities({classId: activity.classroomId }))
       },
       onError: (error) => {
         toast.error(error.message)
