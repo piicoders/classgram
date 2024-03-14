@@ -46,22 +46,21 @@ const Routes = () => {
         <Route path="/prompts/{id:Int}" page={PromptPromptPage} name="prompt" />
         <Route path="/prompts" page={PromptPromptsPage} name="prompts" />
       </Set>
-      <Set wrap={ScaffoldLayout} title="Activities" titleTo="activities" buttonLabel="New Activity" buttonTo="newActivity">
-        <Route path="/activities/new" page={ActivityNewActivityPage} name="newActivity" />
-        <Route path="/activities/{id:Int}/edit" page={ActivityEditActivityPage} name="editActivity" />
-        <Route path="/activities/{id:Int}" page={ActivityActivityPage} name="activity" />
-        <Route path="/activities" page={ActivityActivitiesPage} name="activities" />
-      </Set>
       <PrivateSet unauthenticated="login">
         <Set wrap={ScaffoldLayout} title="Users">
           <Route path="/usuarios/{id}/edit" page={UserEditUserPage} name="editUser" />
           <Route path="/usuarios/{id}" page={UserUserPage} name="user" />
           <Route path="/usuarios" page={UserUsersPage} name="users" />
 
-          <Route path="/turmas/new" page={ClassroomNewClassroomPage} name="newClassroom" />
-          <Route path="/turmas/{id:Int}/edit" page={ClassroomEditClassroomPage} name="editClassroom" />
+          <Route path="/turmas/nova" page={ClassroomNewClassroomPage} name="newClassroom" />
+          <Route path="/turmas/{id:Int}/editar" page={ClassroomEditClassroomPage} name="editClassroom" />
           <Route path="/turmas/{id:Int}" page={ClassroomClassroomPage} name="classroom" />
           <Route path="/turmas" page={ClassroomClassroomsPage} name="classrooms" />
+
+          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}" page={ActivityActivityPage} name="activity" />
+          <Route path="/turmas/{classId:Int}/atividades/new" page={ActivityNewActivityPage} name="newActivity" />
+          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/editar" page={ActivityEditActivityPage} name="editActivity" />
+          <Route path="/turmas/{classId:Int}/atividades" page={ActivityActivitiesPage} name="activities" />
         </Set>
       </PrivateSet>
       <Route path="/" page={LoginPage} name="login" />
