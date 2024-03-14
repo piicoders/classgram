@@ -44,6 +44,7 @@ model Classroom {
 
 model Activity {
   id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar()
   description String     @db.VarChar()
   createdAt   DateTime   @default(now())
   dueDate     DateTime
