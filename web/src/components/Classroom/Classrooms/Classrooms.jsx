@@ -7,7 +7,7 @@ const ClassroomsList = ({ classrooms }) => {
         <div key={classroom.id} className="rounded border">
           <Link
             className="cursor-pointerp-4"
-            to={routes.classroom({ id: classroom.id })}
+            to={routes.activities({ classId: classroom.id })}
           >
             <div className="h-16 truncate rounded-md bg-slate-400 text-base">
               <h1 className="text-lg font-bold">{classroom.name}</h1>

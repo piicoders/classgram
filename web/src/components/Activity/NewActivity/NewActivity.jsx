@@ -1,6 +1,5 @@
-import { navigate, routes } from '@redwoodjs/router'
+import { navigate, routes, useParams } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
-
 import { toast } from '@redwoodjs/web/toast'
 
 import ActivityForm from 'src/components/Activity/ActivityForm'
@@ -14,12 +13,13 @@ const CREATE_ACTIVITY_MUTATION = gql`
 `
 
 const NewActivity = () => {
+  const { classId } = useParams()
   const [createActivity, { loading, error }] = useMutation(
     CREATE_ACTIVITY_MUTATION,
     {
       onCompleted: () => {
         toast.success('Activity created')
-        navigate(routes.activities())
+        navigate(routes.activities({ classId: classId }))
       },
       onError: (error) => {
         toast.error(error.message)
