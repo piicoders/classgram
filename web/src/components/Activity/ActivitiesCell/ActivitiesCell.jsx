@@ -3,8 +3,8 @@ import { Link, routes, useParams } from '@redwoodjs/router'
 import Activities from 'src/components/Activity/Activities'
 
 export const QUERY = gql`
-  query FindActivities {
-    activities {
+  query FindActivityByClassId($classId: Int!) {
+    activityByClassId(classId: $classId) {
       id
       name
       description
@@ -35,6 +35,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ activities }) => {
-  return <Activities activities={activities} />
+export const Success = ({ activityByClassId }) => {
+  return <Activities activities={activityByClassId} />
 }

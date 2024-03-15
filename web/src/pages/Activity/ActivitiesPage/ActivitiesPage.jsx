@@ -1,7 +1,9 @@
-import ActivitiesCell from 'src/components/Activity/ActivitiesCell'
+import { useParams } from '@redwoodjs/router'
 
+import ActivitiesCell from 'src/components/Activity/ActivitiesCell'
 const ActivitiesPage = () => {
-  return <ActivitiesCell />
+  const { classId } = useParams()
+  return <ActivitiesCell classId={classId} />
 }
 
 export default ActivitiesPage

@@ -1,6 +1,5 @@
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
-
 import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Activity/ActivitiesCell'
@@ -51,7 +50,7 @@ const ActivitiesList = ({ activities }) => {
           </tr>
         </thead>
         <tbody>
-          {activities.map((activity) => (
+          {activities?.map((activity) => (
             <tr key={activity.id}>
               <td>{truncate(activity.id)}</td>
               <td>{truncate(activity.description)}</td>
@@ -63,14 +62,20 @@ const ActivitiesList = ({ activities }) => {
               <td>
                 <nav className="rw-table-actions">
                   <Link
-                    to={routes.activity({ activityId: activity.id, classId: activity.classroomId })}
+                    to={routes.activity({
+                      activityId: activity.id,
+                      classId: activity.classroomId,
+                    })}
                     title={'Show activity ' + activity.id + ' detail'}
                     className="rw-button rw-button-small"
                   >
                     Show
                   </Link>
                   <Link
-                    to={routes.editActivity({ activityId: activity.id, classId: activity.classroomId })}
+                    to={routes.editActivity({
+                      activityId: activity.id,
+                      classId: activity.classroomId,
+                    })}
                     title={'Edit activity ' + activity.id}
                     className="rw-button rw-button-small rw-button-blue"
                   >
