@@ -34,7 +34,7 @@ export const Success = ({ user }) => {
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: () => {
       toast.success('User updated')
-      navigate(routes.users())
+      navigate(routes.classrooms())
     },
     onError: (error) => {
       toast.error(error.message)
