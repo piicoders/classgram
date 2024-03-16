@@ -9,7 +9,7 @@ const UsersPage = () => {
   const { currentUser } = useAuth()
   return (
     <>
-      <div className="flex items-center justify-between rounded-lg border border-gray-300 px-6 py-4">
+      <div className="mb-5 flex items-center justify-between rounded-lg border border-gray-300 px-6 py-4">
         <div className="flex gap-4">
           <Link
             className={

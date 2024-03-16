@@ -1,16 +1,11 @@
 import Users from 'src/components/User/Users'
 
 export const QUERY = gql`
-  query FindUsers {
-    users {
+  query FindClassStudents($classId: Int!) {
+    classStudents(id: $classId) {
       id
       email
       name
-      hashedPassword
-      salt
-      type
-      resetToken
-      resetTokenExpiredAt
     }
   }
 `
@@ -25,6 +20,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ users }) => {
-  return <Users users={users} />
+export const Success = ({ classStudents }) => {
+  return <Users users={classStudents} />
 }
