@@ -13,6 +13,7 @@ export const schema = gql`
     classrooms: [Classroom!]! @requireAuth
     classroom(id: Int!): Classroom @requireAuth
     classes(userId: String!): [Classroom!]! @requireAuth
+    classStudents(id: Int!): [User!]! @requireAuth
   }
 
   input CreateClassroomInput {
@@ -32,6 +33,7 @@ export const schema = gql`
     updateClassroom(id: Int!, input: UpdateClassroomInput!): Classroom!
       @requireAuth
     deleteClassroom(id: Int!): Classroom! @requireAuth
-    addStudentClass(classCode: String!, studentId: String!): Classroom! @requireAuth
+    addStudentClass(classCode: String!, studentId: String!): Classroom!
+      @requireAuth
   }
 `

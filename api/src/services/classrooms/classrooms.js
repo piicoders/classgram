@@ -50,6 +50,14 @@ export const classes = async ({ userId }) => {
   })
 }
 
+export const classStudents = async ({ id }) => {
+  const classroom = await db.classroom.findUnique({
+    where: { id },
+    include: { students: true },
+  })
+  return classroom.students
+}
+
 export const createClassroom = ({ input }) => {
   return db.classroom.create({
     data: input,
