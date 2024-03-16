@@ -13,7 +13,7 @@ export const QUERY = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
-  return <div className="rw-text-center">{'No users yet. '}</div>
+  return <div className="rw-text-center">{'Sem alunos no momento'}</div>
 }
 
 export const Failure = ({ error }) => (

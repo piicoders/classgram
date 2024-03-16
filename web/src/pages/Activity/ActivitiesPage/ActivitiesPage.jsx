@@ -1,5 +1,6 @@
 import { useParams } from '@redwoodjs/router'
 import { Link, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
 import ActivitiesCell from 'src/components/Activity/ActivitiesCell'
@@ -9,6 +10,7 @@ const ActivitiesPage = () => {
   const { currentUser } = useAuth()
   return (
     <>
+      <Metadata title="Atividades" />
       <div className="mb-5 flex items-center justify-between rounded-lg border border-gray-300 px-6 py-4">
         <div className="flex gap-4">
           <Link

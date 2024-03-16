@@ -10,7 +10,7 @@ const ClassroomsPage = () => {
     <>
       <div className="rw-header">
         <h1 className="rw-heading rw-heading-primary">
-          <p className="rw-link">Turmas</p>
+          <p>Turmas</p>
         </h1>
         <Link to={routes.newClassroom()} className="rw-button rw-button-green">
           <div className="rw-button-icon">+</div>{' '}
