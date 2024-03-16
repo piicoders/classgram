@@ -1,5 +1,3 @@
-import { Link, routes, useParams } from '@redwoodjs/router'
-
 import Activities from 'src/components/Activity/Activities'
 
 export const QUERY = gql`
@@ -20,15 +18,7 @@ export const QUERY = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
-  const { classId } = useParams()
-  return (
-    <div className="rw-text-center">
-      {'No activities yet. '}
-      <Link to={routes.newActivity({ classId: classId })} className="rw-link">
-        {'Create one?'}
-      </Link>
-    </div>
-  )
+  return <div className="rw-text-center">{'Sem atividades no momento.'}</div>
 }
 
 export const Failure = ({ error }) => (
