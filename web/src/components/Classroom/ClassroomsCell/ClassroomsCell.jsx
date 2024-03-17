@@ -1,14 +1,15 @@
-import { Link, routes } from '@redwoodjs/router'
-
 import Classrooms from 'src/components/Classroom/Classrooms'
 
 export const QUERY = gql`
-  query FindClassrooms {
-    classrooms {
+  query FindClasses($userId: String!) {
+    classes(userId: $userId) {
       id
       name
       code
-      professorId
+      professor {
+        email
+        name
+      }
     }
   }
 `
@@ -16,20 +17,13 @@ export const QUERY = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
-  return (
-    <div className="rw-text-center">
-      {'No classrooms yet. '}
-      <Link to={routes.newClassroom()} className="rw-link">
-        {'Create one?'}
-      </Link>
-    </div>
-  )
+  return <div className="rw-text-center">{'Sem turmas ainda'}</div>
 }
 
 export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ classrooms }) => {
-  return <Classrooms classrooms={classrooms} />
+export const Success = ({ classes }) => {
+  return <Classrooms classrooms={classes} />
 }

@@ -1,7 +1,9 @@
+import { useAuth } from 'src/auth'
 import NewClassroom from 'src/components/Classroom/NewClassroom'
 
 const NewClassroomPage = () => {
-  return <NewClassroom />
+  const { currentUser } = useAuth()
+  return <NewClassroom currentUser={currentUser} />
 }
 
 export default NewClassroomPage

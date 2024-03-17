@@ -10,9 +10,68 @@ export const classroom = ({ id }) => {
   })
 }
 
+export const classes = async ({ userId }) => {
+  const user = await db.user.findUnique({
+    where: { id: userId },
+  })
+
+  if (!user) {
+    throw new Error(`User with ID ${userId} does not exist.`)
+  }
+
+  return db.classroom.findMany({
+    where: {
+      OR: [
+        {
+          professorId: { equals: userId },
+        },
+        {
+          students: {
+            some: {
+              id: userId,
+            },
+          },
+        },
+      ],
+    },
+    include: { professor: true },
+  })
+}
+
 export const createClassroom = ({ input }) => {
   return db.classroom.create({
     data: input,
+  })
+}
+
+export const addStudentClass = async ({ classCode, studentId }) => {
+  const student = await db.user.findUnique({ where: { id: studentId } })
+
+  if (!student) {
+    throw new Error(`Student with ID ${studentId} does not exist.`)
+  }
+
+  const classroom = await db.classroom.findUnique({
+    where: { code: classCode },
+    include: { students: true },
+  })
+
+  if (!classroom) {
+    throw new Error(`Class with code ${classCode} not found.`)
+  }
+
+  const isStudentInClass = classroom.students.some(
+    (student) => student.id === studentId
+  )
+  if (isStudentInClass) {
+    throw new Error(`Student with ID ${studentId} is already in the class.`)
+  }
+
+  return db.classroom.update({
+    where: { code: classCode },
+    data: {
+      students: { connect: { id: studentId } },
+    },
   })
 }
 

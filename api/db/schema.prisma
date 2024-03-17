@@ -18,28 +18,92 @@ generator client {
 // to create migrations for them and apply to your dev DB.
 // TODO: Please remove the following example:
 model User {
-  id                  String      @id @default(uuid())
-  email               String      @unique
-  name                String
-  hashedPassword      String
-  salt                String
+  id                  String       @id @default(uuid()) @db.VarChar()
+  email               String       @unique @db.VarChar()
+  name                String       @db.VarChar()
+  hashedPassword      String       @db.VarChar()
+  salt                String       @db.VarChar()
   type                UserType
-  resetToken          String?
+  resetToken          String?      @db.VarChar()
   resetTokenExpiredAt DateTime?
-  classesAsProfessor  Classroom[] @relation("professor")
-  classesAsStudent    Classroom[] @relation("classStudents")
+  classesAsProfessor  Classroom[]  @relation("professor")
+  classesAsStudent    Classroom[]  @relation("classStudents")
+  Document            Document[]
+  Correction          Correction[]
 }
 
 model Classroom {
-  id          Int     @id @default(autoincrement())
-  name        String
-  code        String? @unique
-  professor   User    @relation("professor", fields: [professorId], references: [id])
-  professorId String
-  students    User[]  @relation("classStudents")
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar()
+  code        String?    @unique @db.VarChar(5)
+  professor   User       @relation("professor", fields: [professorId], references: [id])
+  professorId String     @db.VarChar()
+  students    User[]     @relation("classStudents")
+  Activity    Activity[]
+}
+
+model Activity {
+  id          Int        @id @default(autoincrement())
+  description String     @db.VarChar()
+  createdAt   DateTime
+  dueDate     DateTime
+  maxSize     Int
+  prompt      Prompt?    @relation(fields: [promptId], references: [id])
+  promptId    Int?       @unique
+  Classroom   Classroom? @relation(fields: [classroomId], references: [id])
+  classroomId Int?
+  Document    Document[]
+}
+
+model Prompt {
+  id          Int         @id @default(autoincrement())
+  description String      @db.VarChar()
+  activity    Activity?
+  activityId  Int?        @unique
+  Criterion   Criterion[]
+}
+
+model Document {
+  id         Int          @id @default(autoincrement())
+  content    String       @db.VarChar()
+  handed     DateTime
+  activity   Activity?    @relation(fields: [activityId], references: [id])
+  activityId Int?
+  student    User?        @relation(fields: [studentId], references: [id])
+  studentId  String?      @db.VarChar()
+  Correction Correction[]
+}
+
+model Correction {
+  id          Int        @id @default(autoincrement())
+  from        Int
+  to          Int
+  description String     @db.VarChar()
+  professor   User?      @relation(fields: [professorId], references: [id])
+  professorId String?    @db.VarChar()
+  subfactor   Subfactor? @relation(fields: [subfactorId], references: [id])
+  subfactorId Int
+  document    Document?  @relation(fields: [documentId], references: [id])
+  documentId  Int
+}
+
+model Subfactor {
+  id          Int          @id @default(autoincrement())
+  description String       @db.VarChar()
+  criterion   Criterion?   @relation(fields: [criterionId], references: [id])
+  criterionId Int
+  Correction  Correction[]
+}
+
+model Criterion {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar()
+  prompt    Prompt?     @relation(fields: [promtId], references: [id])
+  promtId   Int
+  Subfactor Subfactor[]
 }
 
 enum UserType {
-  PROFESSOR
-  STUDENT
+  P
+  S
 }

@@ -67,7 +67,7 @@ const ClassroomForm = (props) => {
 
         <TextField
           name="professorId"
-          defaultValue={props.classroom?.professorId}
+          defaultValue={props.classroom?.professorId || props.professorID}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}

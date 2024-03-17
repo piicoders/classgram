@@ -1,6 +1,6 @@
 import { Link, routes, navigate } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
-
 import { toast } from '@redwoodjs/web/toast'
 
 import 'src/lib/formatters'
@@ -32,6 +32,7 @@ const Classroom = ({ classroom }) => {
 
   return (
     <>
+      <Metadata title={classroom.name} />
       <div className="rw-segment">
         <header className="rw-segment-header">
           <h2 className="rw-heading rw-heading-secondary">
