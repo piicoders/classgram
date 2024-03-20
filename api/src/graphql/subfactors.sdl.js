@@ -1,6 +1,7 @@
 export const schema = gql`
   type Subfactor {
     id: Int!
+    name: String!
     description: String!
     criterion: Criterion
     criterionId: Int!

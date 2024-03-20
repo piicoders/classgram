@@ -89,6 +89,7 @@ model Correction {
 
 model Subfactor {
   id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar()
   description String       @db.VarChar()
   criterion   Criterion?   @relation(fields: [criterionId], references: [id])
   criterionId Int
