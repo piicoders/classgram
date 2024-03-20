@@ -1,31 +1,37 @@
-import { timeTag, truncate } from 'src/lib/formatters'
+import { Link, routes } from '@redwoodjs/router'
 
 const ActivitiesList = ({ activities }) => {
   return (
-    <div className="rw-segment rw-table-wrapper-responsive">
-      <table className="rw-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Description</th>
-            <th>Created at</th>
-            <th>Due date</th>
-            <th>Max size</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {activities?.map((activity) => (
-            <tr key={activity.id}>
-              <td>{truncate(activity.id)}</td>
-              <td>{truncate(activity.description)}</td>
-              <td>{timeTag(activity.createdAt)}</td>
-              <td>{timeTag(activity.dueDate)}</td>
-              <td>{truncate(activity.maxSize)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container mx-auto">
+      {activities.map((activity) => (
+        <Link
+          key={activity.id}
+          to={routes.activity({
+            classId: activity.classroomId,
+            activityId: activity.id,
+          })}
+        >
+          <div className="my-4 w-full overflow-hidden rounded shadow-lg">
+            <div className="px-6 py-4">
+              <div className="mb-2 text-xl font-bold">{activity.name}</div>
+              <p className="text-base text-gray-700">{activity.description}</p>
+              <div className="text-right">
+                <p
+                  className={`text-base font-bold ${
+                    new Date(activity.dueDate) > new Date()
+                      ? 'text-indigo-900'
+                      : 'text-red-600'
+                  }`}
+                >{`${new Date(activity.dueDate).getDate()}/${
+                  new Date(activity.dueDate).getMonth() + 1
+                } - ${new Date(activity.dueDate).getHours()}:${new Date(
+                  activity.dueDate
+                ).getMinutes()}h`}</p>
+              </div>
+            </div>
+          </div>
+        </Link>
+      ))}
     </div>
   )
 }
