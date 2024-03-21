@@ -76,9 +76,10 @@ model Document {
 
 model Correction {
   id          Int        @id @default(autoincrement())
-  from        Int
-  to          Int
+  text        String     @db.VarChar()
   description String     @db.VarChar()
+  correct     String?    @db.VarChar()
+  severity    Severity
   professor   User?      @relation(fields: [professorId], references: [id])
   professorId String?    @db.VarChar()
   subfactor   Subfactor? @relation(fields: [subfactorId], references: [id])
@@ -105,6 +106,12 @@ model Criterion {
 }
 
 enum UserType {
-  P
-  S
+  P //professor
+  S //student
+}
+
+enum Severity {
+  N //neutral
+  B //bad
+  G //good
 }

@@ -1,9 +1,10 @@
 export const schema = gql`
   type Correction {
     id: Int!
-    from: Int!
-    to: Int!
+    text: String!
+    severity: Severity!
     description: String!
+    correct: String
     professor: User
     professorId: String
     subfactor: Subfactor
@@ -12,14 +13,21 @@ export const schema = gql`
     documentId: Int!
   }
 
+  type Severity {
+    N
+    B
+    G
+  }
+
   type Query {
     corrections: [Correction!]! @requireAuth
     correction(id: Int!): Correction @requireAuth
   }
 
   input CreateCorrectionInput {
-    from: Int!
-    to: Int!
+    text: String!
+    severity: Severity!
+    correct: String
     description: String!
     professorId: String
     subfactorId: Int!
@@ -27,8 +35,9 @@ export const schema = gql`
   }
 
   input UpdateCorrectionInput {
-    from: Int
-    to: Int
+    text: String
+    severity: Severity
+    correct: String
     description: String
     professorId: String
     subfactorId: Int
