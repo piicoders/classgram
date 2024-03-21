@@ -67,6 +67,7 @@ model Document {
   id         Int          @id @default(autoincrement())
   content    String       @db.VarChar()
   handed     DateTime     @default(now())
+  mark       Int?
   activity   Activity?    @relation(fields: [activityId], references: [id])
   activityId Int?
   student    User?        @relation(fields: [studentId], references: [id])

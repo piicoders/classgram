@@ -3,6 +3,7 @@ export const schema = gql`
     id: Int!
     content: String!
     handed: DateTime!
+    mark: Int
     activity: Activity
     activityId: Int
     student: User
@@ -17,6 +18,7 @@ export const schema = gql`
 
   input CreateDocumentInput {
     content: String!
+    mark: Int
     handed: DateTime!
     activityId: Int
     studentId: String
@@ -24,6 +26,7 @@ export const schema = gql`
 
   input UpdateDocumentInput {
     content: String
+    mark: Int
     handed: DateTime
     activityId: Int
     studentId: String
