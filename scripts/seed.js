@@ -292,18 +292,18 @@ export default async () => {
 
     const correctionData = [
 
-      {from: 0, to:  20, description:  `Há muitos argumentos aqui.`, professorId:users[2].id, subfactorId: subfactors[3].id, documentId: documents[0].id},
-      {from: 18, to: 18 , description: `Existem erros de acentuação, aqui. `, professorId:users[2].id, subfactorId: subfactors[23].id, documentId: documents[0].id},
-      {from: 3, to: 6, description: `Acentuação utilizada de forma incorreta.`, professorId:users[2].id, subfactorId: subfactors[22].id, documentId: documents[0].id},
-      {from: 202, to: 250, description: `Uso de aspas utilizadas de forma desnecessária.`, professorId:users[2].id, subfactorId: subfactors[29].id, documentId: documents[0].id},
-      {from: 414, to: 420, description: `Cuidado, existe erro recorrente ao ponto citado.`, professorId:users[2].id, subfactorId: subfactors[42].id, documentId: documents[0].id},
-      {from: 550, to: 580, description: `Atenção! Isso é muito comum, pesquise o tema.`, professorId:users[2].id, subfactorId: subfactors[12].id, documentId: documents[0].id},
+      {text: 'é importante ressaltar que a leitura estimula', correct: 'é importante ressaltar que a leitura estimula!', severity: 'B', description:  `Há muitos argumentos aqui.`, professorId:users[2].id, subfactorId: subfactors[3].id, documentId: documents[0].id},
+      {text: 'desenvolvimento da empatia e da compreensão', correct: null, severity: 'N', description: `Existem erros de acentuação, aqui. `, professorId:users[2].id, subfactorId: subfactors[23].id, documentId: documents[0].id},
+      {text: 'desempenhando um papel crucial no desenvolvimento intelectual', correct: 'desenvolvimento crucial', severity: 'B', description: `Acentuação utilizada de forma incorreta.`, professorId:users[2].id, subfactorId: subfactors[22].id, documentId: documents[0].id},
+      {text: 'Ao mergulhar nas histórias de personagens diversos', correct: null, severity: 'G', description: `Uso de aspas utilizadas de forma desnecessária.`, professorId:users[2].id, subfactorId: subfactors[29].id, documentId: documents[0].id},
+      {text: 'habilidades essenciais para uma participação ativa na sociedade', correct: 'essenciais para uma participação', severity: 'N', description: `Cuidado, existe erro recorrente ao ponto citado.`, professorId:users[2].id, subfactorId: subfactors[42].id, documentId: documents[0].id},
+      {text: 'raízes e com a história de seu país', correct: null, severity: 'G', description: `Atenção! Isso é muito comum, pesquise o tema.`, professorId:users[2].id, subfactorId: subfactors[12].id, documentId: documents[0].id},
 
-      {from: 273, to: 333, description: `Procure melhorar o ponto comentado.`, professorId:users[3].id, subfactorId: subfactors[54].id, documentId: documents[1].id},
-      {from: 901, to: 924, description: `Isto não deveria estar aqui.`, professorId:users[3].id, subfactorId: subfactors[23].id, documentId: documents[1].id},
-      {from: 125, to: 190, description: `Olhe a descrição.`, professorId:users[3].id, subfactorId: subfactors[18].id, documentId: documents[1].id},
-      {from: 500, to: 800, description: `Atenção! Isso é muito comum, pesquise o tema.`, professorId:users[3].id, subfactorId: subfactors[34].id, documentId: documents[1].id},
-      {from: 58, to: 162, description: `É preciso tomar cuidado no ponto citado. `, professorId:users[3].id, subfactorId: subfactors[22].id, documentId: documents[1].id},
+      {text: 'Por meio dela, tem-se', correct: 'Por meio dela, se tem', severity: 'B', description: `Procure melhorar o ponto comentado.`, professorId:users[3].id, subfactorId: subfactors[54].id, documentId: documents[1].id},
+      {text: 'promoção do pensamento reflexivo', correct: 'promove o pensamento', severity: 'B', description: `Isto não deveria estar aqui.`, professorId:users[3].id, subfactorId: subfactors[23].id, documentId: documents[1].id},
+      {text: 'leitura também é fundamental para o desenvolvimento da linguagem e da capacidade de expressão', correct: null, severity: 'G', description: `Olhe a descrição.`, professorId:users[3].id, subfactorId: subfactors[18].id, documentId: documents[1].id},
+      {text: 'contribuindo assim para o fortalecimento da educação', correct: null, severity: 'N', description: `Atenção! Isso é muito comum, pesquise o tema.`, professorId:users[3].id, subfactorId: subfactors[34].id, documentId: documents[1].id},
+      {text: 'Investir na promoção da leitura', correct: null, severity: 'N', description: `É preciso tomar cuidado no ponto citado. `, professorId:users[3].id, subfactorId: subfactors[22].id, documentId: documents[1].id},
     ]
 
     if ((await db.correction.count()) === 0) {
