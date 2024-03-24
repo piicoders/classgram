@@ -4,6 +4,7 @@ import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import { useAuth } from 'src/auth'
 import { timeTag } from 'src/lib/formatters'
 
 const DELETE_ACTIVITY_MUTATION = gql`
@@ -15,10 +16,12 @@ const DELETE_ACTIVITY_MUTATION = gql`
 `
 
 const Activity = ({ activity }) => {
+  const { currentUser } = useAuth()
+
   const [deleteActivity] = useMutation(DELETE_ACTIVITY_MUTATION, {
     onCompleted: () => {
       toast.success('Activity deleted')
-      navigate(routes.activities())
+      navigate(routes.activities({ classId: activity.classroomId }))
     },
     onError: (error) => {
       toast.error(error.message)
@@ -47,40 +50,56 @@ const Activity = ({ activity }) => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto mt-8 px-8">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="px-10 py-0 flex items-start justify-between">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-6">{activity.name}</h2>
-          <div className="flex items-center">
-            <Link
-              to={routes.editActivity({ activityId: activity.id, classId: activity.classroomId })}
-              className="text-blue-500 hover:text-blue-700 mr-4"
-            >
-              Edit
-            </Link>
-            <button
-              type="button"
-              className="text-red-500 hover:text-red-700"
-              onClick={() => onDeleteClick(activity.id)}
-            >
-              Delete
-            </button>
-          </div>
+    <div className="mx-auto mt-8 max-w-6xl px-8">
+      <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+        <div className="flex items-start justify-between px-10 py-0">
+          <h2 className="mb-6 text-3xl font-semibold text-gray-800">
+            {activity.name}
+          </h2>
+          {currentUser.type == 'P' ? (
+            <div className="flex items-center">
+              <Link
+                to={routes.editActivity({
+                  activityId: activity.id,
+                  classId: activity.classroomId,
+                })}
+                className="mr-4 text-blue-500 hover:text-blue-700"
+              >
+                Edit
+              </Link>
+              <button
+                type="button"
+                className="text-red-500 hover:text-red-700"
+                onClick={() => onDeleteClick(activity.id)}
+              >
+                Delete
+              </button>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
-        <div className="px-8 py-4 bg-gray-100 border-t border-gray-200"></div>
+        <div className="border-t border-gray-200 bg-gray-100 px-8 py-4"></div>
         <div className="px-10 py-8">
-          <p className="text-gray-600 text-lg mb-4">Created at: {timeTag(activity.createdAt)}</p>
-          <p className="text-gray-600 text-lg mb-4">Due date: {timeTag(activity.dueDate)}</p>
-          <p className="text-gray-600 text-lg mb-4">Description: {activity.description}</p>
+          <p className="mb-4 text-lg text-gray-600">
+            Created at: {timeTag(activity.createdAt)}
+          </p>
+          <p className="mb-4 text-lg text-gray-600">
+            Due date: {timeTag(activity.dueDate)}
+          </p>
+          <p className="mb-4 text-lg text-gray-600">
+            Description: {activity.description}
+          </p>
           <textarea
-            className="w-full h-96 px-3 py-2 text-base border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="h-96 w-full rounded-lg border px-3 py-2 text-base focus:border-blue-300 focus:outline-none focus:ring"
             value={response}
             onChange={handleChange}
+            maxLength={activity.maxSize}
             placeholder="Digite sua resposta aqui..."
           ></textarea>
           <div className="mt-4">
             <button
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
               onClick={handleSubmitResponse}
             >
               Enviar Resposta
