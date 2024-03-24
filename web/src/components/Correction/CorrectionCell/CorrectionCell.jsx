@@ -4,8 +4,9 @@ export const QUERY = gql`
   query FindCorrectionById($id: Int!) {
     correction: correction(id: $id) {
       id
-      from
-      to
+      text
+      correct
+      severity
       description
       professorId
       subfactorId

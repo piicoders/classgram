@@ -6,8 +6,9 @@ export const QUERY = gql`
   query FindCorrections {
     corrections {
       id
-      from
-      to
+      text
+      correct
+      severity
       description
       professorId
       subfactorId

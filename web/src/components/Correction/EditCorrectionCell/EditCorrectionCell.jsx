@@ -9,8 +9,9 @@ export const QUERY = gql`
   query EditCorrectionById($id: Int!) {
     correction: correction(id: $id) {
       id
-      from
-      to
+      text
+      correct
+      severity
       description
       professorId
       subfactorId
@@ -23,8 +24,9 @@ const UPDATE_CORRECTION_MUTATION = gql`
   mutation UpdateCorrectionMutation($id: Int!, $input: UpdateCorrectionInput!) {
     updateCorrection(id: $id, input: $input) {
       id
-      from
-      to
+      text
+      correct
+      severity
       description
       professorId
       subfactorId
