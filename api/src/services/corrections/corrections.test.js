@@ -28,17 +28,17 @@ describe('corrections', () => {
   scenario('creates a correction', async (scenario) => {
     const result = await createCorrection({
       input: {
-        from: 5398409,
-        to: 3207379,
+        text: 'String',
         description: 'String',
+        severity: 'N',
         subfactorId: scenario.correction.two.subfactorId,
         documentId: scenario.correction.two.documentId,
       },
     })
 
-    expect(result.from).toEqual(5398409)
-    expect(result.to).toEqual(3207379)
+    expect(result.text).toEqual('String')
     expect(result.description).toEqual('String')
+    expect(result.severity).toEqual('N')
     expect(result.subfactorId).toEqual(scenario.correction.two.subfactorId)
     expect(result.documentId).toEqual(scenario.correction.two.documentId)
   })
@@ -49,10 +49,10 @@ describe('corrections', () => {
     })
     const result = await updateCorrection({
       id: original.id,
-      input: { from: 1285618 },
+      input: { text: 'String2' },
     })
 
-    expect(result.from).toEqual(1285618)
+    expect(result.text).toEqual('String2')
   })
 
   scenario('deletes a correction', async (scenario) => {

@@ -2,9 +2,9 @@ export const schema = gql`
   type Correction {
     id: Int!
     text: String!
-    severity: Severity!
     description: String!
     correct: String
+    severity: Severity!
     professor: User
     professorId: String
     subfactor: Subfactor
@@ -13,7 +13,7 @@ export const schema = gql`
     documentId: Int!
   }
 
-  type Severity {
+  enum Severity {
     N
     B
     G
@@ -26,9 +26,9 @@ export const schema = gql`
 
   input CreateCorrectionInput {
     text: String!
-    severity: Severity!
-    correct: String
     description: String!
+    correct: String
+    severity: Severity!
     professorId: String
     subfactorId: Int!
     documentId: Int!
@@ -36,9 +36,9 @@ export const schema = gql`
 
   input UpdateCorrectionInput {
     text: String
-    severity: Severity
-    correct: String
     description: String
+    correct: String
+    severity: Severity
     professorId: String
     subfactorId: Int
     documentId: Int
