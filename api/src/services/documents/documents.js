@@ -29,6 +29,14 @@ export const deleteDocument = ({ id }) => {
   })
 }
 
+export const findByActivity = ({ activityId }) => {
+  return db.document.findMany({
+    where: {
+      activityId: { equals: activityId },
+    },
+  })
+}
+
 export const Document = {
   activity: (_obj, { root }) => {
     return db.document.findUnique({ where: { id: root?.id } }).activity()

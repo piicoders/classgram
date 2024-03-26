@@ -14,6 +14,7 @@ export const schema = gql`
   type Query {
     documents: [Document!]! @requireAuth
     document(id: Int!): Document @requireAuth
+    findByActivity(activityId: Int!): [Document!]! @requireAuth
   }
 
   input CreateDocumentInput {

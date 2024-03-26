@@ -1,10 +1,8 @@
-import { Link, routes } from '@redwoodjs/router'
-
 import Documents from 'src/components/Document/Documents'
 
 export const QUERY = gql`
-  query FindDocuments {
-    documents {
+  query FindDocuments($activityId: Int!) {
+    findByActivity(activityId: $activityId) {
       id
       content
       handed
@@ -17,20 +15,13 @@ export const QUERY = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
-  return (
-    <div className="rw-text-center">
-      {'No documents yet. '}
-      <Link to={routes.newDocument()} className="rw-link">
-        {'Create one?'}
-      </Link>
-    </div>
-  )
+  return <div className="rw-text-center">{'Nenhum envio no momento.'}</div>
 }
 
 export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ documents }) => {
-  return <Documents documents={documents} />
+export const Success = ({ findByActivity }) => {
+  return <Documents documents={findByActivity} />
 }
