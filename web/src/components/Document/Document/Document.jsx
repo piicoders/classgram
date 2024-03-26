@@ -1,7 +1,5 @@
 import { Link } from '@redwoodjs/router'
 
-import { timeTag } from 'src/lib/formatters'
-
 const Document = ({ document }) => {
   return (
     <>
@@ -19,7 +17,11 @@ const Document = ({ document }) => {
             </tr>
             <tr>
               <th>Data de entrega</th>
-              <td>{timeTag(document.handed)}</td>
+              <td>
+                {`${new Date(document.handed).getDate()}/${
+                  new Date(document.handed).getMonth() + 1
+                } - ${new Date(document.handed).getMinutes()}h`}
+              </td>
             </tr>
             <tr>
               <th>Student name</th>
