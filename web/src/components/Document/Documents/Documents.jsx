@@ -60,26 +60,11 @@ const DocumentsList = ({ documents }) => {
                 <nav className="rw-table-actions">
                   <Link
                     to={routes.document({ id: document.id })}
-                    title={'Show document ' + document.id + ' detail'}
+                    title={'Ver entrega ' + document.id + ' detalhada'}
                     className="rw-button rw-button-small"
                   >
                     Show
                   </Link>
-                  <Link
-                    to={routes.editDocument({ id: document.id })}
-                    title={'Edit document ' + document.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    type="button"
-                    title={'Delete document ' + document.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(document.id)}
-                  >
-                    Delete
-                  </button>
                 </nav>
               </td>
             </tr>

@@ -1,35 +1,8 @@
-import { Link, routes, navigate } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
-
-import { toast } from '@redwoodjs/web/toast'
+import { Link } from '@redwoodjs/router'
 
 import { timeTag } from 'src/lib/formatters'
 
-const DELETE_DOCUMENT_MUTATION = gql`
-  mutation DeleteDocumentMutation($id: Int!) {
-    deleteDocument(id: $id) {
-      id
-    }
-  }
-`
-
 const Document = ({ document }) => {
-  const [deleteDocument] = useMutation(DELETE_DOCUMENT_MUTATION, {
-    onCompleted: () => {
-      toast.success('Document deleted')
-      navigate(routes.documents())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete document ' + id + '?')) {
-      deleteDocument({ variables: { id } })
-    }
-  }
-
   return (
     <>
       <div className="rw-segment">
@@ -56,17 +29,8 @@ const Document = ({ document }) => {
         </table>
       </div>
       <nav className="rw-button-group">
-        <Link
-          to={routes.editDocument({ id: document.id })}
-          className="rw-button rw-button-blue"
-        >
-          Edit
-        </Link>
-        <button
-          type="button"
-          className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(document.id)}
-        >
+        <Link className="rw-button rw-button-blue">Edit</Link>
+        <button type="button" className="rw-button rw-button-red">
           Delete
         </button>
       </nav>
