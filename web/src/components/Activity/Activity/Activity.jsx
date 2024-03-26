@@ -5,7 +5,6 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
-import { timeTag } from 'src/lib/formatters'
 
 const DELETE_ACTIVITY_MUTATION = gql`
   mutation DeleteActivityMutation($id: Int!) {
@@ -74,6 +73,15 @@ const Activity = ({ activity }) => {
           </div>
           {currentUser.type == 'P' ? (
             <div className="flex items-center">
+              <Link
+                to={routes.documents({
+                  activityId: activity.id,
+                  classId: activity.classroomId,
+                })}
+                className="mr-4 text-neutral-950 hover:text-neutral-900"
+              >
+                Envios
+              </Link>
               <Link
                 to={routes.editActivity({
                   activityId: activity.id,
