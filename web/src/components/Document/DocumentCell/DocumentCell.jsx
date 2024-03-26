@@ -7,7 +7,9 @@ export const QUERY = gql`
       content
       handed
       activityId
-      studentId
+      student{
+        name
+      }
     }
   }
 `

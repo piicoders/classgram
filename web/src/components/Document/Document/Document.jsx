@@ -35,30 +35,22 @@ const Document = ({ document }) => {
       <div className="rw-segment">
         <header className="rw-segment-header">
           <h2 className="rw-heading rw-heading-secondary">
-            Document {document.id} Detail
+            Entrega de: {document.student.name}
           </h2>
         </header>
         <table className="rw-table">
           <tbody>
             <tr>
-              <th>Id</th>
-              <td>{document.id}</td>
-            </tr>
-            <tr>
-              <th>Content</th>
+              <th>Resposta</th>
               <td>{document.content}</td>
             </tr>
             <tr>
-              <th>Handed</th>
+              <th>Data de entrega</th>
               <td>{timeTag(document.handed)}</td>
             </tr>
             <tr>
-              <th>Activity id</th>
-              <td>{document.activityId}</td>
-            </tr>
-            <tr>
-              <th>Student id</th>
-              <td>{document.studentId}</td>
+              <th>Student name</th>
+              <td>{document.student.name}</td>
             </tr>
           </tbody>
         </table>

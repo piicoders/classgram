@@ -44,7 +44,7 @@ const DocumentsList = ({ documents }) => {
             <th>Content</th>
             <th>Handed</th>
             <th>Activity id</th>
-            <th>Student id</th>
+            <th>Student name</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -55,7 +55,7 @@ const DocumentsList = ({ documents }) => {
               <td>{truncate(document.content)}</td>
               <td>{timeTag(document.handed)}</td>
               <td>{truncate(document.activityId)}</td>
-              <td>{truncate(document.studentId)}</td>
+              <td>{truncate(document.student.name)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
