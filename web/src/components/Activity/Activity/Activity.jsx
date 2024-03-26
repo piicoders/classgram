@@ -107,11 +107,12 @@ const Activity = ({ activity }) => {
         <div className="px-8 py-4">
           <p className="mb-4 text-lg text-gray-600">{activity.description}</p>
           <textarea
-            className="h-48 w-full rounded-lg border px-3 py-2 text-base focus:border-blue-300 focus:outline-none focus:ring"
+            className="h-auto w-full resize-y rounded-lg border px-3 py-2 text-base focus:border-blue-300 focus:outline-none focus:ring"
             value={response}
             onChange={handleChange}
             maxLength={activity.maxSize}
             placeholder="Digite sua resposta aqui..."
+            rows={30}
           ></textarea>
           <div className="mt-4">
             <button
