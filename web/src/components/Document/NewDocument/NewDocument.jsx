@@ -1,6 +1,5 @@
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
-
 import { toast } from '@redwoodjs/web/toast'
 
 import DocumentForm from 'src/components/Document/DocumentForm'

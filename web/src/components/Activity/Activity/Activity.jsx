@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Link, routes, navigate } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
+import { useMutation, gql } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
@@ -14,13 +14,30 @@ const DELETE_ACTIVITY_MUTATION = gql`
   }
 `
 
+const CREATE_DOCUMENT_MUTATION = gql`
+  mutation CreateDocumentMutation($input: CreateDocumentInput!) {
+    createDocument(input: $input) {
+      id
+    }
+  }
+`
+
 const Activity = ({ activity }) => {
   const { currentUser } = useAuth()
 
   const [deleteActivity] = useMutation(DELETE_ACTIVITY_MUTATION, {
     onCompleted: () => {
-      toast.success('Activity deleted')
+      toast.success('Atividade deletada')
       navigate(routes.activities({ classId: activity.classroomId }))
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+
+  const [createDocument] = useMutation(CREATE_DOCUMENT_MUTATION, {
+    onCompleted: () => {
+      toast.success('Resposta enviada com sucesso!')
     },
     onError: (error) => {
       toast.error(error.message)
@@ -34,16 +51,22 @@ const Activity = ({ activity }) => {
   }
 
   const handleSubmitResponse = () => {
-    // Aqui você pode enviar a resposta para o servidor ou realizar qualquer outra ação necessária
-    console.log('Resposta do aluno:', response)
-    // Limpando o campo de resposta após enviar
+    const documentInput = {
+      input: {
+        content: response,
+        handed: new Date().toISOString(),
+        activityId: activity.id,
+        studentId: currentUser.id,
+      },
+    }
+
+    createDocument({ variables: documentInput })
+
     setResponse('')
-    // Adicione aqui a lógica para enviar a resposta para o servidor
-    toast.success('Resposta enviada com sucesso!')
   }
 
   const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete activity ' + id + '?')) {
+    if (confirm('Tem certeza que deseja deletar a atividade ' + id + '?')) {
       deleteActivity({ variables: { id } })
     }
   }
@@ -71,7 +94,7 @@ const Activity = ({ activity }) => {
               ).getMinutes()}h`}
             </p>
           </div>
-          {currentUser.type == 'P' ? (
+          {currentUser.type === 'P' && (
             <div className="flex items-center">
               <Link
                 to={routes.documents({
@@ -99,8 +122,6 @@ const Activity = ({ activity }) => {
                 Apagar
               </button>
             </div>
-          ) : (
-            ''
           )}
         </div>
         <div className="border-t border-gray-200 bg-gray-100 px-8 py-4"></div>
