@@ -127,22 +127,26 @@ const Activity = ({ activity }) => {
         <div className="border-t border-gray-200 bg-gray-100 px-8 py-4"></div>
         <div className="px-8 py-4">
           <p className="mb-4 text-lg text-gray-600">{activity.description}</p>
-          <textarea
-            className="h-auto w-full resize-y rounded-lg border px-3 py-2 text-base focus:border-blue-300 focus:outline-none focus:ring"
-            value={response}
-            onChange={handleChange}
-            maxLength={activity.maxSize}
-            placeholder="Digite sua resposta aqui..."
-            rows={30}
-          ></textarea>
-          <div className="mt-4">
-            <button
-              className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-              onClick={handleSubmitResponse}
-            >
-              Enviar Resposta
-            </button>
-          </div>
+          {currentUser.type === 'S' && (
+            <div>
+              <textarea
+                className="h-auto w-full resize-y rounded-lg border px-3 py-2 text-base focus:border-blue-300 focus:outline-none focus:ring"
+                value={response}
+                onChange={handleChange}
+                maxLength={activity.maxSize}
+                placeholder="Digite sua resposta aqui..."
+                rows={30}
+              ></textarea>
+              <div className="mt-4">
+                <button
+                  className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={handleSubmitResponse}
+                >
+                  Enviar Resposta
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
