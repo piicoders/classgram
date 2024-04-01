@@ -1,34 +1,8 @@
-import { Link, routes, navigate } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
+import { Link, routes } from '@redwoodjs/router'
 
-import { formatEnum, timeTag } from 'src/lib/formatters'
-
-const DELETE_USER_MUTATION = gql`
-  mutation DeleteUserMutation($id: String!) {
-    deleteUser(id: $id) {
-      id
-    }
-  }
-`
+import { formatEnum } from 'src/lib/formatters'
 
 const User = ({ user }) => {
-  const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
-    onCompleted: () => {
-      toast.success('User deleted')
-      navigate(routes.users())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete user ' + id + '?')) {
-      deleteUser({ variables: { id } })
-    }
-  }
-
   return (
     <>
       <div className="rw-segment">
@@ -40,10 +14,6 @@ const User = ({ user }) => {
         <table className="rw-table">
           <tbody>
             <tr>
-              <th>Id</th>
-              <td>{user.id}</td>
-            </tr>
-            <tr>
               <th>Email</th>
               <td>{user.email}</td>
             </tr>
@@ -52,24 +22,8 @@ const User = ({ user }) => {
               <td>{user.name}</td>
             </tr>
             <tr>
-              <th>Hashed password</th>
-              <td>{user.hashedPassword}</td>
-            </tr>
-            <tr>
-              <th>Salt</th>
-              <td>{user.salt}</td>
-            </tr>
-            <tr>
               <th>Type</th>
               <td>{formatEnum(user.type)}</td>
-            </tr>
-            <tr>
-              <th>Reset token</th>
-              <td>{user.resetToken}</td>
-            </tr>
-            <tr>
-              <th>Reset token expired at</th>
-              <td>{timeTag(user.resetTokenExpiredAt)}</td>
             </tr>
           </tbody>
         </table>
@@ -81,13 +35,6 @@ const User = ({ user }) => {
         >
           Edit
         </Link>
-        <button
-          type="button"
-          className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(user.id)}
-        >
-          Delete
-        </button>
       </nav>
     </>
   )

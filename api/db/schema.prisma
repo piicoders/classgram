@@ -44,29 +44,30 @@ model Classroom {
 
 model Activity {
   id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar()
   description String     @db.VarChar()
-  createdAt   DateTime
+  createdAt   DateTime   @default(now())
   dueDate     DateTime
   maxSize     Int
-  prompt      Prompt?    @relation(fields: [promptId], references: [id])
-  promptId    Int?       @unique
   Classroom   Classroom? @relation(fields: [classroomId], references: [id])
-  classroomId Int?
+  classroomId Int
+  promptId    Int
   Document    Document[]
+  Prompt      Prompt?    @relation(fields: [promptId], references: [id])
 }
 
 model Prompt {
   id          Int         @id @default(autoincrement())
   description String      @db.VarChar()
-  activity    Activity?
-  activityId  Int?        @unique
   Criterion   Criterion[]
+  Activity    Activity[]
 }
 
 model Document {
   id         Int          @id @default(autoincrement())
   content    String       @db.VarChar()
-  handed     DateTime
+  handed     DateTime     @default(now())
+  mark       Int?
   activity   Activity?    @relation(fields: [activityId], references: [id])
   activityId Int?
   student    User?        @relation(fields: [studentId], references: [id])
@@ -76,9 +77,10 @@ model Document {
 
 model Correction {
   id          Int        @id @default(autoincrement())
-  from        Int
-  to          Int
+  text        String     @db.VarChar()
   description String     @db.VarChar()
+  correct     String?    @db.VarChar()
+  severity    Severity
   professor   User?      @relation(fields: [professorId], references: [id])
   professorId String?    @db.VarChar()
   subfactor   Subfactor? @relation(fields: [subfactorId], references: [id])
@@ -89,6 +91,7 @@ model Correction {
 
 model Subfactor {
   id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar()
   description String       @db.VarChar()
   criterion   Criterion?   @relation(fields: [criterionId], references: [id])
   criterionId Int
@@ -98,12 +101,18 @@ model Subfactor {
 model Criterion {
   id        Int         @id @default(autoincrement())
   name      String      @db.VarChar()
-  prompt    Prompt?     @relation(fields: [promtId], references: [id])
-  promtId   Int
+  prompt    Prompt?     @relation(fields: [promptId], references: [id])
+  promptId  Int
   Subfactor Subfactor[]
 }
 
 enum UserType {
-  P
-  S
+  P //professor
+  S //student
+}
+
+enum Severity {
+  N //neutral
+  B //bad
+  G //good
 }

@@ -7,18 +7,31 @@ const ClassroomsList = ({ classrooms }) => {
         <div key={classroom.id} className="rounded border">
           <Link
             className="cursor-pointerp-4"
-            to={routes.classroom({ id: classroom.id })}
+            to={routes.activities({ classId: classroom.id })}
           >
-            <div className="h-16 rounded-md bg-slate-400">
+            <div className="h-16 truncate rounded-md bg-slate-400 text-base">
               <h1 className="text-lg font-bold">{classroom.name}</h1>
               <h1 className="text-lg font-bold">{classroom.professor.name}</h1>
             </div>
           </Link>
           <div className="activities-section h-40 overflow-y-auto rounded bg-slate-200">
-            <h3 className="text-lg font-semibold">Atividades</h3>
             <ul>
-              {classroom.activities?.map((activity) => (
-                <li key={activity.id}>{activity.name}</li>
+              {classroom.Activity?.slice(0, 5).map((activity) => (
+                <Link
+                  key={classroom.id}
+                  to={routes.activity({
+                    classId: classroom.id,
+                    activityId: activity.id,
+                  })}
+                >
+                  <li key={activity.id} className="mt-2 truncate text-base">
+                    {`${new Date(activity.dueDate).getDate()}/${
+                      new Date(activity.dueDate).getMonth() + 1
+                    } - ${activity.name} - ${new Date(
+                      activity.dueDate
+                    ).getHours()}:${new Date(activity.dueDate).getMinutes()}h`}
+                  </li>
+                </Link>
               ))}
             </ul>
           </div>

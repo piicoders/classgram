@@ -10,6 +10,14 @@ export const QUERY = gql`
         email
         name
       }
+      Activity {
+        id
+        name
+        description
+        createdAt
+        dueDate
+        maxSize
+      }
     }
   }
 `

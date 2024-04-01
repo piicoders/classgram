@@ -19,7 +19,7 @@ export const classes = async ({ userId }) => {
     throw new Error(`User with ID ${userId} does not exist.`)
   }
 
-  return db.classroom.findMany({
+  return await db.classroom.findMany({
     where: {
       OR: [
         {
@@ -34,8 +34,28 @@ export const classes = async ({ userId }) => {
         },
       ],
     },
-    include: { professor: true },
+    include: {
+      Activity: {
+        where: {
+          NOT: {
+            Document: {
+              some: {
+                studentId: userId,
+              },
+            },
+          },
+        },
+      },
+    },
   })
+}
+
+export const classStudents = async ({ id }) => {
+  const classroom = await db.classroom.findUnique({
+    where: { id },
+    include: { students: true },
+  })
+  return classroom.students
 }
 
 export const createClassroom = ({ input }) => {

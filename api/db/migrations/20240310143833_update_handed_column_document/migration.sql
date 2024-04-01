@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Document" ALTER COLUMN "handed" SET DEFAULT CURRENT_TIMESTAMP;
