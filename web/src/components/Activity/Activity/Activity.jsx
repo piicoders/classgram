@@ -231,8 +231,9 @@ const Activity = ({ activity }) => {
                 ></textarea>
                 <div className="mt-4">
                   <button
-                    className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                    className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-blue-300"
                     onClick={handleSubmitResponse}
+                    disabled={!response}
                   >
                     Enviar Resposta
                   </button>
