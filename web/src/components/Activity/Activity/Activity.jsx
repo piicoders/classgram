@@ -101,7 +101,7 @@ const Activity = ({ activity }) => {
   const handleSubmitResponse = () => {
     const documentInput = {
       input: {
-        content: response,
+        content: response.trim(),
         handed: new Date().toISOString(),
         activityId: activity.id,
         studentId: currentUser.id,
@@ -233,7 +233,7 @@ const Activity = ({ activity }) => {
                   <button
                     className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-blue-300"
                     onClick={handleSubmitResponse}
-                    disabled={!response}
+                    disabled={!response.trim()}
                   >
                     Enviar Resposta
                   </button>
