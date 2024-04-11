@@ -1,8 +1,10 @@
-import { Link, routes } from '@redwoodjs/router'
+import { Link, routes, useParams } from '@redwoodjs/router'
 
 import { truncate } from 'src/lib/formatters'
 
 const DocumentsList = ({ documents }) => {
+  const { classId } = useParams()
+
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
       <table className="rw-table">
@@ -27,7 +29,11 @@ const DocumentsList = ({ documents }) => {
               <td>
                 <nav className="rw-table-actions">
                   <Link
-                    to={routes.document({ id: document.id })}
+                    to={routes.document({
+                      id: document.id,
+                      activityId: document.activityId,
+                      classId: classId,
+                    })}
                     title={'Ver entrega detalhada'}
                     className="rw-button rw-button-small"
                   >

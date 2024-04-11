@@ -57,9 +57,8 @@ const Routes = () => {
           <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/editar" page={ActivityEditActivityPage} name="editActivity" />
           <Route path="/turmas/{classId:Int}/atividades" page={ActivityActivitiesPage} name="activities" />
 
-          <Route path="/envios/nova" page={DocumentNewDocumentPage} name="newDocument" />
-          <Route path="/envios/{id:Int}/editar" page={DocumentEditDocumentPage} name="editDocument" />
-          <Route path="/envios/{id:Int}" page={DocumentDocumentPage} name="document" />
+          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios/{id:Int}/editar" page={DocumentEditDocumentPage} name="editDocument" />
+          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios/{id:Int}" page={DocumentDocumentPage} name="document" />
           <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios" page={DocumentDocumentsPage} name="documents" />
         </Set>
       </PrivateSet>
