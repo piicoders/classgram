@@ -12,6 +12,17 @@ export const STUDENT_DOCUMENT = gql`
       id
       content
       handed
+      Correction {
+        id
+        correct
+        description
+        text
+        severity
+        professor {
+          name
+        }
+        # subfactor
+      }
     }
   }
 `
@@ -163,6 +174,32 @@ const Activity = ({ activity }) => {
                     Data de Entrega: {document.handed}
                   </p>
                 </div>
+                {document.Correction.map((correction) => (
+                  <div key={correction.id}>
+                    <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
+                      <p>
+                        <span className="font-bold">Description:</span>{' '}
+                        {correction.description}
+                      </p>
+                      <p>
+                        <span className="font-bold">Text:</span>{' '}
+                        {correction.text}
+                      </p>
+                      <p>
+                        <span className="font-bold">Correct:</span>{' '}
+                        {correction.correct}
+                      </p>
+                      <p>
+                        <span className="font-bold">Severity:</span>{' '}
+                        {correction.severity}
+                      </p>
+                      <p>
+                        <span className="font-bold">Professor Name:</span>{' '}
+                        {correction.professor.name}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               <div>
