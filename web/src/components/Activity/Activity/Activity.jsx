@@ -66,13 +66,15 @@ const Activity = ({ activity }) => {
   const [document, setDocument] = useState(null)
 
   useEffect(() => {
-    textAreaRef.current.style.height = 'auto'
-    textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
+    if (currentUser.type === 'S') {
+      textAreaRef.current.style.height = 'auto'
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
+    }
 
     if (!loading && !error && data.findByActivityAndStudent) {
       setDocument(data.findByActivityAndStudent)
     }
-  }, [loading, error, data, response])
+  }, [loading, error, data, response, currentUser.type])
 
   const [deleteActivity] = useMutation(DELETE_ACTIVITY_MUTATION, {
     onCompleted: () => {
@@ -187,6 +189,9 @@ const Activity = ({ activity }) => {
                     Data de Entrega: {document.handed}
                   </p>
                 </div>
+                {document.Correction && (
+                  <h2 className="mb-4 text-xl font-bold">Correção</h2>
+                )}
                 {document.Correction.map((correction) => (
                   <div key={correction.id}>
                     <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
