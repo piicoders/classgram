@@ -37,6 +37,15 @@ export const findByActivity = ({ activityId }) => {
   })
 }
 
+export const findByActivityAndStudent = ({ activityId, studentId }) => {
+  return db.document.findFirst({
+    where: {
+      activityId: { equals: activityId },
+      studentId: { equals: studentId },
+    },
+  })
+}
+
 export const Document = {
   activity: (_obj, { root }) => {
     return db.document.findUnique({ where: { id: root?.id } }).activity()
