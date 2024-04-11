@@ -61,6 +61,7 @@ const Activity = ({ activity }) => {
   const [createDocument] = useMutation(CREATE_DOCUMENT_MUTATION, {
     onCompleted: () => {
       toast.success('Resposta enviada com sucesso!')
+      window.location.reload()
     },
     onError: (error) => {
       toast.error(error.message)
