@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import { Link, routes, navigate, useParams } from '@redwoodjs/router'
 import { useQuery, useMutation, gql } from '@redwoodjs/web'
@@ -56,6 +56,9 @@ const Activity = ({ activity }) => {
   const { currentUser } = useAuth()
   const { activityId } = useParams()
 
+  const [response, setResponse] = useState('')
+  const textAreaRef = useRef(null)
+
   const { loading, error, data } = useQuery(STUDENT_DOCUMENT, {
     variables: { activityId: activityId, studentId: currentUser.id },
   })
@@ -63,10 +66,13 @@ const Activity = ({ activity }) => {
   const [document, setDocument] = useState(null)
 
   useEffect(() => {
+    textAreaRef.current.style.height = 'auto'
+    textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
+
     if (!loading && !error && data.findByActivityAndStudent) {
       setDocument(data.findByActivityAndStudent)
     }
-  }, [loading, error, data])
+  }, [loading, error, data, response])
 
   const [deleteActivity] = useMutation(DELETE_ACTIVITY_MUTATION, {
     onCompleted: () => {
@@ -87,8 +93,6 @@ const Activity = ({ activity }) => {
       toast.error(error.message)
     },
   })
-
-  const [response, setResponse] = useState('')
 
   const handleChange = (event) => {
     setResponse(event.target.value)
@@ -217,12 +221,13 @@ const Activity = ({ activity }) => {
             ) : (
               <div>
                 <textarea
-                  className="h-auto w-full resize-y rounded-lg border px-3 py-2 text-base focus:border-blue-300 focus:outline-none focus:ring"
+                  className="p1 w-full resize-none overflow-hidden rounded-lg border text-base focus:border-blue-300 focus:outline-none focus:ring"
                   value={response}
                   onChange={handleChange}
                   maxLength={activity.maxSize}
                   placeholder="Digite sua resposta aqui..."
-                  rows={30}
+                  rows="2"
+                  ref={textAreaRef}
                 ></textarea>
                 <div className="mt-4">
                   <button
