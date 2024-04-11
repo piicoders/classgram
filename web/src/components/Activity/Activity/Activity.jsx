@@ -21,7 +21,16 @@ export const STUDENT_DOCUMENT = gql`
         professor {
           name
         }
-        # subfactor
+        subfactor {
+          criterion {
+            name
+            prompt {
+              description
+            }
+          }
+          description
+          name
+        }
       }
     }
   }
@@ -196,6 +205,10 @@ const Activity = ({ activity }) => {
                       <p>
                         <span className="font-bold">Professor Name:</span>{' '}
                         {correction.professor.name}
+                      </p>
+                      <p>
+                        <span className="font-bold">Subfactor:</span>{' '}
+                        {correction.subfactor.description}
                       </p>
                     </div>
                   </div>
