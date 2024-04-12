@@ -10,6 +10,12 @@ export const subfactor = ({ id }) => {
   })
 }
 
+export const subfactorsByCriterionId = ({ criterionId }) => {
+  return db.subfactor.findMany({
+    where: { criterionId: criterionId },
+  })
+}
+
 export const createSubfactor = ({ input }) => {
   return db.subfactor.create({
     data: input,

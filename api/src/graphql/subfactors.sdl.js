@@ -11,6 +11,7 @@ export const schema = gql`
   type Query {
     subfactors: [Subfactor!]! @requireAuth
     subfactor(id: Int!): Subfactor @requireAuth
+    subfactorsByCriterionId(criterionId: Int!): [Subfactor!]! @requireAuth
   }
 
   input CreateSubfactorInput {
@@ -24,9 +25,10 @@ export const schema = gql`
   }
 
   type Mutation {
-    createSubfactor(input: CreateSubfactorInput!): Subfactor! @requireAuth
+    createSubfactor(input: CreateSubfactorInput!): Subfactor!
+      @requireAuth(roles: ["P"])
     updateSubfactor(id: Int!, input: UpdateSubfactorInput!): Subfactor!
-      @requireAuth
-    deleteSubfactor(id: Int!): Subfactor! @requireAuth
+      @requireAuth(roles: ["P"])
+    deleteSubfactor(id: Int!): Subfactor! @requireAuth(roles: ["P"])
   }
 `

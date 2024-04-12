@@ -17,7 +17,10 @@ export const schema = gql`
     activities: [Activity!]! @requireAuth
     activity(id: Int!): Activity @requireAuth
     activityByClassId(classId: Int!): [Activity!]! @requireAuth
-    unfinishedActivitiesByStudentIdAndClassId(classId: Int!, studentId: String!): [Activity!]! @requireAuth
+    unfinishedActivitiesByStudentIdAndClassId(
+      classId: Int!
+      studentId: String!
+    ): [Activity!]! @requireAuth
   }
 
   input CreateActivityInput {
@@ -39,9 +42,10 @@ export const schema = gql`
   }
 
   type Mutation {
-    createActivity(input: CreateActivityInput!): Activity! @requireAuth
+    createActivity(input: CreateActivityInput!): Activity!
+      @requireAuth(roles: ["P"])
     updateActivity(id: Int!, input: UpdateActivityInput!): Activity!
-      @requireAuth
-    deleteActivity(id: Int!): Activity! @requireAuth
+      @requireAuth(roles: ["P"])
+    deleteActivity(id: Int!): Activity! @requireAuth(roles: ["P"])
   }
 `
