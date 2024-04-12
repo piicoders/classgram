@@ -5,7 +5,7 @@ export const schema = gql`
     name: String!
     hashedPassword: String!
     salt: String!
-    type: UserType!
+    roles: UserType!
     resetToken: String
     resetTokenExpiredAt: DateTime
     classesAsProfessor: [Classroom]!
@@ -27,7 +27,7 @@ export const schema = gql`
     name: String!
     hashedPassword: String!
     salt: String!
-    type: UserType!
+    roles: UserType!
     resetToken: String
     resetTokenExpiredAt: DateTime
   }
@@ -37,7 +37,7 @@ export const schema = gql`
     name: String
     hashedPassword: String
     salt: String
-    type: UserType
+    roles: UserType
     resetToken: String
     resetTokenExpiredAt: DateTime
   }
