@@ -35,7 +35,7 @@ const NewClassroom = ({ currentUser }) => {
   return (
     <>
       <Metadata title="Turmas" />
-      {currentUser.type == 'P' ? (
+      {currentUser.roles == 'P' ? (
         <div className="rw-segment">
           <header className="rw-segment-header">
             <h2 className="rw-heading rw-heading-secondary">New Classroom</h2>

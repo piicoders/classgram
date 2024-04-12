@@ -14,7 +14,7 @@ const ClassroomsPage = () => {
         </h1>
         <Link to={routes.newClassroom()} className="rw-button rw-button-green">
           <div className="rw-button-icon">+</div>{' '}
-          {currentUser?.type == 'P' ? 'Nova Turma' : 'Entrar em turma'}
+          {currentUser?.roles == 'P' ? 'Nova Turma' : 'Entrar em turma'}
         </Link>
       </div>
       <Metadata title="Turmas" />

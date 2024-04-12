@@ -21,7 +21,7 @@ const UsersPage = () => {
           >
             Atividades
           </Link>
-          {currentUser.type == 'P' ? (
+          {currentUser.roles == 'P' ? (
             <Link
               className={
                 'text-cyan-600 underline transition duration-300 hover:text-gray-900'

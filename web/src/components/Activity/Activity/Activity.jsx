@@ -66,7 +66,7 @@ const Activity = ({ activity }) => {
   const [document, setDocument] = useState(null)
 
   useEffect(() => {
-    if (currentUser.type === 'S') {
+    if (currentUser.roles === 'S') {
       textAreaRef.current.style.height = 'auto'
       textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
     }
@@ -74,7 +74,7 @@ const Activity = ({ activity }) => {
     if (!loading && !error && data.findByActivityAndStudent) {
       setDocument(data.findByActivityAndStudent)
     }
-  }, [loading, error, data, response, currentUser.type])
+  }, [loading, error, data, response, currentUser.roles])
 
   const [deleteActivity] = useMutation(DELETE_ACTIVITY_MUTATION, {
     onCompleted: () => {
@@ -144,7 +144,7 @@ const Activity = ({ activity }) => {
               ).getMinutes()}h`}
             </p>
           </div>
-          {currentUser.type === 'P' && (
+          {currentUser.roles === 'P' && (
             <div className="flex items-center">
               <Link
                 to={routes.documents({
@@ -177,7 +177,7 @@ const Activity = ({ activity }) => {
         <div className="border-t border-gray-200 bg-gray-100 px-8 py-4"></div>
         <div className="px-8 py-4">
           <p className="mb-4 text-lg text-gray-600">{activity.description}</p>
-          {currentUser.type === 'S' &&
+          {currentUser.roles === 'S' &&
             (document ? (
               <div className="relative mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md">
                 <h2 className="mb-4 text-xl font-bold">Sua resposta</h2>

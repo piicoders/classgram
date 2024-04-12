@@ -35,7 +35,7 @@ const SignupPage = () => {
     const response = await signUp({
       username: data.email,
       password: data.password,
-      type: data.type,
+      roles: data.roles,
       name: data.name,
     })
 
@@ -161,7 +161,7 @@ const SignupPage = () => {
               <div className="mt-2">
                 <SelectField
                   className="font-semibold leading-6 text-cyan-600 hover:text-cyan-500"
-                  name="type"
+                  name="roles"
                   validation={{
                     required: true,
                     validate: {

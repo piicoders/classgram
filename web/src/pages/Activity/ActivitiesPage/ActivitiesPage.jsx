@@ -20,7 +20,7 @@ const ActivitiesPage = () => {
           >
             Atividades
           </Link>
-          {currentUser.type == 'P' ? (
+          {currentUser.roles == 'P' ? (
             <Link
               className={
                 'text-gray-700 transition duration-300 hover:text-gray-900 '
@@ -33,7 +33,7 @@ const ActivitiesPage = () => {
             ''
           )}
         </div>
-        {currentUser.type == 'P' ? (
+        {currentUser.roles == 'P' ? (
           <Link
             to={routes.newActivity({ classId: classId })}
             className="rw-button rw-button-green"

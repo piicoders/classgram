@@ -23,7 +23,7 @@ const User = ({ user }) => {
             </tr>
             <tr>
               <th>Type</th>
-              <td>{formatEnum(user.type)}</td>
+              <td>{formatEnum(user.roles)}</td>
             </tr>
           </tbody>
         </table>
