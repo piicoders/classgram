@@ -12,6 +12,16 @@ const ClassroomForm = (props) => {
     props.onSave(data, props?.classroom?.id)
   }
 
+  const gerarCodigoAleatorio = () => {
+    let codigo = ''
+    const caracteres =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    for (let i = 0; i < 5; i++) {
+      codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length))
+    }
+    return codigo
+  }
+
   return (
     <div className="rw-form-wrapper">
       <Form onSubmit={onSubmit} error={props.error}>
@@ -50,7 +60,7 @@ const ClassroomForm = (props) => {
 
         <TextField
           name="code"
-          defaultValue={props.classroom?.code}
+          defaultValue={props.classroom?.code || gerarCodigoAleatorio()}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
         />
