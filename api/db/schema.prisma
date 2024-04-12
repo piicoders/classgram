@@ -23,7 +23,7 @@ model User {
   name                String       @db.VarChar()
   hashedPassword      String       @db.VarChar()
   salt                String       @db.VarChar()
-  type                UserType
+  roles               UserType
   resetToken          String?      @db.VarChar()
   resetTokenExpiredAt DateTime?
   classesAsProfessor  Classroom[]  @relation("professor")
@@ -64,15 +64,16 @@ model Prompt {
 }
 
 model Document {
-  id         Int          @id @default(autoincrement())
-  content    String       @db.VarChar()
-  handed     DateTime     @default(now())
-  mark       Int?
-  activity   Activity?    @relation(fields: [activityId], references: [id])
-  activityId Int?
-  student    User?        @relation(fields: [studentId], references: [id])
-  studentId  String?      @db.VarChar()
-  Correction Correction[]
+  id             Int          @id @default(autoincrement())
+  content        String       @db.VarChar()
+  handed         DateTime     @default(now())
+  mark           Int?
+  activity       Activity?    @relation(fields: [activityId], references: [id])
+  activityId     Int?
+  student        User?        @relation(fields: [studentId], references: [id])
+  studentId      String?      @db.VarChar()
+  subFactorsMark String?      @db.VarChar()
+  Correction     Correction[]
 }
 
 model Correction {
