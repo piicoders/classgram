@@ -45,9 +45,10 @@ export const schema = gql`
   }
 
   type Mutation {
-    createCorrection(input: CreateCorrectionInput!): Correction! @requireAuth
+    createCorrection(input: CreateCorrectionInput!): Correction!
+      @requireAuth(roles: ["P"])
     updateCorrection(id: Int!, input: UpdateCorrectionInput!): Correction!
-      @requireAuth
-    deleteCorrection(id: Int!): Correction! @requireAuth
+      @requireAuth(roles: ["P"])
+    deleteCorrection(id: Int!): Correction! @requireAuth(roles: ["P"])
   }
 `

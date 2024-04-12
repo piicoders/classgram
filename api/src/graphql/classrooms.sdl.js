@@ -29,10 +29,11 @@ export const schema = gql`
   }
 
   type Mutation {
-    createClassroom(input: CreateClassroomInput!): Classroom! @requireAuth
+    createClassroom(input: CreateClassroomInput!): Classroom!
+      @requireAuth(roles: ["P"])
     updateClassroom(id: Int!, input: UpdateClassroomInput!): Classroom!
-      @requireAuth
-    deleteClassroom(id: Int!): Classroom! @requireAuth
+      @requireAuth(roles: ["P"])
+    deleteClassroom(id: Int!): Classroom! @requireAuth(roles: ["P"])
     addStudentClass(classCode: String!, studentId: String!): Classroom!
       @requireAuth
   }

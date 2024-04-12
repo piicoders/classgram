@@ -10,6 +10,7 @@ export const schema = gql`
   type Query {
     criteria: [Criterion!]! @requireAuth
     criterion(id: Int!): Criterion @requireAuth
+    criteriaByPromptId(promptId: Int!): [Criterion!]! @requireAuth
   }
 
   input CreateCriterionInput {
@@ -23,9 +24,10 @@ export const schema = gql`
   }
 
   type Mutation {
-    createCriterion(input: CreateCriterionInput!): Criterion! @requireAuth
+    createCriterion(input: CreateCriterionInput!): Criterion!
+      @requireAuth(roles: ["P"])
     updateCriterion(id: Int!, input: UpdateCriterionInput!): Criterion!
-      @requireAuth
-    deleteCriterion(id: Int!): Criterion! @requireAuth
+      @requireAuth(roles: ["P"])
+    deleteCriterion(id: Int!): Criterion! @requireAuth(roles: ["P"])
   }
 `

@@ -20,8 +20,9 @@ export const schema = gql`
   }
 
   type Mutation {
-    createPrompt(input: CreatePromptInput!): Prompt! @requireAuth
-    updatePrompt(id: Int!, input: UpdatePromptInput!): Prompt! @requireAuth
-    deletePrompt(id: Int!): Prompt! @requireAuth
+    createPrompt(input: CreatePromptInput!): Prompt! @requireAuth(roles: ["P"])
+    updatePrompt(id: Int!, input: UpdatePromptInput!): Prompt!
+      @requireAuth(roles: ["P"])
+    deletePrompt(id: Int!): Prompt! @requireAuth(roles: ["P"])
   }
 `
