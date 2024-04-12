@@ -10,6 +10,12 @@ export const criterion = ({ id }) => {
   })
 }
 
+export const criteriaByPromptId = ({ promptId }) => {
+  return db.criterion.findMany({
+    where: { promptId: promptId },
+  })
+}
+
 export const createCriterion = ({ input }) => {
   return db.criterion.create({
     data: input,
