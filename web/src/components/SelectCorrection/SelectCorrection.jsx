@@ -3,12 +3,37 @@ import { useEffect, useState, useRef } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 
 import { SelectField, Form } from '@redwoodjs/forms'
+import { useQuery, gql } from '@redwoodjs/web'
 
-const SelectCorrection = () => {
+const CRITERIA_BY_PROMPT_ID = gql`
+  query CriteriaByPromptId($promptId: Int!) {
+    criteriaByPromptId(promptId: $promptId) {
+      id
+      name
+    }
+  }
+`
+
+const SelectCorrection = ({ promptId }) => {
   const [selection, setSelection] = useState(null)
   const [position, setPosition] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [criteria, setCriteria] = useState(null)
+  const [selectedCriterion, setSelectedCriterion] = useState(null)
   const modalRef = useRef(null)
+
+  const { loading, error, data } = useQuery(CRITERIA_BY_PROMPT_ID, {
+    variables: { promptId: promptId },
+  })
+
+  useEffect(() => {
+    if (!loading && !error && data && data.criteriaByPromptId) {
+      console.log('Critérios recuperados:', data.criteriaByPromptId)
+      setCriteria(data.criteriaByPromptId)
+    } else {
+      console.log('Erro ao recuperar critérios:', error)
+    }
+  }, [loading, error, data])
 
   function onSelectStart() {
     setSelection(undefined)
@@ -23,7 +48,10 @@ const SelectCorrection = () => {
       return
     }
 
-    setSelection(text)
+    setSelection({
+      text: text,
+      promptId: promptId,
+    })
 
     const rect = activeSelection.getRangeAt(0).getBoundingClientRect()
 
@@ -53,7 +81,7 @@ const SelectCorrection = () => {
     }
   }
 
-  function onComment(text) {
+  function onShare(promptId, text) {
     const textToShare = text || selection
     if (!textToShare) return
     const message = textToShare
@@ -68,7 +96,7 @@ const SelectCorrection = () => {
   function handleSubmit() {}
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       {selection && position && showModal && (
         <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div
@@ -85,7 +113,7 @@ const SelectCorrection = () => {
             <div className="mb-2">
               <h3 className="mb-2 text-lg font-semibold">Parte selecionada:</h3>
               <span className="font-normal text-gray-800">
-                {selection.split('').map((char, index) => (
+                {selection.text.split('').map((char, index) => (
                   <span key={index} className="highlighted-text">
                     {char}
                   </span>
@@ -119,6 +147,7 @@ const SelectCorrection = () => {
             <div className="mb-4">
               <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
               <textarea
+                name="description"
                 className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
                 placeholder="Digite a descrição aqui..."
               ></textarea>
@@ -126,9 +155,27 @@ const SelectCorrection = () => {
             <div className="mb-4">
               <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
               <textarea
+                name="correction"
                 className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
                 placeholder="Digite a correção aqui..."
               ></textarea>
+            </div>
+            <div className="mb-4">
+              <h3 className="mb-2 text-lg font-semibold">Critério:</h3>
+              <SelectField
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+                name="criterion"
+                value={selectedCriterion}
+                onChange={(event) => setSelectedCriterion(event.target.value)}
+              >
+                <option value="">Selecione um critério</option>
+                {criteria &&
+                  criteria.map((criterion) => (
+                    <option key={criterion.id} value={criterion.id}>
+                      {criterion.name}
+                    </option>
+                  ))}
+              </SelectField>
             </div>
             <div className="flex justify-end">
               <button
@@ -153,7 +200,7 @@ const SelectCorrection = () => {
         >
           <button
             className="flex h-full w-full items-center justify-between px-2"
-            onClick={() => onComment()}
+            onClick={() => onShare(promptId, selection.text)}
           >
             <span id="share" className="text-xs">
               + Comentário
