@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { XIcon } from '@heroicons/react/outline'
 
@@ -12,6 +12,9 @@ const CorrectionModal = ({
   onSelectCriterion,
   selectedCriterion,
 }) => {
+  const [description, setDescription] = useState('')
+  const [correction, setCorrection] = useState('')
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (!event.target.closest('.modal-content')) {
@@ -72,7 +75,7 @@ const CorrectionModal = ({
           <SelectField
             className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
             name="criterion"
-            value={selectedCriterion}
+            value={selectedCriterion || ''}
             onChange={onSelectCriterion}
           >
             <option value="">Selecione um critério</option>
@@ -90,6 +93,8 @@ const CorrectionModal = ({
             name="description"
             className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
             placeholder="Digite a descrição aqui..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         <div className="mb-4">
@@ -98,6 +103,8 @@ const CorrectionModal = ({
             name="correction"
             className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
             placeholder="Digite a correção aqui..."
+            value={correction}
+            onChange={(e) => setCorrection(e.target.value)}
           ></textarea>
         </div>
         <div className="flex justify-end">
