@@ -17,6 +17,7 @@ const CorrectionModal = ({
 
   const descriptionTextAreaRef = useRef(null)
   const correctionTextAreaRef = useRef(null)
+  const modalRef = useRef(null)
 
   useEffect(() => {
     adjustTextArea(descriptionTextAreaRef)
@@ -25,6 +26,20 @@ const CorrectionModal = ({
   useEffect(() => {
     adjustTextArea(correctionTextAreaRef)
   }, [correction])
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [onClose])
 
   const adjustTextArea = (textAreaRef) => {
     if (textAreaRef.current) {
@@ -35,7 +50,10 @@ const CorrectionModal = ({
 
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div className="modal-content relative max-h-[80vh] w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
+      <div
+        ref={modalRef}
+        className="modal-content relative max-h-[80vh] w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg"
+      >
         <button
           className="absolute right-2 top-2 text-gray-600 hover:text-gray-800 focus:outline-none"
           onClick={onClose}
