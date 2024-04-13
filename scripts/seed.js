@@ -28,7 +28,7 @@ export default async () => {
         resetTokenExpiredAt: null,
       },
       {
-        name: 'Professor 0 test',
+        name: 'Jhon doe',
         email: 'professor0@test.com',
         hashedPassword:
           '6b30041b820f236f7f6d5c93b5bd8e5ea84af9ebe4de4e510bf11314df2671bb|16384|8|1',
@@ -38,7 +38,7 @@ export default async () => {
         resetTokenExpiredAt: null,
       },
       {
-        name: 'Professor 1 test',
+        name: 'Michaela Bauer',
         email: 'professor1@test.com',
         hashedPassword:
           '6b30041b820f236f7f6d5c93b5bd8e5ea84af9ebe4de4e510bf11314df2671bb|16384|8|1',
@@ -108,7 +108,7 @@ export default async () => {
         resetTokenExpiredAt: null,
       },
       {
-        name: 'Student 0 test',
+        name: 'Laura Simpson',
         email: 'student0@test.com',
         hashedPassword:
           '6b30041b820f236f7f6d5c93b5bd8e5ea84af9ebe4de4e510bf11314df2671bb|16384|8|1',
@@ -118,7 +118,7 @@ export default async () => {
         resetTokenExpiredAt: null,
       },
       {
-        name: 'Student 1 test',
+        name: 'Carolyn Bowen',
         email: 'student1@test.com',
         hashedPassword:
           '6b30041b820f236f7f6d5c93b5bd8e5ea84af9ebe4de4e510bf11314df2671bb|16384|8|1',
@@ -140,44 +140,44 @@ export default async () => {
     const classData = [
       {
         name: 'Escrevendo com Persuasão',
-        code: '11111',
+        code: 'su09n',
         professorId: users[2].id,
       },
       { name: 'Redação em Foco', code: '22222', professorId: users[3].id },
       {
         name: 'Desenvolvendo Textos Eficientes',
-        code: '33333',
+        code: 'pvi2j',
         professorId: users[2].id,
       },
       {
         name: 'A Arte da Comunicação Escrita',
-        code: '44444',
+        code: '32ks9',
         professorId: users[3].id,
       },
       {
         name: 'Prática de Escrita Criativa',
-        code: '55555',
+        code: '1f07s',
         professorId: users[2].id,
       },
       {
         name: 'Escrevendo com Clareza e Coerência',
-        code: '66666',
+        code: 'tzhc2',
         professorId: users[3].id,
       },
       { name: 'Oficina de Redação', code: '77777', professorId: users[2].id },
       {
         name: 'Laboratório de Textos',
-        code: '88888',
+        code: 'iduj8',
         professorId: users[3].id,
       },
       {
         name: 'Aprimorando sua Expressão Escrita',
-        code: '99999',
+        code: 'bwz4o',
         professorId: users[2].id,
       },
       {
         name: 'Roteiros para Palavras: Curso de Redação',
-        code: '00000',
+        code: 'ip0zr',
         professorId: users[3].id,
       },
     ]
