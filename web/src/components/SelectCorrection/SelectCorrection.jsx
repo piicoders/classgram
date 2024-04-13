@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
-import { toast } from '@redwoodjs/web/toast'
+import { XIcon } from '@heroicons/react/outline'
+
+import { SelectField, Form } from '@redwoodjs/forms'
 
 const SelectCorrection = () => {
   const [selection, setSelection] = useState(null)
   const [position, setPosition] = useState(null)
+  const [showModal, setShowModal] = useState(false)
+  const modalRef = useRef(null)
 
   function onSelectStart() {
     setSelection(undefined)
@@ -29,37 +33,114 @@ const SelectCorrection = () => {
       width: rect.width,
       height: rect.height,
     })
-
-    toast('Share this snippet!', {
-      action: {
-        label: 'Tweet',
-        onClick: () => onShare(text),
-      },
-    })
   }
 
   useEffect(() => {
-    document.addEventListener('selectstart', onSelectStart)
-    document.addEventListener('mouseup', onSelectEnd)
+    const documentContent = document.getElementById('documentContent')
+    documentContent.addEventListener('selectstart', onSelectStart)
+    documentContent.addEventListener('mouseup', onSelectEnd)
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener('selectstart', onSelectStart)
-      document.removeEventListener('mouseup', onSelectEnd)
+      documentContent.removeEventListener('selectstart', onSelectStart)
+      documentContent.removeEventListener('mouseup', onSelectEnd)
+      document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+
+  function handleClickOutside(event) {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setShowModal(false)
+    }
+  }
 
   function onShare(text) {
     const textToShare = text || selection
     if (!textToShare) return
-    const message = [
-      `"${encodeURIComponent(textToShare)}"`,
-      encodeURIComponent(window.location.href),
-    ].join('%0A%0A')
-    const url = `https://twitter.com/intent/tweet?text=${message}`
-    window.open(url, 'share-twitter', 'width=550, height=550')
+    const message = textToShare
+    console.log(message, position)
+    setShowModal(true)
   }
 
+  function closePopup() {
+    setShowModal(false)
+  }
+
+  function handleSubmit() {}
+
   return (
-    <div>
+    <Form>
+      {selection && position && showModal && (
+        <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div
+            ref={modalRef}
+            className="relative max-h-[80vh] w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg"
+          >
+            <button
+              className="absolute right-2 top-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+              onClick={closePopup}
+            >
+              <XIcon className="h-6 w-6" />
+            </button>
+            <h2 className="mb-4 text-lg font-semibold">Comentário</h2>
+            <div className="mb-2">
+              <h3 className="mb-2 text-lg font-semibold">Parte selecionada:</h3>
+              <span className="font-normal text-gray-800">
+                {selection.split('').map((char, index) => (
+                  <span key={index} className="highlighted-text">
+                    {char}
+                  </span>
+                ))}
+              </span>
+            </div>
+            <div className="mb-2">
+              <h3 className="mb-2 text-lg font-semibold">
+                Tipo do comentário:
+              </h3>
+              <SelectField
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+                name="severity"
+                validation={{
+                  required: true,
+                  validate: {
+                    matchesInitialValue: (value) => {
+                      return (
+                        value !== 'Por favor selecione uma opção' ||
+                        'Selecione uma opção'
+                      )
+                    },
+                  },
+                }}
+              >
+                <option value={'G'}>Bom</option>
+                <option value={'N'}>Neutro</option>
+                <option value={'B'}>Ruim</option>
+              </SelectField>
+            </div>
+            <div className="mb-4">
+              <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
+              <textarea
+                className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+                placeholder="Digite a descrição aqui..."
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
+              <textarea
+                className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+                placeholder="Digite a correção aqui..."
+              ></textarea>
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="mr-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
+              >
+                Enviar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {selection && position && (
         <p
           className="
@@ -75,12 +156,12 @@ const SelectCorrection = () => {
             onClick={() => onShare()}
           >
             <span id="share" className="text-xs">
-              Corrigir
+              + Comentário
             </span>
           </button>
         </p>
       )}
-    </div>
+    </Form>
   )
 }
 
