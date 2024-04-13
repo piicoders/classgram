@@ -53,7 +53,7 @@ const SelectCorrection = () => {
     }
   }
 
-  function onShare(text) {
+  function onComment(text) {
     const textToShare = text || selection
     if (!textToShare) return
     const message = textToShare
@@ -153,7 +153,7 @@ const SelectCorrection = () => {
         >
           <button
             className="flex h-full w-full items-center justify-between px-2"
-            onClick={() => onShare()}
+            onClick={() => onComment()}
           >
             <span id="share" className="text-xs">
               + Comentário
