@@ -1,8 +1,20 @@
 import SelectCorrection from 'src/components/SelectCorrection'
 
+const formatDate = (date) => {
+  const options = {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }
+  return new Date(date).toLocaleDateString('pt-BR', options)
+}
+
 const Document = ({ document }) => {
   return (
     <div className="mx-auto mt-8 max-w-6xl px-8">
+      <SelectCorrection />
       <div className="overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="flex items-center justify-between px-10 py-0">
           <div className="flex flex-col">
@@ -20,14 +32,12 @@ const Document = ({ document }) => {
             Entregue por: {document.student.name}
           </h3>
           <p className="mb-2 text-sm text-gray-600">
-            Entregue em: {new Date(document.handed).getDate()}/
-            {new Date(document.handed).getMonth() + 1}/
-            {new Date(document.handed).getFullYear()} -{' '}
-            {new Date(document.handed).getHours()}:
-            {new Date(document.handed).getMinutes()}
+            {formatDate(document.handed)}
           </p>
-          <SelectCorrection />
-          <p className="text-base">{document.content}</p>
+          <p className="mb-2 text-sm text-gray-600"></p>
+          <p id="documentContent" className="text-base">
+            {document.content}
+          </p>
         </div>
       </div>
     </div>
