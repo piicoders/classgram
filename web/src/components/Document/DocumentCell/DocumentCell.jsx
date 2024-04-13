@@ -9,6 +9,7 @@ export const QUERY = gql`
       activity {
         description
         name
+        promptId
       }
       student {
         name
