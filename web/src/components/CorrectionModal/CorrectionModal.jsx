@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { XIcon } from '@heroicons/react/outline'
 
@@ -15,18 +15,23 @@ const CorrectionModal = ({
   const [description, setDescription] = useState('')
   const [correction, setCorrection] = useState('')
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (!event.target.closest('.modal-content')) {
-        onClose()
-      }
-    }
+  const descriptionTextAreaRef = useRef(null)
+  const correctionTextAreaRef = useRef(null)
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+  useEffect(() => {
+    adjustTextArea(descriptionTextAreaRef)
+  }, [description])
+
+  useEffect(() => {
+    adjustTextArea(correctionTextAreaRef)
+  }, [correction])
+
+  const adjustTextArea = (textAreaRef) => {
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = 'auto'
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
     }
-  }, [onClose])
+  }
 
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
@@ -91,20 +96,22 @@ const CorrectionModal = ({
           <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
           <textarea
             name="description"
-            className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+            className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
             placeholder="Digite a descrição aqui..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            ref={descriptionTextAreaRef}
           ></textarea>
         </div>
         <div className="mb-4">
           <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
           <textarea
             name="correction"
-            className="h-16 w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+            className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
             placeholder="Digite a correção aqui..."
             value={correction}
             onChange={(e) => setCorrection(e.target.value)}
+            ref={correctionTextAreaRef}
           ></textarea>
         </div>
         <div className="flex justify-end">
