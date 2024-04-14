@@ -20,6 +20,8 @@ const SelectCorrection = ({ promptId }) => {
   const [showModal, setShowModal] = useState(false)
   const [criteria, setCriteria] = useState(null)
   const [selectedCriterion, setSelectedCriterion] = useState(null)
+  const [selectedSubfactor, setSelectedSubfactor] = useState(null)
+
   const modalRef = useRef(null)
 
   const { loading, error, data } = useQuery(CRITERIA_BY_PROMPT_ID, {
@@ -106,6 +108,10 @@ const SelectCorrection = ({ promptId }) => {
             setSelectedCriterion(event.target.value)
           }
           selectedCriterion={selectedCriterion}
+          onSelectSubfactor={(event) =>
+            setSelectedSubfactor(event.target.value)
+          }
+          selectedSubfactor={selectedSubfactor}
         />
       )}
       {selection && position && (

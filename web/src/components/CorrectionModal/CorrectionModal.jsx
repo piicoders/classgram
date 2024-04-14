@@ -3,6 +3,16 @@ import React, { useEffect, useState, useRef } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 
 import { SelectField } from '@redwoodjs/forms'
+import { useQuery, gql } from '@redwoodjs/web'
+
+const SUBFACTORS_BY_CRITERION_ID = gql`
+  query SubfactorsByCriterionId($criterionId: Int!) {
+    subfactorsByCriterionId(criterionId: $criterionId) {
+      id
+      name
+    }
+  }
+`
 
 const CorrectionModal = ({
   selection,
@@ -11,9 +21,12 @@ const CorrectionModal = ({
   onSubmit,
   onSelectCriterion,
   selectedCriterion,
+  onSelectSubfactor,
+  selectedSubfactor,
 }) => {
   const [description, setDescription] = useState('')
   const [correction, setCorrection] = useState('')
+  const [subfactors, setSubfactors] = useState([])
 
   const descriptionTextAreaRef = useRef(null)
   const correctionTextAreaRef = useRef(null)
@@ -47,6 +60,19 @@ const CorrectionModal = ({
       textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
     }
   }
+
+  const { loading, error, data } = useQuery(SUBFACTORS_BY_CRITERION_ID, {
+    variables: { criterionId: parseInt(selectedCriterion) },
+    skip: !selectedCriterion,
+  })
+
+  useEffect(() => {
+    if (!loading && !error && data && data.subfactorsByCriterionId) {
+      setSubfactors(data.subfactorsByCriterionId)
+    } else {
+      console.error('Erro:', error)
+    }
+  }, [loading, error, data])
 
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
@@ -110,6 +136,25 @@ const CorrectionModal = ({
               ))}
           </SelectField>
         </div>
+        {selectedCriterion && subfactors.length > 0 && (
+          <div className="mb-4">
+            <h3 className="mb-2 text-lg font-semibold">Subfatores:</h3>
+            <SelectField
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+              name="subfactor"
+              value={selectedSubfactor || ''}
+              onChange={onSelectSubfactor}
+            >
+              <option value="">Selecione um subfactor</option>
+              {subfactors &&
+                subfactors.map((subfactor) => (
+                  <option key={subfactor.id} value={subfactor.id}>
+                    {subfactor.name}
+                  </option>
+                ))}
+            </SelectField>
+          </div>
+        )}
         <div className="mb-4">
           <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
           <textarea
