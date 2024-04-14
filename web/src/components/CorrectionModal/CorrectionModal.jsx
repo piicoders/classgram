@@ -10,6 +10,7 @@ const SUBFACTORS_BY_CRITERION_ID = gql`
     subfactorsByCriterionId(criterionId: $criterionId) {
       id
       name
+      description
     }
   }
 `
@@ -27,6 +28,7 @@ const CorrectionModal = ({
   const [description, setDescription] = useState('')
   const [correction, setCorrection] = useState('')
   const [subfactors, setSubfactors] = useState([])
+  const [subfactorDescription, setSubfactorDescription] = useState('')
 
   const descriptionTextAreaRef = useRef(null)
   const correctionTextAreaRef = useRef(null)
@@ -73,6 +75,17 @@ const CorrectionModal = ({
       console.error('Erro:', error)
     }
   }, [loading, error, data])
+
+  useEffect(() => {
+    if (selectedSubfactor) {
+      const selectedSubfactorObj = subfactors.find(
+        (subfactor) => subfactor.id == selectedSubfactor
+      )
+      if (selectedSubfactorObj) {
+        setSubfactorDescription(selectedSubfactorObj.description || '')
+      }
+    }
+  }, [selectedSubfactor, subfactors])
 
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
@@ -161,8 +174,14 @@ const CorrectionModal = ({
             name="description"
             className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
             placeholder="Digite a descrição aqui..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={selectedSubfactor ? subfactorDescription : description}
+            onChange={(e) => {
+              if (!selectedSubfactor) {
+                setDescription(e.target.value)
+              } else {
+                setSubfactorDescription(e.target.value)
+              }
+            }}
             ref={descriptionTextAreaRef}
           ></textarea>
         </div>
