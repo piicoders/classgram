@@ -149,25 +149,31 @@ const CorrectionModal = ({
               ))}
           </SelectField>
         </div>
-        {selectedCriterion && subfactors.length > 0 && (
-          <div className="mb-4">
-            <h3 className="mb-2 text-lg font-semibold">Subfatores:</h3>
-            <SelectField
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
-              name="subfactor"
-              value={selectedSubfactor || ''}
-              onChange={onSelectSubfactor}
-            >
-              <option value="">Selecione um subfactor</option>
-              {subfactors &&
-                subfactors.map((subfactor) => (
-                  <option key={subfactor.id} value={subfactor.id}>
-                    {subfactor.name}
-                  </option>
-                ))}
-            </SelectField>
-          </div>
-        )}
+        <div className="mb-4">
+          <h3 className="mb-2 text-lg font-semibold">Subfatores:</h3>
+          <SelectField
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+            name="subfactor"
+            value={selectedCriterion ? selectedSubfactor || '' : ''}
+            onChange={onSelectSubfactor}
+            disabled={!selectedCriterion}
+          >
+            {!selectedCriterion && (
+              <option value="" disabled>
+                Selecione um critério primeiro
+              </option>
+            )}
+            {selectedCriterion && (
+              <option value="">Selecione um subfator</option>
+            )}
+            {subfactors &&
+              subfactors.map((subfactor) => (
+                <option key={subfactor.id} value={subfactor.id}>
+                  {subfactor.name}
+                </option>
+              ))}
+          </SelectField>
+        </div>
         <div className="mb-4">
           <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
           <textarea
