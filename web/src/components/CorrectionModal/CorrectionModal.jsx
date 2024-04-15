@@ -36,6 +36,10 @@ const CorrectionModal = ({
 
   useEffect(() => {
     adjustTextArea(descriptionTextAreaRef)
+  }, [subfactorDescription])
+
+  useEffect(() => {
+    adjustTextArea(descriptionTextAreaRef)
   }, [description])
 
   useEffect(() => {
