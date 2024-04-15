@@ -35,16 +35,21 @@ const CorrectionModal = ({
   const modalRef = useRef(null)
 
   useEffect(() => {
-    adjustTextArea(descriptionTextAreaRef)
-  }, [subfactorDescription])
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
 
   useEffect(() => {
     adjustTextArea(descriptionTextAreaRef)
-  }, [description])
-
-  useEffect(() => {
     adjustTextArea(correctionTextAreaRef)
-  }, [correction])
+  }, [subfactorDescription, description, correction])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
