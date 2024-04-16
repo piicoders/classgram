@@ -5,6 +5,8 @@ import { XIcon } from '@heroicons/react/outline'
 import { Form } from '@redwoodjs/forms'
 import { SelectField } from '@redwoodjs/forms'
 import { useQuery, gql } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 
@@ -14,6 +16,14 @@ const SUBFACTORS_BY_CRITERION_ID = gql`
       id
       name
       description
+    }
+  }
+`
+
+const CREATE_CORRECTION_MUTATION = gql`
+  mutation CreateCorrectionMutation($input: CreateCorrectionInput!) {
+    createCorrection(input: $input) {
+      id
     }
   }
 `
@@ -95,19 +105,30 @@ const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
     }
   }, [selectedSubfactor, subfactors])
 
-  // TODO
+  const [createCorrection, { createLoading, createError }] = useMutation(
+    CREATE_CORRECTION_MUTATION,
+    {
+      onCompleted: () => {
+        toast.success('Correction created')
+        onClose()
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    }
+  )
+
   const onSubmit = (data) => {
-    const formData = {
+    const input = {
+      text: selection.text,
       description: description,
-      correction: correction,
+      correct: correction,
       severity: data.severity,
-      selectedCriterion: selectedCriterion,
-      selectedSubfactor: selectedSubfactor,
-      // TODO
       professorId: currentUser.id,
+      subfactorId: parseInt(selectedSubfactor),
       documentId: documentId,
     }
-    console.log(formData)
+    createCorrection({ variables: { input } })
   }
 
   const onSelectCriterion = (e) => {
@@ -239,8 +260,9 @@ const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
             <button
               type="submit"
               className="mr-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
+              disabled={createLoading}
             >
-              Enviar
+              {createLoading ? 'Enviando...' : 'Enviar'}
             </button>
           </div>
         </div>
