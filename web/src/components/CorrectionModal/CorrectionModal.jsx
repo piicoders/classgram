@@ -6,6 +6,8 @@ import { Form } from '@redwoodjs/forms'
 import { SelectField } from '@redwoodjs/forms'
 import { useQuery, gql } from '@redwoodjs/web'
 
+import { useAuth } from 'src/auth'
+
 const SUBFACTORS_BY_CRITERION_ID = gql`
   query SubfactorsByCriterionId($criterionId: Int!) {
     subfactorsByCriterionId(criterionId: $criterionId) {
@@ -17,6 +19,8 @@ const SUBFACTORS_BY_CRITERION_ID = gql`
 `
 
 const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
+  const { currentUser } = useAuth()
+
   const [description, setDescription] = useState('')
   const [correction, setCorrection] = useState('')
   const [selectedCriterion, setSelectedCriterion] = useState('')
@@ -91,6 +95,7 @@ const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
     }
   }, [selectedSubfactor, subfactors])
 
+  // TODO
   const onSubmit = (data) => {
     const formData = {
       description: description,
@@ -98,7 +103,8 @@ const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
       severity: data.severity,
       selectedCriterion: selectedCriterion,
       selectedSubfactor: selectedSubfactor,
-      professorId: '1',
+      // TODO
+      professorId: currentUser.id,
       documentId: documentId,
     }
     console.log(formData)
