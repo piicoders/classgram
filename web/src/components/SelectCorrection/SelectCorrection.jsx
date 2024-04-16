@@ -13,7 +13,7 @@ const CRITERIA_BY_PROMPT_ID = gql`
   }
 `
 
-const SelectCorrection = ({ promptId }) => {
+const SelectCorrection = ({ documentId, promptId }) => {
   const [selection, setSelection] = useState(null)
   const [position, setPosition] = useState(null)
   const [showModal, setShowModal] = useState(false)
@@ -95,6 +95,7 @@ const SelectCorrection = ({ promptId }) => {
     <div>
       {selection && position && showModal && (
         <CorrectionModal
+          documentId={documentId}
           selection={selection}
           criteria={criteria}
           onClose={closePopup}

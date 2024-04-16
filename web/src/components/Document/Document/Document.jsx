@@ -14,7 +14,10 @@ const formatDate = (date) => {
 const Document = ({ document }) => {
   return (
     <div className="mx-auto mt-8 max-w-6xl px-8">
-      <SelectCorrection promptId={document.activity.promptId} />
+      <SelectCorrection
+        documentId={document.id}
+        promptId={document.activity.promptId}
+      />
       <div className="overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="flex items-center justify-between px-10 py-0">
           <div className="flex flex-col">

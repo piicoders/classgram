@@ -16,7 +16,7 @@ const SUBFACTORS_BY_CRITERION_ID = gql`
   }
 `
 
-const CorrectionModal = ({ selection, criteria, onClose }) => {
+const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
   const [description, setDescription] = useState('')
   const [correction, setCorrection] = useState('')
   const [selectedCriterion, setSelectedCriterion] = useState('')
@@ -99,7 +99,7 @@ const CorrectionModal = ({ selection, criteria, onClose }) => {
       selectedCriterion: selectedCriterion,
       selectedSubfactor: selectedSubfactor,
       professorId: '1',
-      documentId: 1,
+      documentId: documentId,
     }
     console.log(formData)
   }
