@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import { XIcon } from '@heroicons/react/outline'
 
+import { Form } from '@redwoodjs/forms'
 import { SelectField } from '@redwoodjs/forms'
 import { useQuery, gql } from '@redwoodjs/web'
 
@@ -15,18 +16,11 @@ const SUBFACTORS_BY_CRITERION_ID = gql`
   }
 `
 
-const CorrectionModal = ({
-  selection,
-  criteria,
-  onClose,
-  onSubmit,
-  onSelectCriterion,
-  selectedCriterion,
-  onSelectSubfactor,
-  selectedSubfactor,
-}) => {
+const CorrectionModal = ({ selection, criteria, onClose }) => {
   const [description, setDescription] = useState('')
   const [correction, setCorrection] = useState('')
+  const [selectedCriterion, setSelectedCriterion] = useState('')
+  const [selectedSubfactor, setSelectedSubfactor] = useState('')
   const [subfactors, setSubfactors] = useState([])
   const [subfactorDescription, setSubfactorDescription] = useState('')
 
@@ -92,135 +86,159 @@ const CorrectionModal = ({
       )
       if (selectedSubfactorObj) {
         setSubfactorDescription(selectedSubfactorObj.description || '')
+        setDescription(selectedSubfactorObj.description)
       }
     }
   }, [selectedSubfactor, subfactors])
 
+  const onSubmit = (data) => {
+    const formData = {
+      description: description,
+      correction: correction,
+      severity: data.severity,
+      selectedCriterion: selectedCriterion,
+      selectedSubfactor: selectedSubfactor,
+      professorId: '1',
+      documentId: 1,
+    }
+    console.log(formData)
+  }
+
+  const onSelectCriterion = (e) => {
+    setSelectedCriterion(e.target.value)
+    setSelectedSubfactor('')
+  }
+
+  const onSelectSubfactor = (e) => {
+    setSelectedSubfactor(e.target.value)
+  }
+
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div
-        ref={modalRef}
-        className="modal-content relative max-h-[80vh] w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg"
-      >
-        <button
-          className="absolute right-2 top-2 text-gray-600 hover:text-gray-800 focus:outline-none"
-          onClick={onClose}
+      <Form onSubmit={onSubmit}>
+        <div
+          ref={modalRef}
+          className="modal-content relative max-h-[80vh] w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg"
         >
-          <XIcon className="h-6 w-6" />
-        </button>
-        <h2 className="mb-4 text-lg font-semibold">Comentário</h2>
-        <div className="mb-2">
-          <h3 className="mb-2 text-lg font-semibold">Parte selecionada:</h3>
-          <span className="font-normal text-gray-800">
-            {selection.text.split('').map((char, index) => (
-              <span key={index} className="highlighted-text">
-                {char}
-              </span>
-            ))}
-          </span>
-        </div>
-        <div className="mb-2">
-          <h3 className="mb-2 text-lg font-semibold">Tipo do comentário:</h3>
-          <SelectField
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
-            name="severity"
-            validation={{
-              required: true,
-              validate: {
-                matchesInitialValue: (value) => {
-                  return (
-                    value !== 'Por favor selecione uma opção' ||
-                    'Selecione uma opção'
-                  )
-                },
-              },
-            }}
-          >
-            <option value={'G'}>Bom</option>
-            <option value={'N'}>Neutro</option>
-            <option value={'B'}>Ruim</option>
-          </SelectField>
-        </div>
-        <div className="mb-4">
-          <h3 className="mb-2 text-lg font-semibold">Critério:</h3>
-          <SelectField
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
-            name="criterion"
-            value={selectedCriterion || ''}
-            onChange={onSelectCriterion}
-          >
-            <option value="">Selecione um critério</option>
-            {criteria &&
-              criteria.map((criterion) => (
-                <option key={criterion.id} value={criterion.id}>
-                  {criterion.name}
-                </option>
-              ))}
-          </SelectField>
-        </div>
-        <div className="mb-4">
-          <h3 className="mb-2 text-lg font-semibold">Subfatores:</h3>
-          <SelectField
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
-            name="subfactor"
-            value={selectedCriterion ? selectedSubfactor || '' : ''}
-            onChange={onSelectSubfactor}
-            disabled={!selectedCriterion}
-          >
-            {!selectedCriterion && (
-              <option value="" disabled>
-                Selecione um critério primeiro
-              </option>
-            )}
-            {selectedCriterion && (
-              <option value="">Selecione um subfator</option>
-            )}
-            {subfactors &&
-              subfactors.map((subfactor) => (
-                <option key={subfactor.id} value={subfactor.id}>
-                  {subfactor.name}
-                </option>
-              ))}
-          </SelectField>
-        </div>
-        <div className="mb-4">
-          <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
-          <textarea
-            name="description"
-            className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-            placeholder="Digite a descrição aqui..."
-            value={selectedSubfactor ? subfactorDescription : description}
-            onChange={(e) => {
-              if (!selectedSubfactor) {
-                setDescription(e.target.value)
-              } else {
-                setSubfactorDescription(e.target.value)
-              }
-            }}
-            ref={descriptionTextAreaRef}
-          ></textarea>
-        </div>
-        <div className="mb-4">
-          <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
-          <textarea
-            name="correction"
-            className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-            placeholder="Digite a correção aqui..."
-            value={correction}
-            onChange={(e) => setCorrection(e.target.value)}
-            ref={correctionTextAreaRef}
-          ></textarea>
-        </div>
-        <div className="flex justify-end">
           <button
-            type="submit"
-            className="mr-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
-            onClick={onSubmit}
+            className="absolute right-2 top-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+            onClick={onClose}
           >
-            Enviar
+            <XIcon className="h-6 w-6" />
           </button>
+          <h2 className="mb-4 text-lg font-semibold">Comentário</h2>
+          <div className="mb-2">
+            <h3 className="mb-2 text-lg font-semibold">Parte selecionada:</h3>
+            <span className="font-normal text-gray-800">
+              {selection.text.split('').map((char, index) => (
+                <span key={index} className="highlighted-text">
+                  {char}
+                </span>
+              ))}
+            </span>
+          </div>
+          <div className="mb-2">
+            <h3 className="mb-2 text-lg font-semibold">Tipo do comentário:</h3>
+            <SelectField
+              name="severity"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+              validation={{
+                required: true,
+                validate: {
+                  matchesInitialValue: (value) => {
+                    return (
+                      value !== 'Por favor selecione uma opção' ||
+                      'Selecione uma opção'
+                    )
+                  },
+                },
+              }}
+            >
+              <option value={'G'}>Bom</option>
+              <option value={'N'}>Neutro</option>
+              <option value={'B'}>Ruim</option>
+            </SelectField>
+          </div>
+          <div className="mb-4">
+            <h3 className="mb-2 text-lg font-semibold">Critério:</h3>
+            <SelectField
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+              name="criterion"
+              value={selectedCriterion || ''}
+              onChange={onSelectCriterion}
+            >
+              <option value="">Selecione um critério</option>
+              {criteria &&
+                criteria.map((criterion) => (
+                  <option key={criterion.id} value={criterion.id}>
+                    {criterion.name}
+                  </option>
+                ))}
+            </SelectField>
+          </div>
+          <div className="mb-4">
+            <h3 className="mb-2 text-lg font-semibold">Subfatores:</h3>
+            <SelectField
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+              name="subfactor"
+              value={selectedCriterion ? selectedSubfactor || '' : ''}
+              onChange={onSelectSubfactor}
+              disabled={!selectedCriterion}
+            >
+              {!selectedCriterion && (
+                <option value="" disabled>
+                  Selecione um critério primeiro
+                </option>
+              )}
+              {selectedCriterion && (
+                <option value="">Selecione um subfator</option>
+              )}
+              {subfactors &&
+                subfactors.map((subfactor) => (
+                  <option key={subfactor.id} value={subfactor.id}>
+                    {subfactor.name}
+                  </option>
+                ))}
+            </SelectField>
+          </div>
+          <div className="mb-4">
+            <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
+            <textarea
+              name="description"
+              className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+              placeholder="Digite a descrição aqui..."
+              value={selectedSubfactor ? subfactorDescription : description}
+              onChange={(e) => {
+                if (!selectedSubfactor) {
+                  setDescription(e.target.value)
+                } else {
+                  setSubfactorDescription(e.target.value)
+                }
+              }}
+              ref={descriptionTextAreaRef}
+            ></textarea>
+          </div>
+          <div className="mb-4">
+            <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
+            <textarea
+              name="correction"
+              className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+              placeholder="Digite a correção aqui..."
+              value={correction}
+              onChange={(e) => setCorrection(e.target.value)}
+              ref={correctionTextAreaRef}
+            ></textarea>
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="mr-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
+            >
+              Enviar
+            </button>
+          </div>
         </div>
-      </div>
+      </Form>
     </div>
   )
 }

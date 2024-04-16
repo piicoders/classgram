@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import { Form } from '@redwoodjs/forms'
 import { useQuery, gql } from '@redwoodjs/web'
 
 import CorrectionModal from '../CorrectionModal'
@@ -19,8 +18,6 @@ const SelectCorrection = ({ promptId }) => {
   const [position, setPosition] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [criteria, setCriteria] = useState(null)
-  const [selectedCriterion, setSelectedCriterion] = useState(null)
-  const [selectedSubfactor, setSelectedSubfactor] = useState(null)
 
   const modalRef = useRef(null)
 
@@ -94,24 +91,13 @@ const SelectCorrection = ({ promptId }) => {
     setShowModal(false)
   }
 
-  function handleSubmit() {}
-
   return (
-    <Form onSubmit={handleSubmit}>
+    <div>
       {selection && position && showModal && (
         <CorrectionModal
           selection={selection}
           criteria={criteria}
           onClose={closePopup}
-          onSubmit={handleSubmit}
-          onSelectCriterion={(event) =>
-            setSelectedCriterion(event.target.value)
-          }
-          selectedCriterion={selectedCriterion}
-          onSelectSubfactor={(event) =>
-            setSelectedSubfactor(event.target.value)
-          }
-          selectedSubfactor={selectedSubfactor}
         />
       )}
       {selection && position && (
@@ -134,7 +120,7 @@ const SelectCorrection = ({ promptId }) => {
           </button>
         </p>
       )}
-    </Form>
+    </div>
   )
 }
 
