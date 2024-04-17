@@ -1,4 +1,5 @@
 import { useQuery, gql } from '@redwoodjs/web'
+import { useState } from 'react'
 
 import SelectCorrection from 'src/components/SelectCorrection'
 
@@ -27,45 +28,106 @@ const formatDate = (date) => {
   }
   return new Date(date).toLocaleDateString('pt-BR', options)
 }
+const MousePopup = ({ content, position, severity }) => {
+  const getBorderColor = (severity) => {
+    switch (severity) {
+      case 'G':
+        return 'border-4 border-green-500';
+      case 'N':
+        return 'border-4 border-gray-500';
+      case 'B':
+        return 'border-4 border-red-500';
+      default:
+        return 'border-4 border-gray-500';
+    }
+  };
+
+  const borderColor = getBorderColor(severity);
+
+  return (
+    <div className={`fixed bg-white p-2 border ${borderColor}`} style={{ top: position.y, left: position.x }}>
+      {content}
+    </div>
+  );
+};
 
 const Document = ({ document }) => {
   const { loading, error, data } = useQuery(CORRECTIONS_BY_DOCUMENT_ID, {
     variables: { documentId: document.id },
   })
+  const [showPopup, setShowPopup] = useState(false);
+  const [severity, setSeverity] = useState('');
+  const [popupContent, setPopupContent] = useState('');
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseOver = (event) => {
+    const target = event.target;
+    if (target.tagName === 'SPAN' && target.dataset.text) {
+      const id = target.dataset.id;
+      const description = target.dataset.description || 'Descrição não disponível';
+      // Você pode usar o ID para fazer uma consulta posterior
+      const position = { x: event.clientX, y: event.clientY };
+      const correction = target.dataset.correction
+      console.log(correction)
+      setPopupContent(
+        <div>
+          <p>
+            <strong>Descrição:</strong> {target.dataset.description}
+          </p>
+          {correction != null && (
+            <p>
+              <strong>Correção:</strong> {correction}
+            </p>
+          )}
+        </div>
+      );
+      setPopupPosition(position);
+      setShowPopup(true);
+      setSeverity(target.dataset.severity)
+
+    }
+  };
+  const handleMouseOut = () => {
+    setShowPopup(false);
+  };
+
 
   const correctionsData =
     !loading && !error && data
       ? data.correctionsByDocumentId.map((correction) => ({
           text: correction.text,
+          id: correction.id,
           severity: correction.severity,
+          description: correction.description,
+          correct: correction.correct
         }))
       : []
 
-  console.log(correctionsData)
 
   const highlightCorrections = (content, corrections) => {
     corrections.forEach((correction) => {
-      let color = ''
+      let color = '';
       switch (correction.severity) {
         case 'G':
-          color = '#2E8B57'
-          break
+          color = '#2E8B57';
+          break;
         case 'N':
-          color = '#D3D3D3'
-          break
+          color = '#D3D3D3';
+          break;
         case 'B':
-          color = '#CD5C5C'
-          break
+          color = '#CD5C5C';
+          break;
         default:
-          color = 'inherit'
+          color = 'inherit';
       }
-      content = content.replace(
-        new RegExp(correction.text, 'gi'),
-        (match) => `<mark style="background-color: ${color};">${match}</mark>`
-      )
-    })
-    return content
-  }
+      const markStart = `<mark style="background-color: ${color};">`;
+      const markEnd = '</mark>';
+      const regex = new RegExp(correction.text, 'gi');
+      content = content.replace(regex, (match) => `${markStart}<span data-id="${correction.id}" data-text="${correction.text}" data-correction="${correction.correct}" data-description="${correction.description}">${match}</span>${markEnd}`);
+    });
+    return content;
+  };
+
 
   const highlightedContent = highlightCorrections(
     document.content,
@@ -73,7 +135,8 @@ const Document = ({ document }) => {
   )
 
   return (
-    <div className="mx-auto mt-8 max-w-6xl px-8">
+    <div className="mx-auto mt-8 max-w-6xl px-8" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+      {showPopup && <MousePopup content={popupContent} position={popupPosition} severity={severity}/>}
       <SelectCorrection
         documentId={document.id}
         promptId={document.activity.promptId}
