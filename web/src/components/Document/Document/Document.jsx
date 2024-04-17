@@ -1,4 +1,21 @@
+import { useQuery, gql } from '@redwoodjs/web'
+
 import SelectCorrection from 'src/components/SelectCorrection'
+
+const CORRECTIONS_BY_DOCUMENT_ID = gql`
+  query CorrectionsByDocumentId($documentId: Int!) {
+    correctionsByDocumentId(documentId: $documentId) {
+      id
+      text
+      description
+      correct
+      severity
+      subfactor {
+        id
+      }
+    }
+  }
+`
 
 const formatDate = (date) => {
   const options = {
@@ -12,6 +29,49 @@ const formatDate = (date) => {
 }
 
 const Document = ({ document }) => {
+  const { loading, error, data } = useQuery(CORRECTIONS_BY_DOCUMENT_ID, {
+    variables: { documentId: document.id },
+  })
+
+  const correctionsData =
+    !loading && !error && data
+      ? data.correctionsByDocumentId.map((correction) => ({
+          text: correction.text,
+          severity: correction.severity,
+        }))
+      : []
+
+  console.log(correctionsData)
+
+  const highlightCorrections = (content, corrections) => {
+    corrections.forEach((correction) => {
+      let color = ''
+      switch (correction.severity) {
+        case 'G':
+          color = '#2E8B57'
+          break
+        case 'N':
+          color = '#D3D3D3'
+          break
+        case 'B':
+          color = '#CD5C5C'
+          break
+        default:
+          color = 'inherit'
+      }
+      content = content.replace(
+        new RegExp(correction.text, 'gi'),
+        (match) => `<mark style="background-color: ${color};">${match}</mark>`
+      )
+    })
+    return content
+  }
+
+  const highlightedContent = highlightCorrections(
+    document.content,
+    correctionsData
+  )
+
   return (
     <div className="mx-auto mt-8 max-w-6xl px-8">
       <SelectCorrection
@@ -38,9 +98,11 @@ const Document = ({ document }) => {
             {formatDate(document.handed)}
           </p>
           <p className="mb-2 text-sm text-gray-600"></p>
-          <p id="documentContent" className="text-base">
-            {document.content}
-          </p>
+          <p
+            id="documentContent"
+            className="text-base"
+            dangerouslySetInnerHTML={{ __html: highlightedContent }}
+          ></p>
         </div>
       </div>
     </div>
