@@ -5,6 +5,7 @@ import { useQuery, useMutation, gql } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import StudentDocument from 'src/components/StudentDocument'
 
 export const STUDENT_DOCUMENT = gql`
   query FindDocument($activityId: Int!, $studentId: String!) {
@@ -180,48 +181,11 @@ const Activity = ({ activity }) => {
           {currentUser.roles === 'S' &&
             (document ? (
               <div className="relative mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md">
-                <h2 className="mb-4 text-xl font-bold">Sua resposta</h2>
-                <div className="mb-4">
-                  <p className="text-black">{document.content}</p>
-                </div>
-                <div className="absolute bottom-0 right-0 mb-2 mr-2">
-                  <p className="text-sm text-black">
-                    Data de Entrega: {document.handed}
-                  </p>
-                </div>
-                {document.Correction && (
-                  <h2 className="mb-4 text-xl font-bold">Correção</h2>
-                )}
-                {document.Correction.map((correction) => (
-                  <div key={correction.id}>
-                    <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
-                      <p>
-                        <span className="font-bold">Description:</span>{' '}
-                        {correction.description}
-                      </p>
-                      <p>
-                        <span className="font-bold">Text:</span>{' '}
-                        {correction.text}
-                      </p>
-                      <p>
-                        <span className="font-bold">Correct:</span>{' '}
-                        {correction.correct}
-                      </p>
-                      <p>
-                        <span className="font-bold">Severity:</span>{' '}
-                        {correction.severity}
-                      </p>
-                      <p>
-                        <span className="font-bold">Professor Name:</span>{' '}
-                        {correction.professor.name}
-                      </p>
-                      <p>
-                        <span className="font-bold">Subfactor:</span>{' '}
-                        {correction.subfactor.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                <StudentDocument
+                  document={document}
+                  title={'Sua Resposta'}
+                  corrections={document.Correction}
+                />
               </div>
             ) : (
               <div>
