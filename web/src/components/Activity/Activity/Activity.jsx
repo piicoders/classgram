@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 import { Link, routes, navigate, useParams } from '@redwoodjs/router'
 import { useQuery, useMutation, gql } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import DocumentForm from 'src/components/Document/DocumentForm'
 import StudentDocument from 'src/components/StudentDocument'
 
 export const STUDENT_DOCUMENT = gql`
@@ -45,20 +46,9 @@ const DELETE_ACTIVITY_MUTATION = gql`
   }
 `
 
-const CREATE_DOCUMENT_MUTATION = gql`
-  mutation CreateDocumentMutation($input: CreateDocumentInput!) {
-    createDocument(input: $input) {
-      id
-    }
-  }
-`
-
 const Activity = ({ activity }) => {
   const { currentUser } = useAuth()
   const { activityId } = useParams()
-
-  const [response, setResponse] = useState('')
-  const textAreaRef = useRef(null)
 
   const { loading, error, data } = useQuery(STUDENT_DOCUMENT, {
     variables: { activityId: activityId, studentId: currentUser.id },
@@ -67,15 +57,10 @@ const Activity = ({ activity }) => {
   const [document, setDocument] = useState(null)
 
   useEffect(() => {
-    if (currentUser.roles === 'S') {
-      textAreaRef.current.style.height = 'auto'
-      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
-    }
-
     if (!loading && !error && data.findByActivityAndStudent) {
       setDocument(data.findByActivityAndStudent)
     }
-  }, [loading, error, data, response, currentUser.roles])
+  }, [loading, error, data])
 
   const [deleteActivity] = useMutation(DELETE_ACTIVITY_MUTATION, {
     onCompleted: () => {
@@ -86,35 +71,6 @@ const Activity = ({ activity }) => {
       toast.error(error.message)
     },
   })
-
-  const [createDocument] = useMutation(CREATE_DOCUMENT_MUTATION, {
-    onCompleted: () => {
-      toast.success('Resposta enviada com sucesso!')
-      window.location.reload()
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
-
-  const handleChange = (event) => {
-    setResponse(event.target.value)
-  }
-
-  const handleSubmitResponse = () => {
-    const documentInput = {
-      input: {
-        content: response.trim(),
-        handed: new Date().toISOString(),
-        activityId: activity.id,
-        studentId: currentUser.id,
-      },
-    }
-
-    createDocument({ variables: documentInput })
-
-    setResponse('')
-  }
 
   const onDeleteClick = (id) => {
     if (confirm('Tem certeza que deseja deletar a atividade ' + id + '?')) {
@@ -188,26 +144,11 @@ const Activity = ({ activity }) => {
                 />
               </div>
             ) : (
-              <div>
-                <textarea
-                  className="p1 w-full resize-none overflow-hidden rounded-lg border text-base focus:border-blue-300 focus:outline-none focus:ring"
-                  value={response}
-                  onChange={handleChange}
-                  maxLength={activity.maxSize}
-                  placeholder="Digite sua resposta aqui..."
-                  rows="2"
-                  ref={textAreaRef}
-                ></textarea>
-                <div className="mt-4">
-                  <button
-                    className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-blue-300"
-                    onClick={handleSubmitResponse}
-                    disabled={!response.trim()}
-                  >
-                    Enviar Resposta
-                  </button>
-                </div>
-              </div>
+              <DocumentForm
+                maxSize={activity.maxSize}
+                activityId={activity.id}
+                currentUser={currentUser}
+              />
             ))}
         </div>
       </div>
