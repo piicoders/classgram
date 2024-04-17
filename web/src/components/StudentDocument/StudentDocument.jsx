@@ -42,6 +42,19 @@ const MousePopup = ({ content, position, severity }) => {
   )
 }
 
+const getSeverity = (Severity) => {
+  switch (Severity) {
+    case 'G':
+      return 'Bom'
+    case 'N':
+      return 'Neutro'
+    case 'B':
+      return 'Ruim'
+    default:
+      return ''
+  }
+}
+
 const StudentDocument = ({ document, title, corrections }) => {
   const [showPopup, setShowPopup] = useState(false)
   const [severity, setSeverity] = useState('')
@@ -154,26 +167,38 @@ const StudentDocument = ({ document, title, corrections }) => {
           dangerouslySetInnerHTML={{ __html: highlightedContent }}
         ></p>
       </div>
-      {corrections && <h2 className="mb-4 text-xl font-bold">Correção</h2>}
-      {corrections.map((correction) => (
-        <div key={correction.id}>
-          <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
-            <p>
-              <span className="font-bold">Description:</span>{' '}
-              {correction.description}
-            </p>
-            <p>
-              <span className="font-bold">Text:</span> {correction.text}
-            </p>
-            <p>
-              <span className="font-bold">Correct:</span> {correction.correct}
-            </p>
-            <p>
-              <span className="font-bold">Severity:</span> {correction.severity}
-            </p>
-          </div>
-        </div>
-      ))}
+      {corrections.length ? (
+        <>
+          <h2 className="mb-4 text-xl font-bold">Correção</h2>
+          {corrections.map((correction) => (
+            <div key={correction.id}>
+              <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
+                <p>
+                  <span className="font-bold">Trecho:</span> {correction.text}
+                </p>
+                <p>
+                  <span className="font-bold">Descrição:</span>{' '}
+                  {correction.description}
+                </p>
+                {correction.correct ? (
+                  <p>
+                    <span className="font-bold">Correção:</span>{' '}
+                    {correction.correct}
+                  </p>
+                ) : (
+                  ''
+                )}
+                <p>
+                  <span className="font-bold">Severidade:</span>{' '}
+                  {getSeverity(correction.severity)}
+                </p>
+              </div>
+            </div>
+          ))}
+        </>
+      ) : (
+        ''
+      )}
     </>
   )
 }
