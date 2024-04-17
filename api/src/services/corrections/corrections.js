@@ -10,6 +10,14 @@ export const correction = ({ id }) => {
   })
 }
 
+export const correctionsByDocumentId = ({ documentId }) => {
+  return db.correction.findMany({
+    where: {
+      documentId: documentId,
+    },
+  })
+}
+
 export const createCorrection = ({ input }) => {
   return db.correction.create({
     data: input,

@@ -22,6 +22,7 @@ export const schema = gql`
   type Query {
     corrections: [Correction!]! @requireAuth
     correction(id: Int!): Correction @requireAuth
+    correctionsByDocumentId(documentId: Int!): [Correction!]! @requireAuth
   }
 
   input CreateCorrectionInput {
