@@ -54,12 +54,12 @@ const DocumentForm = (props) => {
   return (
     <div>
       <textarea
-        className="p1 w-full resize-none overflow-hidden rounded-lg border text-base focus:border-blue-300 focus:outline-none focus:ring"
+        className="w-full resize-none overflow-auto rounded-lg border border-gray-300 p-3 text-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
         value={response}
         onChange={handleChange}
         maxLength={props.maxSize}
         placeholder="Digite sua resposta aqui..."
-        rows="2"
+        rows="5"
         ref={textAreaRef}
       ></textarea>
       <div className="mt-4">
