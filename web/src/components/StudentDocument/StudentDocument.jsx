@@ -141,7 +141,7 @@ const StudentDocument = ({ document, title, corrections }) => {
           severity={severity}
         />
       )}
-      <div>
+      <div className="mb-16">
         <h3 className="mb-2 text-2xl font-semibold text-gray-800">{title}</h3>
         <p className="mb-2 text-sm text-gray-600">
           {formatDate(document.handed)}
@@ -158,7 +158,11 @@ const StudentDocument = ({ document, title, corrections }) => {
       </div>
       {corrections.length ? (
         <>
-          <h2 className="mb-4 text-xl font-bold">Correção</h2>
+          <hr className="my-16 border-gray-300" />
+          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+            <span className="border-l-4 border-blue-500 pl-2">Correção</span>
+          </h2>
+
           {corrections.map((correction) => (
             <div
               key={correction.id}
