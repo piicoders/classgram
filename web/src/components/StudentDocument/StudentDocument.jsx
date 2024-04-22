@@ -13,16 +13,12 @@ const formatDate = (date) => {
 
 const MousePopup = ({ content, position, severity }) => {
   const getBorderColor = (severity) => {
-    switch (severity) {
-      case 'G':
-        return 'border-4 border-green-500'
-      case 'N':
-        return 'border-4 border-yellow-500'
-      case 'B':
-        return 'border-4 border-red-500'
-      default:
-        return 'border-4 border-gray-500'
+    const borderColorMap = {
+      G: 'border-4 border-green-500',
+      N: 'border-4 border-yellow-500',
+      B: 'border-4 border-red-500',
     }
+    return borderColorMap[severity] || 'border-4 border-gray-500'
   }
 
   const borderColor = getBorderColor(severity)
@@ -42,39 +38,33 @@ const MousePopup = ({ content, position, severity }) => {
   )
 }
 
-const getSeverity = (Severity) => {
-  switch (Severity) {
-    case 'G':
-      return 'Bom'
-    case 'N':
-      return 'Neutro'
-    case 'B':
-      return 'Ruim'
-    default:
-      return ''
+const getSeverityText = (severity) => {
+  const severityMap = {
+    G: 'Bom',
+    N: 'Neutro',
+    B: 'Ruim',
   }
+  return severityMap[severity] || ''
 }
 
 const StudentDocument = ({ document, title, corrections }) => {
   const [showPopup, setShowPopup] = useState(false)
-  const [severity, setSeverity] = useState('')
   const [popupContent, setPopupContent] = useState('')
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
+  const [severity, setSeverity] = useState('')
 
   const handleMouseOver = (event) => {
     const target = event.target
     if (target.tagName === 'SPAN' && target.dataset.text) {
-      const id = target.dataset.id
       const description =
         target.dataset.description || 'Descrição não disponível'
       const position = { x: event.clientX, y: event.clientY }
       const correction = target.dataset.correction
       const severity = target.dataset.severity
-      console.log(severity)
       setPopupContent(
         <div>
           <p>
-            <strong>Descrição:</strong> {target.dataset.description}
+            <strong>Descrição:</strong> {description}
           </p>
           {correction != null && (
             <p>
@@ -100,14 +90,6 @@ const StudentDocument = ({ document, title, corrections }) => {
   const handleBlur = () => {
     setShowPopup(false)
   }
-
-  const correctionsData = corrections.map((correction) => ({
-    text: correction.text,
-    id: correction.id,
-    severity: correction.severity,
-    description: correction.description,
-    correct: correction.correct,
-  }))
 
   const highlightCorrections = (content, corrections) => {
     corrections.forEach((correction) => {
@@ -137,6 +119,14 @@ const StudentDocument = ({ document, title, corrections }) => {
     return content
   }
 
+  const correctionsData = corrections.map((correction) => ({
+    text: correction.text,
+    id: correction.id,
+    severity: correction.severity,
+    description: correction.description,
+    correct: correction.correct,
+  }))
+
   const highlightedContent = highlightCorrections(
     document.content,
     correctionsData
@@ -156,7 +146,6 @@ const StudentDocument = ({ document, title, corrections }) => {
         <p className="mb-2 text-sm text-gray-600">
           {formatDate(document.handed)}
         </p>
-        <p className="mb-2 text-sm text-gray-600"></p>
         <p
           id="documentContent"
           className="text-base"
@@ -171,28 +160,27 @@ const StudentDocument = ({ document, title, corrections }) => {
         <>
           <h2 className="mb-4 text-xl font-bold">Correção</h2>
           {corrections.map((correction) => (
-            <div key={correction.id}>
-              <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
+            <div
+              key={correction.id}
+              className="mb-4 rounded-lg bg-white p-6 shadow-md"
+            >
+              <p>
+                <span className="font-bold">Trecho:</span> {correction.text}
+              </p>
+              <p>
+                <span className="font-bold">Descrição:</span>{' '}
+                {correction.description}
+              </p>
+              {correction.correct && (
                 <p>
-                  <span className="font-bold">Trecho:</span> {correction.text}
+                  <span className="font-bold">Correção:</span>{' '}
+                  {correction.correct}
                 </p>
-                <p>
-                  <span className="font-bold">Descrição:</span>{' '}
-                  {correction.description}
-                </p>
-                {correction.correct ? (
-                  <p>
-                    <span className="font-bold">Correção:</span>{' '}
-                    {correction.correct}
-                  </p>
-                ) : (
-                  ''
-                )}
-                <p>
-                  <span className="font-bold">Severidade:</span>{' '}
-                  {getSeverity(correction.severity)}
-                </p>
-              </div>
+              )}
+              <p>
+                <span className="font-bold">Severidade:</span>{' '}
+                {getSeverityText(correction.severity)}
+              </p>
             </div>
           ))}
         </>
