@@ -17,7 +17,7 @@ const MousePopup = ({ content, position, severity }) => {
       case 'G':
         return 'border-4 border-green-500'
       case 'N':
-        return 'border-4 border-gray-500'
+        return 'border-4 border-yellow-500'
       case 'B':
         return 'border-4 border-red-500'
       default:
@@ -67,10 +67,10 @@ const StudentDocument = ({ document, title, corrections }) => {
       const id = target.dataset.id
       const description =
         target.dataset.description || 'Descrição não disponível'
-      // Você pode usar o ID para fazer uma consulta posterior
       const position = { x: event.clientX, y: event.clientY }
       const correction = target.dataset.correction
-      console.log(correction)
+      const severity = target.dataset.severity
+      console.log(severity)
       setPopupContent(
         <div>
           <p>
@@ -85,7 +85,7 @@ const StudentDocument = ({ document, title, corrections }) => {
       )
       setPopupPosition(position)
       setShowPopup(true)
-      setSeverity(target.dataset.severity)
+      setSeverity(severity)
     }
   }
 
@@ -131,7 +131,7 @@ const StudentDocument = ({ document, title, corrections }) => {
       content = content.replace(
         regex,
         (match) =>
-          `${markStart}<span data-id="${correction.id}" data-text="${correction.text}" data-correction="${correction.correct}" data-description="${correction.description}">${match}</span>${markEnd}`
+          `${markStart}<span data-id="${correction.id}" data-text="${correction.text}" data-correction="${correction.correct}" data-description="${correction.description}" data-severity="${correction.severity}">${match}</span>${markEnd}`
       )
     })
     return content
