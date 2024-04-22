@@ -19,9 +19,12 @@ const CORRECTIONS_BY_DOCUMENT_ID = gql`
 `
 
 const Document = ({ document }) => {
-  const { loading, error, data } = useQuery(CORRECTIONS_BY_DOCUMENT_ID, {
-    variables: { documentId: document.id },
-  })
+  const { loading, error, data, refetch } = useQuery(
+    CORRECTIONS_BY_DOCUMENT_ID,
+    {
+      variables: { documentId: document.id },
+    }
+  )
 
   const correctionsData =
     !loading && !error && data
@@ -34,11 +37,16 @@ const Document = ({ document }) => {
         }))
       : []
 
+  const handleCorrectionSubmission = async () => {
+    await refetch({ documentId: document.id })
+  }
+
   return (
     <div className="mx-auto mt-8 max-w-6xl px-8">
       <SelectCorrection
         documentId={document.id}
         promptId={document.activity.promptId}
+        onCorrectionSubmission={handleCorrectionSubmission}
       />
       <div className="overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="flex items-center justify-between px-10 py-0">

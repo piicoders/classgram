@@ -13,7 +13,7 @@ const CRITERIA_BY_PROMPT_ID = gql`
   }
 `
 
-const SelectCorrection = ({ documentId, promptId }) => {
+const SelectCorrection = ({ documentId, promptId, onCorrectionSubmission }) => {
   const [selection, setSelection] = useState(null)
   const [position, setPosition] = useState(null)
   const [showModal, setShowModal] = useState(false)
@@ -28,7 +28,7 @@ const SelectCorrection = ({ documentId, promptId }) => {
   useEffect(() => {
     if (!loading && !error && data && data.criteriaByPromptId) {
       setCriteria(data.criteriaByPromptId)
-    } else {
+    } else if (error) {
       console.error('Erro:', error)
     }
   }, [loading, error, data])
@@ -82,8 +82,6 @@ const SelectCorrection = ({ documentId, promptId }) => {
   function onShare(text) {
     const textToShare = text || selection
     if (!textToShare) return
-    const message = textToShare
-    console.log(message, position)
     setShowModal(true)
   }
 
@@ -99,6 +97,7 @@ const SelectCorrection = ({ documentId, promptId }) => {
           selection={selection}
           criteria={criteria}
           onClose={closePopup}
+          onCorrectionSubmission={onCorrectionSubmission}
         />
       )}
       {selection && position && (

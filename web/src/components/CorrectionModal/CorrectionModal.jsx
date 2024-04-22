@@ -28,7 +28,13 @@ const CREATE_CORRECTION_MUTATION = gql`
   }
 `
 
-const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
+const CorrectionModal = ({
+  documentId,
+  selection,
+  criteria,
+  onClose,
+  onCorrectionSubmission,
+}) => {
   const { currentUser } = useAuth()
 
   const [description, setDescription] = useState('')
@@ -88,7 +94,7 @@ const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
   useEffect(() => {
     if (!loading && !error && data && data.subfactorsByCriterionId) {
       setSubfactors(data.subfactorsByCriterionId)
-    } else {
+    } else if (error) {
       console.error('Erro:', error)
     }
   }, [loading, error, data])
@@ -105,11 +111,12 @@ const CorrectionModal = ({ documentId, selection, criteria, onClose }) => {
     }
   }, [selectedSubfactor, subfactors])
 
-  const [createCorrection, { createLoading, createError }] = useMutation(
+  const [createCorrection, { createLoading, _createError }] = useMutation(
     CREATE_CORRECTION_MUTATION,
     {
       onCompleted: () => {
         toast.success('Correction created')
+        onCorrectionSubmission()
         onClose()
       },
       onError: (error) => {
