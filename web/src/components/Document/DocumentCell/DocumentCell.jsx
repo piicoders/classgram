@@ -6,6 +6,8 @@ export const QUERY = gql`
       id
       content
       handed
+      mark
+      subFactorsMark
       activity {
         description
         name

@@ -4,8 +4,8 @@ import { XIcon } from '@heroicons/react/outline'
 
 import { Form, Submit } from '@redwoodjs/forms'
 import { useQuery, gql } from '@redwoodjs/web'
-// import { useMutation } from '@redwoodjs/web'
-// import { toast } from '@redwoodjs/web/toast'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 const COUNT_ERRORS_BY_CRITERION = gql`
   query CountErrorsByCriterion($documentId: Int!) {
@@ -15,13 +15,13 @@ const COUNT_ERRORS_BY_CRITERION = gql`
     }
   }
 `
-// const UpdateDocumentMark = gql`
-//   mutation UpdateDocumentMarkMutation($mark: Int!, $documentId: Int!) {
-//     updateMarkByDocumentId(mark: $mark, id: $documentId) {
-//       id
-//     }
-//   }
-// `
+const UPDATE_DOCUMENT_MARK = gql`
+  mutation UpdateDocumentMarkMutation($subFactorsMark: String!, $mark: Int!, $documentId: Int!) {
+    updateMarkByDocumentId(subFactorsMark: $subFactorsMark, mark: $mark,  id: $documentId) {
+      id
+    }
+  }
+`
 
 const ActivityReview = ({ documentId, onClose }) => {
   const [countErrors, setCountErrors] = useState([])
@@ -81,11 +81,22 @@ const ActivityReview = ({ documentId, onClose }) => {
     }))
   }
 
-  const handleSubmit = (formatData) => {
-    console.log(formatData)
+  const handleSubmit = () => {
+    const stringifyMarks = JSON.stringify(marks)
+    updateDocumentMark({ variables: { subFactorsMark: stringifyMarks, mark: totalMarks, documentId } })
     onClose()
   }
-
+  const [updateDocumentMark, { updateLoading, updateError }] = useMutation(
+    UPDATE_DOCUMENT_MARK,
+    {
+      onCompleted: () => {
+        toast.success('Nota inserida com sucesso')
+      },
+      onError: (updateError) => {
+        toast.error(updateError.message)
+      },
+    }
+  )
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div
