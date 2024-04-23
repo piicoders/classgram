@@ -23,6 +23,13 @@ export const updateDocument = ({ id, input }) => {
   })
 }
 
+export const updateMarkByDocumentId = ({mark, id}) => {
+  return db.document.update({
+    mark: mark,
+    where: {id}
+  })
+}
+
 export const deleteDocument = ({ id }) => {
   return db.document.delete({
     where: { id },
