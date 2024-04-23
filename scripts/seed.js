@@ -1117,6 +1117,8 @@ export default async () => {
       Além disso, a leitura é essencial para o desenvolvimento da empatia e da compreensão do outro. Ao mergulhar nas histórias de personagens diversos, o leitor tem a oportunidade de vivenciar diferentes realidades, experiências e emoções, ampliando sua capacidade de se colocar no lugar do próximo e de valorizar a diversidade humana. Essa empatia cultivada pela leitura é fundamental para a construção de uma sociedade mais inclusiva e solidária.
       Por fim, a leitura também desempenha um papel importante na formação da identidade cultural e na preservação da memória coletiva. Ao explorar obras literárias que retratam diferentes períodos históricos, culturas e tradições, o leitor enriquece sua compreensão do mundo e fortalece sua conexão com suas raízes e com a história de seu país.
       Diante disso, fica evidente que a leitura não é apenas uma atividade prazerosa, mas sim uma ferramenta poderosa para a formação do cidadão. Investir na promoção da leitura desde a infância é fundamental para garantir que todos os indivíduos tenham acesso aos benefícios que essa prática pode proporcionar, contribuindo assim para a construção de uma sociedade mais informada, crítica e humanitária.`,
+        mark: 820,
+        subFactorsMark: '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}',
         handed: new Date(),
         activityId: activityId,
         studentId: users[10].id,
@@ -1131,7 +1133,7 @@ export default async () => {
         activityId: activityId,
         studentId: users[11].id,
         mark: 820,
-        subFactorMarks: '[{"name": "Teste", "mark": 200},{"name": "Teste", "mark": 120},{"name": "Teste", "mark": 100},{"name": "Teste", "mark": 200},{"name": "Teste", "mark": 200}]'
+        subFactorsMark: '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}'
       },
     ]
 
