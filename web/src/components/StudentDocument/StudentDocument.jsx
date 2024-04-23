@@ -179,6 +179,20 @@ const StudentDocument = ({ document, title, corrections }) => {
           dangerouslySetInnerHTML={{ __html: highlightedContent }}
         ></p>
       </div>
+      {document.mark != null ? (
+        (<>
+          <hr className="my-16 border-gray-300" />
+          <h2 className="mb-4 text-3xl text-gray-900">
+            <span className="border-l-4 font-bold border-blue-500 pl-2">Nota: </span>
+            <span>{document.mark}</span>
+            <h3>{document.subFactorsMark}</h3>
+
+            <span>{}</span>
+          </h2>
+
+        </>) ) : (
+          ''
+      )}
       {corrections.length ? (
         <>
           <hr className="my-16 border-gray-300" />
