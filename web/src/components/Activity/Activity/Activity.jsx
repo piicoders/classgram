@@ -14,6 +14,8 @@ export const STUDENT_DOCUMENT = gql`
       id
       content
       handed
+      mark
+      subFactorsMark
       Correction {
         id
         correct
