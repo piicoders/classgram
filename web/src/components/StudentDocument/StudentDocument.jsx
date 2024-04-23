@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import ActivityReview from 'src/components/ActivityReview'
 
 const formatDate = (date) => {
@@ -144,10 +145,9 @@ const StudentDocument = ({ document, title, corrections }) => {
 
   return (
     <>
-      {showModal&& (
-        <ActivityReview documentId={document.id} />
-      )
-      }
+      {showModal && (
+        <ActivityReview documentId={document.id} onClose={handleModalClose} />
+      )}
       {showPopup && (
         <MousePopup
           content={popupContent}
@@ -156,15 +156,15 @@ const StudentDocument = ({ document, title, corrections }) => {
         />
       )}
       <div className="mb-16">
-
-      <h3 className="flex justify-between items-center mb-2 text-2xl font-semibold text-gray-800">
-        {title}
-        <button
-        onClick={handleModalOpen}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          Avaliar
-        </button>
-      </h3>
+        <h3 className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800">
+          {title}
+          <button
+            onClick={handleModalOpen}
+            className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+          >
+            Avaliar
+          </button>
+        </h3>
 
         <p className="mb-2 text-sm text-gray-600">
           {formatDate(document.handed)}
