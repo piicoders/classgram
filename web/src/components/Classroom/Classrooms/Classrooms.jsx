@@ -18,7 +18,7 @@ const ClassroomsList = ({ classrooms }) => {
             <ul>
               {classroom.Activity?.slice(0, 5).map((activity) => (
                 <Link
-                  key={classroom.id}
+                  key={activity.id}
                   to={routes.activity({
                     classId: classroom.id,
                     activityId: activity.id,
