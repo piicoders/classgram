@@ -1,4 +1,5 @@
 import { useQuery, gql } from '@redwoodjs/web'
+import { useState } from 'react'
 
 import SelectCorrection from 'src/components/SelectCorrection'
 import StudentDocument from 'src/components/StudentDocument'
@@ -42,12 +43,14 @@ const Document = ({ document }) => {
   }
 
   return (
+
     <div className="mx-auto mt-8 max-w-6xl px-8">
       <SelectCorrection
         documentId={document.id}
         promptId={document.activity.promptId}
         onCorrectionSubmission={handleCorrectionSubmission}
       />
+
       <div className="overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="flex items-center justify-between px-10 py-0">
           <div className="flex flex-col">
@@ -66,7 +69,9 @@ const Document = ({ document }) => {
             title={'Entregue por: ' + document.student.name}
             corrections={correctionsData}
           />
+
         </div>
+
       </div>
     </div>
   )

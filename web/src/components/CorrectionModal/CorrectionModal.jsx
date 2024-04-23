@@ -115,7 +115,7 @@ const CorrectionModal = ({
     CREATE_CORRECTION_MUTATION,
     {
       onCompleted: () => {
-        toast.success('Correction created')
+        toast.success('Correção criada.')
         onCorrectionSubmission()
         onClose()
       },

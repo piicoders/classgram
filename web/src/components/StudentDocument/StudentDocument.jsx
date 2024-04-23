@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ActivityReview from 'src/components/ActivityReview'
 
 const formatDate = (date) => {
   const options = {
@@ -52,6 +53,15 @@ const StudentDocument = ({ document, title, corrections }) => {
   const [popupContent, setPopupContent] = useState('')
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
   const [severity, setSeverity] = useState('')
+  const [showModal, setShowModal] = useState(false)
+
+  const handleModalOpen = () => {
+    setShowModal(true)
+  }
+
+  const handleModalClose = () => {
+    setShowModal(false)
+  }
 
   const handleMouseOver = (event) => {
     const target = event.target
@@ -134,6 +144,10 @@ const StudentDocument = ({ document, title, corrections }) => {
 
   return (
     <>
+      {showModal&& (
+        <ActivityReview documentId={document.id} />
+      )
+      }
       {showPopup && (
         <MousePopup
           content={popupContent}
@@ -142,7 +156,16 @@ const StudentDocument = ({ document, title, corrections }) => {
         />
       )}
       <div className="mb-16">
-        <h3 className="mb-2 text-2xl font-semibold text-gray-800">{title}</h3>
+
+      <h3 className="flex justify-between items-center mb-2 text-2xl font-semibold text-gray-800">
+        {title}
+        <button
+        onClick={handleModalOpen}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Avaliar
+        </button>
+      </h3>
+
         <p className="mb-2 text-sm text-gray-600">
           {formatDate(document.handed)}
         </p>
