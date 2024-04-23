@@ -1113,13 +1113,9 @@ export default async () => {
     const documentData = [
       {
         content: `A leitura é uma ferramenta fundamental na formação do cidadão, desempenhando um papel crucial no desenvolvimento intelectual, social e cultural de indivíduos e comunidades. Através da leitura, é possível expandir os horizontes, adquirir conhecimento e desenvolver habilidades essenciais para uma participação ativa na sociedade.
-
       Primeiramente, é importante ressaltar que a leitura estimula o pensamento crítico e a capacidade de análise. Ao se deparar com diferentes ideias, perspectivas e argumentos presentes nos livros, o leitor é desafiado a refletir sobre questões complexas e a formar suas próprias opiniões de forma fundamentada. Dessa forma, a leitura contribui para o desenvolvimento de cidadãos mais conscientes e capazes de participar de debates e tomadas de decisão de forma responsável.
-
       Além disso, a leitura é essencial para o desenvolvimento da empatia e da compreensão do outro. Ao mergulhar nas histórias de personagens diversos, o leitor tem a oportunidade de vivenciar diferentes realidades, experiências e emoções, ampliando sua capacidade de se colocar no lugar do próximo e de valorizar a diversidade humana. Essa empatia cultivada pela leitura é fundamental para a construção de uma sociedade mais inclusiva e solidária.
-
       Por fim, a leitura também desempenha um papel importante na formação da identidade cultural e na preservação da memória coletiva. Ao explorar obras literárias que retratam diferentes períodos históricos, culturas e tradições, o leitor enriquece sua compreensão do mundo e fortalece sua conexão com suas raízes e com a história de seu país.
-
       Diante disso, fica evidente que a leitura não é apenas uma atividade prazerosa, mas sim uma ferramenta poderosa para a formação do cidadão. Investir na promoção da leitura desde a infância é fundamental para garantir que todos os indivíduos tenham acesso aos benefícios que essa prática pode proporcionar, contribuindo assim para a construção de uma sociedade mais informada, crítica e humanitária.`,
         handed: new Date(),
         activityId: activityId,
@@ -1127,13 +1123,9 @@ export default async () => {
       },
       {
         content: `A leitura é um dos pilares essenciais na formação do cidadão em uma sociedade que busca o desenvolvimento intelectual e social de seus indivíduos. Através da prática da leitura, não apenas se adquire conhecimento, mas se desenvolvem habilidades cognitivas, emocionais e interpessoais fundamentais para uma participação ativa e consciente na sociedade.
-
       Em primeiro lugar, é importante destacar que a leitura é uma fonte inesgotável de conhecimento. Por meio dela, tem-se acesso a diferentes informações, ideias, culturas e formas de pensamento, ampliando assim o repertório do leitor e sua compreensão do mundo. Essa diversidade de conteúdos contribui para uma formação mais abrangente e crítica, permitindo que o cidadão desenvolva uma visão mais ampla e complexa das questões que permeiam a sociedade.
-
       Além disso, a leitura também é fundamental para o desenvolvimento da linguagem e da capacidade de expressão. Ao entrar em contato com textos variados, o leitor amplia seu vocabulário, aprimora sua gramática e desenvolve sua habilidade de comunicação escrita e oral. Essas competências são essenciais não apenas para o sucesso acadêmico e profissional, mas também para uma participação efetiva no debate público e na vida democrática.
-
       Outro aspecto relevante é o papel da leitura na formação do senso crítico e na promoção do pensamento reflexivo. Ao analisar e interpretar textos, o leitor é constantemente desafiado a questionar, problematizar e buscar novos entendimentos, exercitando assim sua capacidade de pensar de forma autônoma e argumentativa. Esse pensamento crítico é fundamental para uma atuação consciente e responsável na sociedade, contribuindo para o desenvolvimento de cidadãos capazes de fazer escolhas informadas e de defender seus direitos e valores.
-
       Diante do exposto, é inegável a importância da leitura na formação do cidadão. Investir na promoção da leitura, desde os primeiros anos de vida, é essencial para garantir que todos os indivíduos tenham acesso às oportunidades e benefícios que essa prática proporciona, contribuindo assim para o fortalecimento da educação, da cultura e da cidadania em nossa sociedade.`,
         handed: new Date(),
         activityId: activityId,
