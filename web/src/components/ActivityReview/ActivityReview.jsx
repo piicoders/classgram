@@ -101,10 +101,12 @@ const ActivityReview = ({ documentId, onClose }) => {
         <h2 className="mb-4 text-lg font-semibold">Avaliação</h2>
         <Form onSubmit={handleSubmit}>
           {countErrors.map(({ name, count }) => (
-            <div key={name} className="mb-4">
-              <h3 className="text-lg font-semibold">
-                {name} <span className="text-gray-600">Erros: {count}</span>
-              </h3>
+            <div key={name} className="mb-6">
+              <h3 className="mb-2 text-lg font-semibold">{name}</h3>
+              <div className="flex items-center">
+                <span className="mr-2 text-gray-600">Erros:</span>
+                <span className="font-semibold text-red-500">{count}</span>
+              </div>
               <input
                 type="number"
                 name={name}
