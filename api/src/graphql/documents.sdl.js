@@ -9,6 +9,7 @@ export const schema = gql`
     student: User
     studentId: String
     Correction: [Correction]!
+    subFactorsMark: String
   }
 
   type Query {
@@ -16,7 +17,6 @@ export const schema = gql`
     document(id: Int!): Document @requireAuth
     findByActivity(activityId: Int!): [Document!]! @requireAuth
     findByActivityAndStudent(activityId: Int!, studentId: String!): Document! @requireAuth
-    updateMarkByDocumentId(mark: Int!, id: Int!): Document! @requireAuth
   }
 
   input CreateDocumentInput {
@@ -39,6 +39,7 @@ export const schema = gql`
     createDocument(input: CreateDocumentInput!): Document! @requireAuth
     updateDocument(id: Int!, input: UpdateDocumentInput!): Document!
       @requireAuth
+    updateMarkByDocumentId(subFactorsMark: String!, mark: Int!, id: Int!): Document! @requireAuth
     deleteDocument(id: Int!): Document! @requireAuth
   }
 `

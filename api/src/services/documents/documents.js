@@ -23,11 +23,17 @@ export const updateDocument = ({ id, input }) => {
   })
 }
 
-export const updateMarkByDocumentId = ({mark, id}) => {
-  return db.document.update({
-    mark: mark,
-    where: {id}
-  })
+export const updateMarkByDocumentId = async ({subFactorsMark, mark, id}) => {
+  return await db.document.update({
+    where: {
+      id: id
+    },
+    data: {
+      mark: mark,
+      subFactorsMark: subFactorsMark
+    }
+  });
+
 }
 
 export const deleteDocument = ({ id }) => {
