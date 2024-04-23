@@ -19,10 +19,16 @@ export const schema = gql`
     G
   }
 
+  type ErrorCount {
+    criterionName: String
+    errorCount: Int
+  }
+
   type Query {
     corrections: [Correction!]! @requireAuth
     correction(id: Int!): Correction @requireAuth
     correctionsByDocumentId(documentId: Int!): [Correction!]! @requireAuth
+    countErrorsByCriterion(documentId: Int!): [ErrorCount!]! @requireAuth
   }
 
   input CreateCorrectionInput {

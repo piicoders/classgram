@@ -48,3 +48,13 @@ export const Correction = {
     return db.correction.findUnique({ where: { id: root?.id } }).document()
   },
 }
+export const countErrorsByCriterion = async ({documentId}) => {
+  const errorsByCriterion = await db.$queryRaw`select c2."name", count(c2.id) from "Correction" c
+      inner join "Subfactor" s on c."subfactorId" = s.id
+      inner join "Criterion" c2 on s."criterionId" = c2.id
+      where c.severity = 'B' and c."documentId" = ${documentId}
+      group by c2."name"
+    `
+  return errorsByCriterion
+}
+
