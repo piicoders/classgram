@@ -20,8 +20,8 @@ export const schema = gql`
   }
 
   type ErrorCount {
-    criterionName: String
-    errorCount: Int
+    name: String
+    count: BigInt
   }
 
   type Query {

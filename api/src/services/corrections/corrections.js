@@ -49,11 +49,11 @@ export const Correction = {
   },
 }
 export const countErrorsByCriterion = async ({documentId}) => {
-  const errorsByCriterion = await db.$queryRaw`select c2."name", count(c2.id) from "Correction" c
-      inner join "Subfactor" s on c."subfactorId" = s.id
-      inner join "Criterion" c2 on s."criterionId" = c2.id
-      where c.severity = 'B' and c."documentId" = ${documentId}
-      group by c2."name"
+  const errorsByCriterion = await db.$queryRaw`SELECT c2."name", COALESCE(count(c.id), 0) AS count
+    FROM "Criterion" c2
+    LEFT JOIN "Subfactor" s ON c2.id = s."criterionId"
+    LEFT JOIN "Correction" c ON s.id = c."subfactorId" AND c.severity = 'B' AND c."documentId" = ${documentId}
+    GROUP BY c2."name"
     `
   return errorsByCriterion
 }
