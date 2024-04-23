@@ -1130,6 +1130,8 @@ export default async () => {
         handed: new Date(),
         activityId: activityId,
         studentId: users[11].id,
+        mark: 820,
+        subFactorMarks: '[{"name": "Teste", "mark": 200},{"name": "Teste", "mark": 120},{"name": "Teste", "mark": 100},{"name": "Teste", "mark": 200},{"name": "Teste", "mark": 200}]'
       },
     ]
 
