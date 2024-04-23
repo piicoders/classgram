@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { useAuth } from 'src/auth'
 import ActivityReview from 'src/components/ActivityReview'
 
 const formatDate = (date) => {
@@ -50,6 +51,8 @@ const getSeverityText = (severity) => {
 }
 
 const StudentDocument = ({ document, title, corrections }) => {
+  const { currentUser } = useAuth()
+
   const [showPopup, setShowPopup] = useState(false)
   const [popupContent, setPopupContent] = useState('')
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
@@ -158,14 +161,15 @@ const StudentDocument = ({ document, title, corrections }) => {
       <div className="mb-16">
         <h3 className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800">
           {title}
-          <button
-            onClick={handleModalOpen}
-            className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-          >
-            Avaliar
-          </button>
+          {currentUser.roles === 'P' && (
+            <button
+              onClick={handleModalOpen}
+              className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+            >
+              Avaliar
+            </button>
+          )}
         </h3>
-
         <p className="mb-2 text-sm text-gray-600">
           {formatDate(document.handed)}
         </p>
@@ -180,18 +184,27 @@ const StudentDocument = ({ document, title, corrections }) => {
         ></p>
       </div>
       {document.mark != null ? (
-        (<>
+        <>
           <hr className="my-16 border-gray-300" />
-          <h2 className="mb-4 text-3xl text-gray-900">
-            <span className="border-l-4 font-bold border-blue-500 pl-2">Nota: </span>
-            <span>{document.mark}</span>
-            <h3>{document.subFactorsMark}</h3>
-
-            <span>{}</span>
-          </h2>
-
-        </>) ) : (
-          ''
+          <div className="mb-4 text-gray-900">
+            <h2 className="mb-2 text-3xl">
+              <span className="border-l-4 border-blue-500 pl-2 font-bold">
+                Nota: {document.mark}
+              </span>
+            </h2>
+            <ul className="list-disc pl-8">
+              {Object.entries(JSON.parse(document.subFactorsMark)).map(
+                ([key, value]) => (
+                  <li key={key} className="mb-2">
+                    <span className="font-bold">{key}:</span> {value}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        </>
+      ) : (
+        ''
       )}
       {corrections.length ? (
         <>

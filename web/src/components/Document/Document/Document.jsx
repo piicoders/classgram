@@ -1,5 +1,4 @@
 import { useQuery, gql } from '@redwoodjs/web'
-import { useState } from 'react'
 
 import SelectCorrection from 'src/components/SelectCorrection'
 import StudentDocument from 'src/components/StudentDocument'
@@ -38,17 +37,16 @@ const Document = ({ document }) => {
         }))
       : []
 
-  const handleCorrectionSubmission = async () => {
+  const handleSubmission = async () => {
     await refetch({ documentId: document.id })
   }
 
   return (
-
     <div className="mx-auto mt-8 max-w-6xl px-8">
       <SelectCorrection
         documentId={document.id}
         promptId={document.activity.promptId}
-        onCorrectionSubmission={handleCorrectionSubmission}
+        onCorrectionSubmission={handleSubmission}
       />
 
       <div className="overflow-hidden rounded-lg bg-white shadow-lg">
@@ -69,9 +67,7 @@ const Document = ({ document }) => {
             title={'Entregue por: ' + document.student.name}
             corrections={correctionsData}
           />
-
         </div>
-
       </div>
     </div>
   )

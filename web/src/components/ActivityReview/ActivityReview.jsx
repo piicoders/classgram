@@ -16,8 +16,16 @@ const COUNT_ERRORS_BY_CRITERION = gql`
   }
 `
 const UPDATE_DOCUMENT_MARK = gql`
-  mutation UpdateDocumentMarkMutation($subFactorsMark: String!, $mark: Int!, $documentId: Int!) {
-    updateMarkByDocumentId(subFactorsMark: $subFactorsMark, mark: $mark,  id: $documentId) {
+  mutation UpdateDocumentMarkMutation(
+    $subFactorsMark: String!
+    $mark: Int!
+    $documentId: Int!
+  ) {
+    updateMarkByDocumentId(
+      subFactorsMark: $subFactorsMark
+      mark: $mark
+      id: $documentId
+    ) {
       id
     }
   }
@@ -66,6 +74,7 @@ const ActivityReview = ({ documentId, onClose }) => {
     })
     setTotalMarks(total)
   }, [marks])
+
   useEffect(() => {
     if (!loading && !error && data && data.countErrorsByCriterion) {
       setCountErrors(data.countErrorsByCriterion)
@@ -83,10 +92,16 @@ const ActivityReview = ({ documentId, onClose }) => {
 
   const handleSubmit = () => {
     const stringifyMarks = JSON.stringify(marks)
-    updateDocumentMark({ variables: { subFactorsMark: stringifyMarks, mark: totalMarks, documentId } })
+    updateDocumentMark({
+      variables: {
+        subFactorsMark: stringifyMarks,
+        mark: totalMarks,
+        documentId,
+      },
+    })
     onClose()
   }
-  const [updateDocumentMark, { updateLoading, updateError }] = useMutation(
+  const [updateDocumentMark, { _updateLoading, _updateError }] = useMutation(
     UPDATE_DOCUMENT_MARK,
     {
       onCompleted: () => {
