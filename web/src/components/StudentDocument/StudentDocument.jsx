@@ -128,7 +128,7 @@ const StudentDocument = ({ document, title, corrections }) => {
   }))
 
   const highlightedContent = highlightCorrections(
-    document.content,
+    document.content.replace(/\n/g, '<br>'),
     correctionsData
   )
 
