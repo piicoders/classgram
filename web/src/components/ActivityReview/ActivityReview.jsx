@@ -6,6 +6,15 @@ import { Form, Submit } from '@redwoodjs/forms'
 import { useQuery, gql } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
+import { useAuth } from 'src/auth'
+
+const CREATE_COMMENT_MUTATION = gql`
+  mutation CreateCommentMutation($input: CreateCommentInput!) {
+    createComment(input: $input) {
+      id
+    }
+  }
+`
 
 const COUNT_ERRORS_BY_CRITERION = gql`
   query CountErrorsByCriterion($documentId: Int!) {
@@ -34,9 +43,11 @@ const UPDATE_DOCUMENT_MARK = gql`
 const ActivityReview = ({ documentId, onClose }) => {
   const [countErrors, setCountErrors] = useState([])
   const [marks, setMarks] = useState({})
+  const [comment, setComment] = useState('')
   const [totalMarks, setTotalMarks] = useState(0)
   const modalRef = useRef(null)
-
+  const commentTextAreaRef = useRef(null)
+  const { currentUser } = useAuth()
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -92,6 +103,13 @@ const ActivityReview = ({ documentId, onClose }) => {
 
   const handleSubmit = () => {
     const stringifyMarks = JSON.stringify(marks)
+    const input = {
+      content: comment,
+      userId: currentUser.id,
+      documentId: documentId,
+    }
+    createComment({ variables: { input }})
+
     updateDocumentMark({
       variables: {
         subFactorsMark: stringifyMarks,
@@ -99,9 +117,22 @@ const ActivityReview = ({ documentId, onClose }) => {
         documentId,
       },
     })
-    onClose()
+
+    if (!updateLoading & !createLoading) onClose()
   }
-  const [updateDocumentMark, { _updateLoading, _updateError }] = useMutation(
+
+  const [createComment, { createLoading, _createError }] = useMutation(
+    CREATE_COMMENT_MUTATION,
+    {
+      onCompleted: () => {
+      },
+      onError: (_createError) => {
+        toast.error(_createError.message)
+      },
+    }
+  )
+
+  const [updateDocumentMark, { updateLoading, updateError }] = useMutation(
     UPDATE_DOCUMENT_MARK,
     {
       onCompleted: () => {
@@ -126,6 +157,17 @@ const ActivityReview = ({ documentId, onClose }) => {
         </button>
         <h2 className="mb-4 text-lg font-semibold">Avaliação</h2>
         <Form onSubmit={handleSubmit}>
+        <div className="mb-4">
+            <h3 className="mb-2 text-lg font-semibold">Comentário final:</h3>
+            <textarea
+              name="comment"
+              className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+              placeholder="Digite o comentário aqui..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              ref={commentTextAreaRef}
+            ></textarea>
+          </div>
           {countErrors.map(({ name, count }) => (
             <div key={name} className="mb-6">
               <h3 className="mb-2 text-lg font-semibold">{name}</h3>
