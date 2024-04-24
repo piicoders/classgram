@@ -1133,7 +1133,8 @@ export default async () => {
         activityId: activityId,
         studentId: users[11].id,
         mark: 820,
-        subFactorsMark: '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}'
+        subFactorsMark: '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}',
+
       },
     ]
 
@@ -1256,6 +1257,27 @@ export default async () => {
     } else {
       console.log('Corrections already seeded')
     }
+
+    const commentData = [
+      {
+        content: 'Parabéns pelo seu resultado na redação! Sua nota demonstra um comprometimento notável com a qualidade do seu trabalho e um entendimento profundo do assunto abordado. Continue cultivando sua habilidade de expressão escrita, pois você possui um grande potencial. Estou ansioso para ver seu crescimento contínuo ao longo do curso!',
+        userId: users[2].id,
+        documentId: documents[0].id
+      },
+      {
+        content: 'Parabéns pelo seu resultado na redação! Sua nota demonstra um comprometimento notável com a qualidade do seu trabalho e um entendimento profundo do assunto abordado. Continue cultivando sua habilidade de expressão escrita, pois você possui um grande potencial. Estou ansioso para ver seu crescimento contínuo ao longo do curso!',
+        userId: users[2].id,
+        documentId: documents[1].id
+      }
+    ]
+
+    if ((await db.comment.count()) === 0) {
+      await db.comment.createMany({ data: commentData })
+      console.log('Comments added')
+    } else {
+      console.log('Comments already seeded')
+    }
+
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)
