@@ -1,7 +1,20 @@
-import React, { useState } from 'react'
+import { useQuery } from '@redwoodjs/web'
+import React, { useEffect, useState } from 'react'
 
 import { useAuth } from 'src/auth'
 import ActivityReview from 'src/components/ActivityReview'
+
+const COMMENT_BY_DOCUMENT_ID = gql`
+  query CommentByDocumentId($documentId: Int!) {
+    commentByDocumentId(documentId: $documentId) {
+      id
+      user {
+        name
+      }
+      content
+    }
+  }
+`
 
 const formatDate = (date) => {
   const options = {
@@ -58,6 +71,18 @@ const StudentDocument = ({ document, title, corrections }) => {
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
   const [severity, setSeverity] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [comments, setComments] = useState([])
+
+  const { loading, error, data } = useQuery(COMMENT_BY_DOCUMENT_ID, {
+    variables: { documentId: parseInt(document.id) },
+  })
+
+  useEffect(() => {
+    if (!loading && !error && data.commentByDocumentId) {
+      setComments(data.commentByDocumentId)
+    }
+  }, [loading, error, data])
+
 
   const handleModalOpen = () => {
     setShowModal(true)
@@ -241,6 +266,23 @@ const StudentDocument = ({ document, title, corrections }) => {
       ) : (
         ''
       )}
+      {comments ? (
+        <>
+          <hr className="my-16 border-gray-300" />
+          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+            <span className="border-l-4 border-blue-500 pl-2">Comentários</span>
+          </h2>
+          {comments.map((comment) => (
+            <div key={comment.id} className="mb-4">
+              <h1 className='mb-4 text-2xl font-bold text-gray-900'>{comment.user.name}:</h1>
+              <p>{comment.content}</p>
+            </div>
+          ))}
+        </>
+      ) : (
+        ''
+      )}
+
     </>
   )
 }
