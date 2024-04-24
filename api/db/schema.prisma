@@ -30,6 +30,7 @@ model User {
   classesAsStudent    Classroom[]  @relation("classStudents")
   Document            Document[]
   Correction          Correction[]
+  Comment             Comment[]
 }
 
 model Classroom {
@@ -74,6 +75,7 @@ model Document {
   studentId      String?      @db.VarChar()
   subFactorsMark String?      @db.VarChar()
   Correction     Correction[]
+  Comment        Comment[]
 }
 
 model Correction {
@@ -105,6 +107,15 @@ model Criterion {
   prompt    Prompt?     @relation(fields: [promptId], references: [id])
   promptId  Int
   Subfactor Subfactor[]
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  content    String   @db.VarChar()
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @db.VarChar()
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId Int
 }
 
 enum UserType {
