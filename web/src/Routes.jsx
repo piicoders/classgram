@@ -17,50 +17,50 @@ const Routes = () => {
   return (
     <Router useAuth={useAuth}>
       <PrivateSet unauthenticated="login" roles="P" /*Professor*/>
-        <Set wrap={ScaffoldLayout} title="Criteria" titleTo="criteria" buttonLabel="New Criterion" buttonTo="newCriterion">
+        <Set wrap={ScaffoldLayout}>
+          {/*
           <Route path="/criteria/new" page={CriterionNewCriterionPage} name="newCriterion" />
           <Route path="/criteria/{id:Int}/edit" page={CriterionEditCriterionPage} name="editCriterion" />
           <Route path="/criteria/{id:Int}" page={CriterionCriterionPage} name="criterion" />
           <Route path="/criteria" page={CriterionCriteriaPage} name="criteria" />
-        </Set>
-        <Set wrap={ScaffoldLayout} title="Subfactors" titleTo="subfactors" buttonLabel="New Subfactor" buttonTo="newSubfactor">
+
           <Route path="/subfactors/new" page={SubfactorNewSubfactorPage} name="newSubfactor" />
           <Route path="/subfactors/{id:Int}/edit" page={SubfactorEditSubfactorPage} name="editSubfactor" />
           <Route path="/subfactors/{id:Int}" page={SubfactorSubfactorPage} name="subfactor" />
           <Route path="/subfactors" page={SubfactorSubfactorsPage} name="subfactors" />
-        </Set>
-        <Set wrap={ScaffoldLayout} title="Corrections" titleTo="corrections" buttonLabel="New Correction" buttonTo="newCorrection">
+
           <Route path="/corrections/new" page={CorrectionNewCorrectionPage} name="newCorrection" />
           <Route path="/corrections/{id:Int}/edit" page={CorrectionEditCorrectionPage} name="editCorrection" />
           <Route path="/corrections/{id:Int}" page={CorrectionCorrectionPage} name="correction" />
           <Route path="/corrections" page={CorrectionCorrectionsPage} name="corrections" />
-        </Set>
-        <Set wrap={ScaffoldLayout} title="Prompts" titleTo="prompts" buttonLabel="New Prompt" buttonTo="newPrompt">
+
           <Route path="/prompts/new" page={PromptNewPromptPage} name="newPrompt" />
           <Route path="/prompts/{id:Int}/edit" page={PromptEditPromptPage} name="editPrompt" />
           <Route path="/prompts/{id:Int}" page={PromptPromptPage} name="prompt" />
           <Route path="/prompts" page={PromptPromptsPage} name="prompts" />
-        </Set>
-      </PrivateSet>
-      <PrivateSet unauthenticated="login" roles={['P', 'S']} /*Professor and Student*/>
-        <Set wrap={ScaffoldLayout}>
-          <Route path="/usuarios/{id}/edit" page={UserEditUserPage} name="editUser" />
-          <Route path="/usuarios/{id}" page={UserUserPage} name="user" />
+         */}
           <Route path="/turmas/{classId:Int}/usuarios" page={UserUsersPage} name="users" />
 
           <Route path="/turmas/nova" page={ClassroomNewClassroomPage} name="newClassroom" />
           <Route path="/turmas/{id:Int}/editar" page={ClassroomEditClassroomPage} name="editClassroom" />
+
+          <Route path="/turmas/{classId:Int}/atividades/nova" page={ActivityNewActivityPage} name="newActivity" />
+          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/editar" page={ActivityEditActivityPage} name="editActivity" />
+
+          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios" page={DocumentDocumentsPage} name="documents" />
+          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios/{id:Int}" page={DocumentDocumentPage} name="document" />
+        </Set>
+      </PrivateSet>
+      <PrivateSet unauthenticated="login" /*Professor and Student*/>
+        <Set wrap={ScaffoldLayout}>
+          <Route path="/usuarios/{id}/edit" page={UserEditUserPage} name="editUser" />
+          <Route path="/usuarios/{id}" page={UserUserPage} name="user" />
+
           <Route path="/turmas/{id:Int}" page={ClassroomClassroomPage} name="classroom" />
           <Route path="/turmas" page={ClassroomClassroomsPage} name="classrooms" />
 
           <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}" page={ActivityActivityPage} name="activity" />
-          <Route path="/turmas/{classId:Int}/atividades/nova" page={ActivityNewActivityPage} name="newActivity" />
-          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/editar" page={ActivityEditActivityPage} name="editActivity" />
           <Route path="/turmas/{classId:Int}/atividades" page={ActivityActivitiesPage} name="activities" />
-
-          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios/{id:Int}/editar" page={DocumentEditDocumentPage} name="editDocument" />
-          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios/{id:Int}" page={DocumentDocumentPage} name="document" />
-          <Route path="/turmas/{classId:Int}/atividades/{activityId:Int}/envios" page={DocumentDocumentsPage} name="documents" />
         </Set>
       </PrivateSet>
 
