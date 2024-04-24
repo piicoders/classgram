@@ -17,128 +17,115 @@ const formatDatetime = (value) => {
 
 const ActivityForm = (props) => {
   const onSubmit = (data) => {
+    data.classroomId = props.classId
     props.onSave(data, props?.activity?.id)
   }
 
   return (
-    <div className="rw-form-wrapper">
-      <Form onSubmit={onSubmit} error={props.error}>
+    <div className="mx-auto max-w-lg rounded bg-white p-6 shadow">
+      <Form onSubmit={onSubmit} error={props.error} className="space-y-4">
         <FormError
           error={props.error}
-          wrapperClassName="rw-form-error-wrapper"
-          titleClassName="rw-form-error-title"
-          listClassName="rw-form-error-list"
+          wrapperClassName="text-red-500"
+          titleClassName="font-bold"
+          listClassName="list-disc list-inside"
         />
-        <Label
-          name="name"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Name
-        </Label>
+        <div>
+          <Label
+            name="name"
+            className="mb-1 block font-bold text-gray-700"
+            errorClassName="text-red-500"
+          >
+            Nome
+          </Label>
+          <TextField
+            name="name"
+            defaultValue={props.activity?.name}
+            className="block w-full rounded border px-4 py-2 focus:border-blue-500 focus:outline-none"
+            errorClassName="block w-full px-4 py-2 border border-red-500 rounded focus:outline-none focus:border-red-500"
+            validation={{ required: true }}
+          />
+          <FieldError name="name" className="text-red-500" />
+        </div>
 
-        <TextField
-          name="name"
-          defaultValue={props.activity?.name}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
+        <div>
+          <Label
+            name="description"
+            className="mb-1 block font-bold text-gray-700"
+            errorClassName="text-red-500"
+          >
+            Descrição
+          </Label>
+          <TextField
+            name="description"
+            defaultValue={props.activity?.description}
+            className="block w-full rounded border px-4 py-2 focus:border-blue-500 focus:outline-none"
+            errorClassName="block w-full px-4 py-2 border border-red-500 rounded focus:outline-none focus:border-red-500"
+            validation={{ required: true }}
+          />
+          <FieldError name="description" className="text-red-500" />
+        </div>
 
-        <FieldError name="name" className="rw-field-error" />
+        <div>
+          <Label
+            name="dueDate"
+            className="mb-1 block font-bold text-gray-700"
+            errorClassName="text-red-500"
+          >
+            Data de entrega
+          </Label>
+          <DatetimeLocalField
+            name="dueDate"
+            defaultValue={formatDatetime(props.activity?.dueDate)}
+            className="block w-full rounded border px-4 py-2 focus:border-blue-500 focus:outline-none"
+            errorClassName="block w-full px-4 py-2 border border-red-500 rounded focus:outline-none focus:border-red-500"
+            validation={{ required: true }}
+          />
+          <FieldError name="dueDate" className="text-red-500" />
+        </div>
 
-        <Label
-          name="description"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Description
-        </Label>
+        <div>
+          <Label
+            name="maxSize"
+            className="mb-1 block font-bold text-gray-700"
+            errorClassName="text-red-500"
+          >
+            Limite de caracteres
+          </Label>
+          <NumberField
+            name="maxSize"
+            defaultValue={props.activity?.maxSize}
+            className="block w-full rounded border px-4 py-2 focus:border-blue-500 focus:outline-none"
+            errorClassName="block w-full px-4 py-2 border border-red-500 rounded focus:outline-none focus:border-red-500"
+            validation={{ required: true }}
+          />
+          <FieldError name="maxSize" className="text-red-500" />
+        </div>
 
-        <TextField
-          name="description"
-          defaultValue={props.activity?.description}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
+        <div>
+          <Label
+            name="promptId"
+            className="mb-1 block font-bold text-gray-700"
+            errorClassName="text-red-500"
+          >
+            Prompt id
+          </Label>
+          <NumberField
+            name="promptId"
+            defaultValue={props.activity?.promptId}
+            className="block w-full rounded border px-4 py-2 focus:border-blue-500 focus:outline-none"
+            errorClassName="block w-full px-4 py-2 border border-red-500 rounded focus:outline-none focus:border-red-500"
+            emptyAs={'undefined'}
+          />
+          <FieldError name="promptId" className="text-red-500" />
+        </div>
 
-        <FieldError name="description" className="rw-field-error" />
-
-        <Label
-          name="dueDate"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Due date
-        </Label>
-
-        <DatetimeLocalField
-          name="dueDate"
-          defaultValue={formatDatetime(props.activity?.dueDate)}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="dueDate" className="rw-field-error" />
-
-        <Label
-          name="maxSize"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Max size
-        </Label>
-
-        <NumberField
-          name="maxSize"
-          defaultValue={props.activity?.maxSize}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="maxSize" className="rw-field-error" />
-
-        <Label
-          name="promptId"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Prompt id
-        </Label>
-
-        <NumberField
-          name="promptId"
-          defaultValue={props.activity?.promptId}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          emptyAs={'undefined'}
-        />
-
-        <FieldError name="promptId" className="rw-field-error" />
-
-        <Label
-          name="classroomId"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Classroom id
-        </Label>
-
-        <NumberField
-          name="classroomId"
-          defaultValue={props.activity?.classroomId}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="classroomId" className="rw-field-error" />
-
-        <div className="rw-button-group">
-          <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
+        <div className="flex justify-end">
+          <Submit
+            disabled={props.loading}
+            className="rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600 focus:outline-none"
+          >
+            Criar
           </Submit>
         </div>
       </Form>

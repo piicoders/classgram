@@ -32,12 +32,19 @@ const NewActivity = () => {
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">New Activity</h2>
+    <div className="mx-auto max-w-3xl px-4 py-8">
+      <header className="mb-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-800">Nova Atividade</h2>
       </header>
-      <div className="rw-segment-main">
-        <ActivityForm onSave={onSave} loading={loading} error={error} />
+      <div className="rounded bg-white">
+        <div className="p-6">
+          <ActivityForm
+            classId={classId}
+            onSave={onSave}
+            loading={loading}
+            error={error}
+          />
+        </div>
       </div>
     </div>
   )
