@@ -6,28 +6,52 @@ const DocumentsList = ({ documents }) => {
   const { classId } = useParams()
 
   return (
-    <div className="rw-segment rw-table-wrapper-responsive">
-      <table className="rw-table">
-        <thead>
+    <div className="overflow-x-auto">
+      <table className="whitespace-no-wrap w-full divide-y divide-gray-200 bg-white">
+        <thead className="bg-gray-50">
           <tr>
-            <th>Resposta</th>
-            <th>Data de Entrega</th>
-            <th>Aluno</th>
-            <th>&nbsp;</th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+            >
+              Resposta
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+            >
+              Data de Entrega
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+            >
+              Aluno
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+            >
+              &nbsp;
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-gray-200">
           {documents.map((document) => (
             <tr key={document.id}>
-              <td>{truncate(document.content)}</td>
-              <td>
+              <td className="whitespace-normal px-6 py-4">
+                {truncate(document.content)}
+              </td>
+              <td className="whitespace-normal px-6 py-4">
                 {`${new Date(document.handed).getDate()}/${
                   new Date(document.handed).getMonth() + 1
-                } - ${new Date(document.handed).getMinutes()}h`}
+                } - ${new Date(document.handed).getHours()}h`}
               </td>
-              <td>{truncate(document.student.name)}</td>
-              <td>
-                <nav className="rw-table-actions">
+              <td className="whitespace-normal px-6 py-4">
+                {truncate(document.student.name)}
+              </td>
+              <td className="whitespace-normal px-6 py-4">
+                <div className="flex items-center space-x-2">
                   <Link
                     to={routes.document({
                       id: document.id,
@@ -35,11 +59,11 @@ const DocumentsList = ({ documents }) => {
                       classId: classId,
                     })}
                     title={'Ver entrega detalhada'}
-                    className="rw-button rw-button-small"
+                    className="text-indigo-600 hover:text-indigo-900"
                   >
                     Visualizar
                   </Link>
-                </nav>
+                </div>
               </td>
             </tr>
           ))}
