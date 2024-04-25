@@ -20,20 +20,15 @@ const CREATE_USER_MUTATION = gql`
 `
 
 const JoinClassForm = (props) => {
-  const [createUser, { loading, error }] = useMutation(
-    CREATE_USER_MUTATION,
-
-    {
-      onCompleted: () => {
-        toast.success('Bem vindo à turma')
-        navigate(routes.classrooms())
-      },
-
-      onError: (error) => {
-        toast.error(error.message)
-      },
-    }
-  )
+  const [createUser, { loading, error }] = useMutation(CREATE_USER_MUTATION, {
+    onCompleted: () => {
+      toast.success('Bem-vindo à turma')
+      navigate(routes.classrooms())
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
 
   const handleSubmit = (data) => {
     createUser({
@@ -56,26 +51,29 @@ const JoinClassForm = (props) => {
         listClassName="rw-form-error-list"
       />
       <div className="mb-4">
-        <Label name="code" className="block text-sm font-medium text-gray-700">
+        <Label
+          name="classCode"
+          className="block text-sm font-medium text-gray-700"
+        >
           Código da Turma:
         </Label>
-
         <TextField
           name="classCode"
           id="classCode"
           placeholder="Digite o código da turma"
           className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-          errorClassName="rw-input rw-input-error"
+          errorClassName="border-red-500"
         />
-
-        <FieldError name="classCode" className="rw-field-error" />
+        <FieldError name="classCode" className="mt-1 text-xs text-red-500" />
       </div>
-      <Submit
-        disabled={loading}
-        className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-600 focus:outline-none"
-      >
-        Associar-se à Turma
-      </Submit>
+      <div className="flex justify-center">
+        <Submit
+          disabled={loading}
+          className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-600 focus:outline-none"
+        >
+          Entrar na Turma
+        </Submit>
+      </div>
     </Form>
   )
 }
