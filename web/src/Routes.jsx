@@ -41,7 +41,6 @@ const Routes = () => {
          */}
           <Route path="/turmas/{classId:Int}/usuarios" page={UserUsersPage} name="users" />
 
-          <Route path="/turmas/nova" page={ClassroomNewClassroomPage} name="newClassroom" />
           <Route path="/turmas/{id:Int}/editar" page={ClassroomEditClassroomPage} name="editClassroom" />
 
           <Route path="/turmas/{classId:Int}/atividades/nova" page={ActivityNewActivityPage} name="newActivity" />
@@ -56,6 +55,7 @@ const Routes = () => {
           <Route path="/usuarios/{id}/edit" page={UserEditUserPage} name="editUser" />
           <Route path="/usuarios/{id}" page={UserUserPage} name="user" />
 
+          <Route path="/turmas/nova" page={ClassroomNewClassroomPage} name="newClassroom" />
           <Route path="/turmas/{id:Int}" page={ClassroomClassroomPage} name="classroom" />
           <Route path="/turmas" page={ClassroomClassroomsPage} name="classrooms" />
 
