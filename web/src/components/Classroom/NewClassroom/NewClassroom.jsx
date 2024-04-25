@@ -33,14 +33,14 @@ const NewClassroom = ({ currentUser }) => {
   }
 
   return (
-    <>
+    <div className="mx-auto max-w-3xl px-4 py-8">
       <Metadata title="Turmas" />
       {currentUser.roles == 'P' ? (
-        <div className="rw-segment">
-          <header className="rw-segment-header">
-            <h2 className="rw-heading rw-heading-secondary">New Classroom</h2>
-          </header>
-          <div className="rw-segment-main">
+        <div className="rounded bg-white">
+          <div className="p-6">
+            <header className="mb-8 text-center">
+              <h2 className="text-2xl font-bold text-gray-800">Nova Turma</h2>
+            </header>
             <ClassroomForm
               professorID={currentUser.id}
               onSave={onSave}
@@ -50,9 +50,18 @@ const NewClassroom = ({ currentUser }) => {
           </div>
         </div>
       ) : (
-        <JoinClassForm studentID={currentUser.id}>teste</JoinClassForm>
+        <div className="rounded bg-white">
+          <div className="p-6">
+            <header className="mb-8 text-center">
+              <h2 className="text-2xl font-bold text-gray-800">
+                Entrar em uma Turma
+              </h2>
+            </header>
+            <JoinClassForm studentID={currentUser.id}>teste</JoinClassForm>
+          </div>
+        </div>
       )}
-    </>
+    </div>
   )
 }
 
