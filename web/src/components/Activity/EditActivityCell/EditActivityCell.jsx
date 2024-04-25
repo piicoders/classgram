@@ -1,5 +1,4 @@
 import { navigate, routes } from '@redwoodjs/router'
-
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
@@ -47,7 +46,7 @@ export const Success = ({ activity }) => {
     {
       onCompleted: () => {
         toast.success('Activity updated')
-        navigate(routes.activities({classId: activity.classroomId }))
+        navigate(routes.activities({ classId: activity.classroomId }))
       },
       onError: (error) => {
         toast.error(error.message)
@@ -60,19 +59,19 @@ export const Success = ({ activity }) => {
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">
-          Edit Activity {activity?.id}
-        </h2>
+    <div className="mx-auto max-w-3xl px-4 py-8">
+      <header className="mb-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-800">Editar Atividade</h2>
       </header>
-      <div className="rw-segment-main">
-        <ActivityForm
-          activity={activity}
-          onSave={onSave}
-          error={error}
-          loading={loading}
-        />
+      <div className="rounded bg-white">
+        <div className="p-6">
+          <ActivityForm
+            activity={activity}
+            onSave={onSave}
+            error={error}
+            loading={loading}
+          />
+        </div>
       </div>
     </div>
   )
