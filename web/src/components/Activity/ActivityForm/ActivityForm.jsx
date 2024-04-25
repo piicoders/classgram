@@ -1,3 +1,8 @@
+import React, { useEffect, useState } from 'react'
+
+import { gql } from 'graphql-tag'
+
+import { SelectField } from '@redwoodjs/forms'
 import {
   Form,
   FormError,
@@ -8,6 +13,16 @@ import {
   NumberField,
   Submit,
 } from '@redwoodjs/forms'
+import { useQuery } from '@redwoodjs/web'
+
+const PROMPTS_QUERY = gql`
+  query Prompts {
+    prompts {
+      id
+      description
+    }
+  }
+`
 
 const formatDatetime = (value) => {
   if (value) {
@@ -16,8 +31,21 @@ const formatDatetime = (value) => {
 }
 
 const ActivityForm = (props) => {
+  const [prompts, setPrompts] = useState(null)
+
+  const { loading, error, data } = useQuery(PROMPTS_QUERY)
+
+  useEffect(() => {
+    if (!loading && !error && data && data.prompts) {
+      setPrompts(data.prompts)
+    } else if (error) {
+      console.error('Erro:', error)
+    }
+  }, [loading, error, data])
+
   const onSubmit = (data) => {
     data.classroomId = props.classId
+    data.promptId = parseInt(data.promptId)
     props.onSave(data, props?.activity?.id)
   }
 
@@ -108,15 +136,22 @@ const ActivityForm = (props) => {
             className="mb-1 block font-bold text-gray-700"
             errorClassName="text-red-500"
           >
-            Prompt id
+            Tipo de atividade
           </Label>
-          <NumberField
+          <SelectField
             name="promptId"
             defaultValue={props.activity?.promptId}
             className="block w-full rounded border px-4 py-2 focus:border-blue-500 focus:outline-none"
             errorClassName="block w-full px-4 py-2 border border-red-500 rounded focus:outline-none focus:border-red-500"
-            emptyAs={'undefined'}
-          />
+            validation={{ required: true }}
+          >
+            {prompts &&
+              prompts.map((prompt) => (
+                <option key={prompt.id} value={prompt.id}>
+                  {prompt.description}
+                </option>
+              ))}
+          </SelectField>
           <FieldError name="promptId" className="text-red-500" />
         </div>
 
