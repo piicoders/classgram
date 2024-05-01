@@ -32,7 +32,11 @@ const ClassroomsList = ({ classrooms }) => {
                     })}
                   >
                     <span className="mr-2 text-gray-700">
-                      {new Date(activity.dueDate).toLocaleDateString()} -
+                      {new Date(activity.dueDate).toLocaleDateString('pt-BR', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}{' '}
+                      -
                     </span>
                     <span className="mr-2 text-gray-700">
                       {activity.name} -
