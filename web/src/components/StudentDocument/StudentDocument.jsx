@@ -105,9 +105,9 @@ const StudentDocument = ({ document, title, corrections }) => {
           <p>
             <strong>Descrição:</strong> {description}
           </p>
-          {correction != null && (
+          {correction != null && correction != "null" && correction !== undefined && (
             <p>
-              <strong>Correção:</strong> {correction}
+              <strong>Correção: </strong> {correction}
             </p>
           )}
         </div>
