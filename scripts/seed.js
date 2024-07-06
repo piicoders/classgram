@@ -240,11 +240,14 @@ export default async () => {
     const promptId = (await db.prompt.findFirst()).id
 
     const criterionData = [
-      { name: 'Argumentação e coerência', promptId: promptId },
-      { name: 'Atendimento ao gênero/Tipo', promptId: promptId },
-      { name: 'Compreensão do tema', promptId: promptId },
-      { name: 'Domínio da modalidade de escrita formal', promptId: promptId },
-      { name: 'Recursos coesivos', promptId: promptId },
+      {
+        name: '1. Domínio da modalidade de escrita formal',
+        promptId: promptId,
+      },
+      { name: '2. Compreensão do tema', promptId: promptId },
+      { name: '3. Argumentação e coerência', promptId: promptId },
+      { name: '4. Atendimento ao gênero/Tipo', promptId: promptId },
+      { name: '5. Recursos coesivos', promptId: promptId },
     ]
 
     if ((await db.criterion.count()) === 0) {
@@ -1118,7 +1121,8 @@ export default async () => {
       Por fim, a leitura também desempenha um papel importante na formação da identidade cultural e na preservação da memória coletiva. Ao explorar obras literárias que retratam diferentes períodos históricos, culturas e tradições, o leitor enriquece sua compreensão do mundo e fortalece sua conexão com suas raízes e com a história de seu país.
       Diante disso, fica evidente que a leitura não é apenas uma atividade prazerosa, mas sim uma ferramenta poderosa para a formação do cidadão. Investir na promoção da leitura desde a infância é fundamental para garantir que todos os indivíduos tenham acesso aos benefícios que essa prática pode proporcionar, contribuindo assim para a construção de uma sociedade mais informada, crítica e humanitária.`,
         mark: 820,
-        subFactorsMark: '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}',
+        subFactorsMark:
+          '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}',
         handed: new Date(),
         activityId: activityId,
         studentId: users[10].id,
@@ -1133,8 +1137,8 @@ export default async () => {
         activityId: activityId,
         studentId: users[11].id,
         mark: 820,
-        subFactorsMark: '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}',
-
+        subFactorsMark:
+          '{"Argumentação e coerência": 200, "Atendimento ao gênero/Tipo": 200, "Compreensão do tema": 200, "Domínio da modalidade de escrita formal": 200, "Recursos coesivos": 20}',
       },
     ]
 
@@ -1260,15 +1264,17 @@ export default async () => {
 
     const commentData = [
       {
-        content: 'Parabéns pelo seu resultado na redação! Sua nota demonstra um comprometimento notável com a qualidade do seu trabalho e um entendimento profundo do assunto abordado. Continue cultivando sua habilidade de expressão escrita, pois você possui um grande potencial. Estou ansioso para ver seu crescimento contínuo ao longo do curso!',
+        content:
+          'Parabéns pelo seu resultado na redação! Sua nota demonstra um comprometimento notável com a qualidade do seu trabalho e um entendimento profundo do assunto abordado. Continue cultivando sua habilidade de expressão escrita, pois você possui um grande potencial. Estou ansioso para ver seu crescimento contínuo ao longo do curso!',
         userId: users[2].id,
-        documentId: documents[0].id
+        documentId: documents[0].id,
       },
       {
-        content: 'Parabéns pelo seu resultado na redação! Sua nota demonstra um comprometimento notável com a qualidade do seu trabalho e um entendimento profundo do assunto abordado. Continue cultivando sua habilidade de expressão escrita, pois você possui um grande potencial. Estou ansioso para ver seu crescimento contínuo ao longo do curso!',
+        content:
+          'Parabéns pelo seu resultado na redação! Sua nota demonstra um comprometimento notável com a qualidade do seu trabalho e um entendimento profundo do assunto abordado. Continue cultivando sua habilidade de expressão escrita, pois você possui um grande potencial. Estou ansioso para ver seu crescimento contínuo ao longo do curso!',
         userId: users[2].id,
-        documentId: documents[1].id
-      }
+        documentId: documents[1].id,
+      },
     ]
 
     if ((await db.comment.count()) === 0) {
@@ -1277,7 +1283,6 @@ export default async () => {
     } else {
       console.log('Comments already seeded')
     }
-
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)
