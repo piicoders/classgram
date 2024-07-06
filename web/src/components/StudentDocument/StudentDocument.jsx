@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { Tooltip } from 'react-tooltip'
+
 import { useQuery } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
@@ -26,33 +28,6 @@ const formatDate = (date) => {
     minute: '2-digit',
   }
   return new Date(date).toLocaleDateString('pt-BR', options)
-}
-
-const MousePopup = ({ content, position, severity }) => {
-  const getBorderColor = (severity) => {
-    const borderColorMap = {
-      G: 'border-4 border-green-500',
-      N: 'border-4 border-yellow-500',
-      B: 'border-4 border-red-500',
-    }
-    return borderColorMap[severity] || 'border-4 border-gray-500'
-  }
-
-  const borderColor = getBorderColor(severity)
-
-  const adjustedPosition = {
-    top: Math.min(position.y, window.innerHeight - 200),
-    left: position.x,
-  }
-
-  return (
-    <div
-      className={`fixed border bg-white p-2 ${borderColor}`}
-      style={adjustedPosition}
-    >
-      {content}
-    </div>
-  )
 }
 
 const getSeverityText = (severity) => {
@@ -102,10 +77,6 @@ const SidebarMenu = () => {
 const StudentDocument = ({ document, title, corrections }) => {
   const { currentUser } = useAuth()
 
-  const [showPopup, setShowPopup] = useState(false)
-  const [popupContent, setPopupContent] = useState('')
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
-  const [severity, setSeverity] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [comments, setComments] = useState([])
 
@@ -127,46 +98,6 @@ const StudentDocument = ({ document, title, corrections }) => {
     setShowModal(false)
   }
 
-  const handleMouseOver = (event) => {
-    const target = event.target
-    if (target.tagName === 'SPAN' && target.dataset.text) {
-      const description =
-        target.dataset.description || 'Descrição não disponível'
-      const position = { x: event.clientX, y: event.clientY }
-      const correction = target.dataset.correction
-      const severity = target.dataset.severity
-      setPopupContent(
-        <div>
-          <p>
-            <strong>Descrição:</strong> {description}
-          </p>
-          {correction != null &&
-            correction != 'null' &&
-            correction !== undefined && (
-              <p>
-                <strong>Correção: </strong> {correction}
-              </p>
-            )}
-        </div>
-      )
-      setPopupPosition(position)
-      setShowPopup(true)
-      setSeverity(severity)
-    }
-  }
-
-  const handleMouseOut = () => {
-    setShowPopup(false)
-  }
-
-  const handleFocus = () => {
-    setShowPopup(true)
-  }
-
-  const handleBlur = () => {
-    setShowPopup(false)
-  }
-
   const highlightCorrections = (content, corrections) => {
     corrections.forEach((correction) => {
       let color = ''
@@ -186,10 +117,13 @@ const StudentDocument = ({ document, title, corrections }) => {
       const markStart = `<mark style="background-color: ${color};">`
       const markEnd = '</mark>'
       const regex = new RegExp(correction.text, 'gi')
+      const text = `${
+        correction.description ? `Decrição: ${correction.description}` : ''
+      }<br />${correction.correct ? `Correção:${correction.correct}` : ''}`
       content = content.replace(
         regex,
         (match) =>
-          `${markStart}<span data-id="${correction.id}" data-text="${correction.text}" data-correction="${correction.correct}" data-description="${correction.description}" data-severity="${correction.severity}">${match}</span>${markEnd}`
+          `${markStart}<span data-id="${correction.id}" data-tooltip-id="tooltip-${correction.severity}" data-tooltip-html="${text}">${match}</span>${markEnd}`
       )
     })
     return content
@@ -207,24 +141,20 @@ const StudentDocument = ({ document, title, corrections }) => {
     document.content.replace(/\n/g, '<br>'),
     correctionsData
   )
-
   return (
     <div className="relative">
-      {/* Menu lateral flutuante */}
       <SidebarMenu />
-
-      {/* Conteúdo principal */}
+      <Tooltip id="tooltip-B" style={{ backgroundColor: 'rgb(180, 20, 20)' }} />
+      <Tooltip id="tooltip-G" style={{ backgroundColor: 'rgb(0, 128, 0)' }} />
+      <Tooltip
+        id="tooltip-N"
+        style={{ backgroundColor: 'rgb(255, 255, 0)', color: '#222' }}
+      />
       <div className="ml-16 p-4">
         {showModal && (
           <ActivityReview documentId={document.id} onClose={handleModalClose} />
         )}
-        {showPopup && (
-          <MousePopup
-            content={popupContent}
-            position={popupPosition}
-            severity={severity}
-          />
-        )}
+
         <div className="mb-16">
           <h3
             id="documentContent"
@@ -245,10 +175,6 @@ const StudentDocument = ({ document, title, corrections }) => {
           </p>
           <p
             className="text-base"
-            onMouseOver={handleMouseOver}
-            onMouseOut={handleMouseOut}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
             dangerouslySetInnerHTML={{ __html: highlightedContent }}
           ></p>
         </div>
