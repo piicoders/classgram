@@ -41,32 +41,32 @@ const getSeverityText = (severity) => {
 
 const SidebarMenu = () => {
   return (
-    <div className="fixed left-4 top-1/4 z-10 w-32 rounded-lg bg-gray-200 p-2 shadow-md">
-      <h2 className="mb-2 text-lg font-bold">Menu</h2>
+    <div className="fixed left-4 top-1/4 z-10 w-32 rounded-lg bg-blue-900/85 p-2 text-white shadow-md">
+      <h2 className="mb-2 text-lg font-bold">Seções</h2>
       <ul className="space-y-1 text-sm">
         <li>
-          <a href="#activity" className="text-blue-500 hover:underline">
-            Atividade
+          <a href="#activity" className="hover:underline">
+            - Atividade
           </a>
         </li>
         <li>
-          <a href="#documentContent" className="text-blue-500 hover:underline">
-            Entrega
+          <a href="#documentContent" className=" hover:underline">
+            - Entrega
           </a>
         </li>
         <li>
-          <a href="#grade" className="text-blue-500 hover:underline">
-            Nota
+          <a href="#grade" className=" hover:underline">
+            - Nota
           </a>
         </li>
         <li>
-          <a href="#corrections" className="text-blue-500 hover:underline">
-            Correções
+          <a href="#corrections" className=" hover:underline">
+            - Correções
           </a>
         </li>
         <li>
-          <a href="#comments" className="text-blue-500 hover:underline">
-            Comentários
+          <a href="#comments" className=" hover:underline">
+            - Comentários
           </a>
         </li>
       </ul>
