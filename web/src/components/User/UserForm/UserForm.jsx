@@ -13,57 +13,70 @@ const UserForm = (props) => {
   }
 
   return (
-    <div className="rw-form-wrapper">
-      <Form onSubmit={onSubmit} error={props.error}>
-        <FormError
-          error={props.error}
-          wrapperClassName="rw-form-error-wrapper"
-          titleClassName="rw-form-error-title"
-          listClassName="rw-form-error-list"
-        />
+    <div className="">
+      {/* NEW */}
 
-        <Label
-          name="email"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Email
-        </Label>
+      <div className="mx-auto flex h-[350px] max-w-sm flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-md">
+        <div className="h-24 bg-blue-900"></div>
 
-        <TextField
-          name="email"
-          defaultValue={props.user?.email}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
+        <Form onSubmit={onSubmit} error={props.error} className="mx-4">
+          <FormError
+            error={props.error}
+            wrapperClassName="rw-form-error-wrapper"
+            titleClassName="rw-form-error-title"
+            listClassName="rw-form-error-list"
+          />
 
-        <FieldError name="email" className="rw-field-error" />
+          <Label
+            name="email"
+            className="rw-label"
+            errorClassName="rw-label rw-label-error"
+          >
+            E-mail
+          </Label>
 
-        <Label
-          name="name"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Name
-        </Label>
+          <TextField
+            name="email"
+            defaultValue={props.user?.email}
+            className="rw-input"
+            errorClassName="rw-input rw-input-error"
+            validation={{ required: true }}
+          />
 
-        <TextField
-          name="name"
-          defaultValue={props.user?.name}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
+          <FieldError name="email" className="rw-field-error" />
 
-        <FieldError name="name" className="rw-field-error" />
+          <Label
+            name="name"
+            className="rw-label"
+            errorClassName="rw-label rw-label-error"
+          >
+            Nome
+          </Label>
 
-        <div className="rw-button-group">
-          <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
-          </Submit>
-        </div>
-      </Form>
+          <TextField
+            name="name"
+            defaultValue={props.user?.name}
+            className="rw-input"
+            errorClassName="rw-input rw-input-error"
+            validation={{ required: true }}
+          />
+
+          <div className="mb-4 text-center">
+            <hr className="my-6" />
+          </div>
+
+          <FieldError name="name" className="rw-field-error" />
+
+          <div className="rw-button-group">
+            <Submit
+              disabled={props.loading}
+              className="rounded-lg bg-blue-900 px-4 py-2 text-white"
+            >
+              Salvar Alterações
+            </Submit>
+          </div>
+        </Form>
+      </div>
     </div>
   )
 }
