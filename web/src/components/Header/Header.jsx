@@ -9,7 +9,7 @@ const Header = () => {
   const { currentUser, logOut } = useAuth()
 
   return (
-    <header className="flex items-center justify-between bg-gray-800 px-6 py-2 text-white">
+    <header className="flex items-center justify-between bg-blue-950 px-6 py-2 text-white">
       <Link className="flex items-center" to={routes.classrooms()}>
         <img src="/icon.png" alt="Classgram" className="mr-2 h-8 w-8" />
         <h1 className="text-xl font-semibold">Classgram</h1>
