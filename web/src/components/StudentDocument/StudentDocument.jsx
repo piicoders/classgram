@@ -30,15 +30,6 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString('pt-BR', options)
 }
 
-const getSeverityText = (severity) => {
-  const severityMap = {
-    G: 'Bom',
-    N: 'Neutro',
-    B: 'Ruim',
-  }
-  return severityMap[severity] || ''
-}
-
 const SidebarMenu = () => {
   return (
     <div className="fixed left-4 top-1/4 z-10 w-32 rounded-lg bg-blue-900/85 p-2 text-white shadow-md">
@@ -55,7 +46,7 @@ const SidebarMenu = () => {
           </a>
         </li>
         <li>
-          <a href="#grade" className=" hover:underline">
+          <a href="#mark" className=" hover:underline">
             - Nota
           </a>
         </li>
@@ -72,6 +63,15 @@ const SidebarMenu = () => {
       </ul>
     </div>
   )
+}
+
+const getSeverityText = (severity) => {
+  const severityMap = {
+    G: 'Bom',
+    N: 'Neutro',
+    B: 'Ruim',
+  }
+  return severityMap[severity] || ''
 }
 
 const StudentDocument = ({ document, title, corrections }) => {
@@ -114,11 +114,12 @@ const StudentDocument = ({ document, title, corrections }) => {
         default:
           color = 'inherit'
       }
+
       const markStart = `<mark style="background-color: ${color};">`
       const markEnd = '</mark>'
       const regex = new RegExp(correction.text, 'gi')
       const text = `${
-        correction.description ? `Decrição: ${correction.description}` : ''
+        correction.description ? `Descrição: ${correction.description}` : ''
       }<br />${correction.correct ? `Correção:${correction.correct}` : ''}`
       content = content.replace(
         regex,
@@ -141,8 +142,9 @@ const StudentDocument = ({ document, title, corrections }) => {
     document.content.replace(/\n/g, '<br>'),
     correctionsData
   )
+
   return (
-    <div className="relative">
+    <>
       <SidebarMenu />
       <Tooltip id="tooltip-B" style={{ backgroundColor: 'rgb(180, 20, 20)' }} />
       <Tooltip id="tooltip-G" style={{ backgroundColor: 'rgb(0, 128, 0)' }} />
@@ -150,117 +152,110 @@ const StudentDocument = ({ document, title, corrections }) => {
         id="tooltip-N"
         style={{ backgroundColor: 'rgb(255, 255, 0)', color: '#222' }}
       />
-      <div className="ml-16 p-4">
-        {showModal && (
-          <ActivityReview documentId={document.id} onClose={handleModalClose} />
-        )}
-
-        <div className="mb-16">
-          <h3
-            id="documentContent"
-            className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800"
-          >
-            {title}
-            {currentUser.roles === 'P' && (
-              <button
-                onClick={handleModalOpen}
-                className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-              >
-                Avaliar
-              </button>
-            )}
-          </h3>
-          <p className="mb-2 text-sm text-gray-600">
-            {formatDate(document.handed)}
-          </p>
-          <p
-            className="text-base"
-            dangerouslySetInnerHTML={{ __html: highlightedContent }}
-          ></p>
-        </div>
-        {document.mark != null ? (
-          <>
-            <hr id="grade" className="my-16 border-gray-300" />
-            <div className="mb-4 text-gray-900">
-              <h2 className="mb-2 text-3xl">
-                <span className="border-l-4 border-blue-500 pl-2 font-bold">
-                  Nota: {document.mark}
-                </span>
-              </h2>
-              <ul className="list-disc pl-8">
-                {Object.entries(JSON.parse(document.subFactorsMark)).map(
-                  ([key, value]) => (
-                    <li key={key} className="mb-2">
-                      <span className="font-bold">{key}:</span> {value}
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-          </>
-        ) : (
-          ''
-        )}
-        {corrections.length ? (
-          <>
-            <hr id="corrections" className="my-16 border-gray-300" />
-            <h2 className="mb-4 text-3xl font-bold text-gray-900">
-              <span className="border-l-4 border-blue-500 pl-2">Correções</span>
-            </h2>
-
-            {corrections.map((correction) => (
-              <div
-                key={correction.id}
-                className="mb-4 rounded-lg bg-white p-6 shadow-md"
-              >
-                <p>
-                  <span className="font-bold">Trecho:</span> {correction.text}
-                </p>
-                <p>
-                  <span className="font-bold">Descrição:</span>{' '}
-                  {correction.description}
-                </p>
-                {correction.correct && (
-                  <p>
-                    <span className="font-bold">Correção:</span>{' '}
-                    {correction.correct}
-                  </p>
-                )}
-                <p>
-                  <span className="font-bold">Severidade:</span>{' '}
-                  {getSeverityText(correction.severity)}
-                </p>
-              </div>
-            ))}
-          </>
-        ) : (
-          ''
-        )}
-        {comments.length ? (
-          <>
-            <hr id="comments" className="my-16 border-gray-300" />
-            <h2 className="mb-4 text-3xl font-bold text-gray-900">
-              <span className="border-l-4 border-blue-500 pl-2">
-                Comentários
+      {showModal && (
+        <ActivityReview documentId={document.id} onClose={handleModalClose} />
+      )}
+      <div id="documentContent" className="mb-16">
+        <h3 className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800">
+          {title}
+          {currentUser.roles === 'P' && (
+            <button
+              onClick={handleModalOpen}
+              className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+            >
+              Avaliar
+            </button>
+          )}
+        </h3>
+        <p className="mb-2 text-sm text-gray-600">
+          {formatDate(document.handed)}
+        </p>
+        <p
+          id="documentContent"
+          className="text-base"
+          dangerouslySetInnerHTML={{ __html: highlightedContent }}
+        ></p>
+      </div>
+      {document.mark != null ? (
+        <>
+          <hr id="mark" className="my-16 border-gray-300" />
+          <div className="mb-4 text-gray-900">
+            <h2 className="mb-2 text-3xl">
+              <span className="border-l-4 border-blue-500 pl-2 font-bold">
+                Nota: {document.mark}
               </span>
             </h2>
-            {comments.map((comment) => (
-              <div
-                key={comment.id}
-                className="mb-4 rounded-lg bg-white p-6 shadow-md"
-              >
-                <h1 className="mb-4 text-2xl font-bold text-gray-900">
-                  {comment.user.name}:
-                </h1>
-                <p>{comment.content}</p>
-              </div>
-            ))}
-          </>
-        ) : (
-          ''
-        )}
-      </div>
-    </div>
+            <ul className="list-disc pl-8">
+              {Object.entries(JSON.parse(document.subFactorsMark)).map(
+                ([key, value]) => (
+                  <li key={key} className="mb-2">
+                    <span className="font-bold">{key}:</span> {value}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        </>
+      ) : (
+        ''
+      )}
+      {corrections.length ? (
+        <>
+          <hr id="corrections" className="my-16 border-gray-300" />
+          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+            <span className="border-l-4 border-blue-500 pl-2">Correção</span>
+          </h2>
+
+          {corrections.map((correction) => (
+            <div
+              key={correction.id}
+              className="mb-4 rounded-lg bg-white p-6 shadow-md"
+            >
+              <p>
+                <span className="font-bold">Trecho:</span> {correction.text}
+              </p>
+              <p>
+                <span className="font-bold">Descrição:</span>{' '}
+                {correction.description}
+              </p>
+              {correction.correct && (
+                <p>
+                  <span className="font-bold">Correção:</span>{' '}
+                  {correction.correct}
+                </p>
+              )}
+              <p>
+                <span className="font-bold">Severidade:</span>{' '}
+                {getSeverityText(correction.severity)}
+              </p>
+            </div>
+          ))}
+        </>
+      ) : (
+        ''
+      )}
+      {comments.length ? (
+        <>
+          <hr id="comments" className="my-16 border-gray-300" />
+          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+            <span className="border-l-4 border-blue-500 pl-2">Comentários</span>
+          </h2>
+          {comments.map((comment) => (
+            <div
+              key={comment.id}
+              className="mb-4 rounded-lg bg-white p-6 shadow-md"
+            >
+              <h1 className="mb-4 text-2xl font-bold text-gray-900">
+                {comment.user.name}:
+              </h1>
+              <p>{comment.content}</p>
+            </div>
+          ))}
+        </>
+      ) : (
+        ''
+      )}
+    </>
   )
 }
 
