@@ -7,6 +7,8 @@ import { useQuery } from '@redwoodjs/web'
 import { useAuth } from 'src/auth'
 import ActivityReview from 'src/components/ActivityReview'
 
+import SidebarMenu from '../SidebarMenu/SidebarMenu'
+
 const COMMENT_BY_DOCUMENT_ID = gql`
   query CommentByDocumentId($documentId: Int!) {
     commentByDocumentId(documentId: $documentId) {
@@ -28,41 +30,6 @@ const formatDate = (date) => {
     minute: '2-digit',
   }
   return new Date(date).toLocaleDateString('pt-BR', options)
-}
-
-const SidebarMenu = () => {
-  return (
-    <div className="fixed left-4 top-1/4 z-10 w-32 rounded-lg bg-blue-900/85 p-2 text-white shadow-md">
-      <h2 className="mb-2 text-lg font-bold">Seções</h2>
-      <ul className="space-y-1 text-sm">
-        <li>
-          <a href="#activity" className="hover:underline">
-            - Atividade
-          </a>
-        </li>
-        <li>
-          <a href="#documentContent" className=" hover:underline">
-            - Entrega
-          </a>
-        </li>
-        <li>
-          <a href="#mark" className=" hover:underline">
-            - Nota
-          </a>
-        </li>
-        <li>
-          <a href="#corrections" className=" hover:underline">
-            - Correções
-          </a>
-        </li>
-        <li>
-          <a href="#comments" className=" hover:underline">
-            - Comentários
-          </a>
-        </li>
-      </ul>
-    </div>
-  )
 }
 
 const getSeverityText = (severity) => {
