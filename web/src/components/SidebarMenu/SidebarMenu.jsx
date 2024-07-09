@@ -1,12 +1,32 @@
-import React from 'react'
-
-import { FiFileText, FiBookOpen, FiEdit, FiMessageCircle } from 'react-icons/fi'
+import React, { useState } from 'react'
+import {
+  FiFileText,
+  FiBookOpen,
+  FiEdit,
+  FiMessageCircle,
+  FiMenu,
+} from 'react-icons/fi'
 import { Link } from 'react-scroll'
 
 const SidebarMenu = () => {
+  const [isVisible, setIsVisible] = useState(true)
+
+  const toggleSidebar = () => {
+    setIsVisible(!isVisible)
+  }
+
   return (
-    <div className="w-38 fixed left-1 top-1/4 z-10 rounded-lg bg-blue-900/85 p-2 text-white shadow-md transition-transform duration-300 hover:translate-x-2">
-      <h2 className="mb-3 text-center text-lg font-bold">Seções</h2>
+    <div
+      className={`fixed left-1 top-1/4 z-10 rounded-lg bg-blue-900/85 p-2 text-white shadow-md transition-transform duration-300 ${
+        isVisible ? '' : '-translate-x-32'
+      }`}
+      onClick={toggleSidebar}
+    >
+      <h2
+        className="mb-3 text-center text-lg font-bold"
+      >
+        Seções
+      </h2>
       <ul className="space-y-2 text-sm">
         <li>
           <Link
