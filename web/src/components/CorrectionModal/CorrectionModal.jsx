@@ -128,7 +128,7 @@ const CorrectionModal = ({
   const onSubmit = (data) => {
     const input = {
       text: selection.text,
-      description: description,
+      description: subfactorDescription,
       correct: correction,
       severity: data.severity,
       professorId: currentUser.id,
@@ -236,21 +236,27 @@ const CorrectionModal = ({
             </SelectField>
           </div>
           <div className="mb-4">
-            <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
-            <textarea
-              name="description"
-              className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-              placeholder="Digite a descrição aqui..."
-              value={selectedSubfactor ? subfactorDescription : description}
-              onChange={(e) => {
-                if (!selectedSubfactor) {
-                  setDescription(e.target.value)
-                } else {
-                  setSubfactorDescription(e.target.value)
-                }
-              }}
-              ref={descriptionTextAreaRef}
-            ></textarea>
+            {selectedSubfactor ? (
+              <>
+                <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
+                <textarea
+                  name="description"
+                  className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+                  placeholder="Digite a descrição aqui..."
+                  value={selectedSubfactor ? subfactorDescription : description}
+                  onChange={(e) => {
+                    if (!selectedSubfactor) {
+                      setDescription(e.target.value)
+                    } else {
+                      setSubfactorDescription(e.target.value)
+                    }
+                  }}
+                  ref={descriptionTextAreaRef}
+                ></textarea>
+              </>
+            ) : (
+              ''
+            )}
           </div>
           <div className="mb-4">
             <h3 className="mb-2 text-lg font-semibold">Correção:</h3>

@@ -1,8 +1,13 @@
-import { useQuery } from '@redwoodjs/web'
 import React, { useEffect, useState } from 'react'
+
+import { Tooltip } from 'react-tooltip'
+
+import { useQuery } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
 import ActivityReview from 'src/components/ActivityReview'
+
+import SidebarMenu from '../SidebarMenu/SidebarMenu'
 
 const COMMENT_BY_DOCUMENT_ID = gql`
   query CommentByDocumentId($documentId: Int!) {
@@ -27,33 +32,6 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString('pt-BR', options)
 }
 
-const MousePopup = ({ content, position, severity }) => {
-  const getBorderColor = (severity) => {
-    const borderColorMap = {
-      G: 'border-4 border-green-500',
-      N: 'border-4 border-yellow-500',
-      B: 'border-4 border-red-500',
-    }
-    return borderColorMap[severity] || 'border-4 border-gray-500'
-  }
-
-  const borderColor = getBorderColor(severity)
-
-  const adjustedPosition = {
-    top: Math.min(position.y, window.innerHeight - 200),
-    left: position.x,
-  }
-
-  return (
-    <div
-      className={`fixed border bg-white p-2 ${borderColor}`}
-      style={adjustedPosition}
-    >
-      {content}
-    </div>
-  )
-}
-
 const getSeverityText = (severity) => {
   const severityMap = {
     G: 'Bom',
@@ -66,10 +44,6 @@ const getSeverityText = (severity) => {
 const StudentDocument = ({ document, title, corrections }) => {
   const { currentUser } = useAuth()
 
-  const [showPopup, setShowPopup] = useState(false)
-  const [popupContent, setPopupContent] = useState('')
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
-  const [severity, setSeverity] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [comments, setComments] = useState([])
 
@@ -83,51 +57,12 @@ const StudentDocument = ({ document, title, corrections }) => {
     }
   }, [loading, error, data])
 
-
   const handleModalOpen = () => {
     setShowModal(true)
   }
 
   const handleModalClose = () => {
     setShowModal(false)
-  }
-
-  const handleMouseOver = (event) => {
-    const target = event.target
-    if (target.tagName === 'SPAN' && target.dataset.text) {
-      const description =
-        target.dataset.description || 'Descrição não disponível'
-      const position = { x: event.clientX, y: event.clientY }
-      const correction = target.dataset.correction
-      const severity = target.dataset.severity
-      setPopupContent(
-        <div>
-          <p>
-            <strong>Descrição:</strong> {description}
-          </p>
-          {correction != null && correction != "null" && correction !== undefined && (
-            <p>
-              <strong>Correção: </strong> {correction}
-            </p>
-          )}
-        </div>
-      )
-      setPopupPosition(position)
-      setShowPopup(true)
-      setSeverity(severity)
-    }
-  }
-
-  const handleMouseOut = () => {
-    setShowPopup(false)
-  }
-
-  const handleFocus = () => {
-    setShowPopup(true)
-  }
-
-  const handleBlur = () => {
-    setShowPopup(false)
   }
 
   const highlightCorrections = (content, corrections) => {
@@ -146,13 +81,17 @@ const StudentDocument = ({ document, title, corrections }) => {
         default:
           color = 'inherit'
       }
+
       const markStart = `<mark style="background-color: ${color};">`
       const markEnd = '</mark>'
       const regex = new RegExp(correction.text, 'gi')
+      const text = `${
+        correction.description ? `Descrição: ${correction.description}` : ''
+      }<br />${correction.correct ? `Correção:${correction.correct}` : ''}`
       content = content.replace(
         regex,
         (match) =>
-          `${markStart}<span data-id="${correction.id}" data-text="${correction.text}" data-correction="${correction.correct}" data-description="${correction.description}" data-severity="${correction.severity}">${match}</span>${markEnd}`
+          `${markStart}<span data-id="${correction.id}" data-tooltip-id="tooltip-${correction.severity}" data-tooltip-html="${text}">${match}</span>${markEnd}`
       )
     })
     return content
@@ -173,20 +112,20 @@ const StudentDocument = ({ document, title, corrections }) => {
 
   return (
     <>
+      <SidebarMenu />
+      <Tooltip id="tooltip-B" style={{ backgroundColor: 'rgb(180, 20, 20)' }} />
+      <Tooltip id="tooltip-G" style={{ backgroundColor: 'rgb(0, 128, 0)' }} />
+      <Tooltip
+        id="tooltip-N"
+        style={{ backgroundColor: 'rgb(255, 255, 0)', color: '#222' }}
+      />
       {showModal && (
         <ActivityReview documentId={document.id} onClose={handleModalClose} />
       )}
-      {showPopup && (
-        <MousePopup
-          content={popupContent}
-          position={popupPosition}
-          severity={severity}
-        />
-      )}
-      <div className="mb-16">
+      <div id="documentContent" className="mb-16">
         <h3 className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800">
           {title}
-          {currentUser.roles === 'P' && (
+          {currentUser.roles === 'P' && document.mark == null && (
             <button
               onClick={handleModalOpen}
               className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
@@ -201,16 +140,12 @@ const StudentDocument = ({ document, title, corrections }) => {
         <p
           id="documentContent"
           className="text-base"
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           dangerouslySetInnerHTML={{ __html: highlightedContent }}
         ></p>
       </div>
       {document.mark != null ? (
         <>
-          <hr className="my-16 border-gray-300" />
+          <hr id="mark" className="my-16 border-gray-300" />
           <div className="mb-4 text-gray-900">
             <h2 className="mb-2 text-3xl">
               <span className="border-l-4 border-blue-500 pl-2 font-bold">
@@ -233,7 +168,7 @@ const StudentDocument = ({ document, title, corrections }) => {
       )}
       {corrections.length ? (
         <>
-          <hr className="my-16 border-gray-300" />
+          <hr id="corrections" className="my-16 border-gray-300" />
           <h2 className="mb-4 text-3xl font-bold text-gray-900">
             <span className="border-l-4 border-blue-500 pl-2">Correção</span>
           </h2>
@@ -268,13 +203,18 @@ const StudentDocument = ({ document, title, corrections }) => {
       )}
       {comments.length ? (
         <>
-          <hr className="my-16 border-gray-300" />
+          <hr id="comments" className="my-16 border-gray-300" />
           <h2 className="mb-4 text-3xl font-bold text-gray-900">
             <span className="border-l-4 border-blue-500 pl-2">Comentários</span>
           </h2>
           {comments.map((comment) => (
-            <div key={comment.id} className="mb-4 rounded-lg bg-white p-6 shadow-md">
-              <h1 className='mb-4 text-2xl font-bold text-gray-900'>{comment.user.name}:</h1>
+            <div
+              key={comment.id}
+              className="mb-4 rounded-lg bg-white p-6 shadow-md"
+            >
+              <h1 className="mb-4 text-2xl font-bold text-gray-900">
+                {comment.user.name}:
+              </h1>
               <p>{comment.content}</p>
             </div>
           ))}
@@ -282,7 +222,6 @@ const StudentDocument = ({ document, title, corrections }) => {
       ) : (
         ''
       )}
-
     </>
   )
 }

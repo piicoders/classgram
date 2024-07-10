@@ -1,41 +1,27 @@
 import { Link, routes } from '@redwoodjs/router'
 
-import { formatEnum } from 'src/lib/formatters'
-
 const User = ({ user }) => {
   return (
     <>
-      <div className="rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">
-            User {user.id} Detail
-          </h2>
-        </header>
-        <table className="rw-table">
-          <tbody>
-            <tr>
-              <th>Email</th>
-              <td>{user.email}</td>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <td>{user.name}</td>
-            </tr>
-            <tr>
-              <th>Type</th>
-              <td>{formatEnum(user.roles)}</td>
-            </tr>
-          </tbody>
-        </table>
+      {/* new */}
+      <div className="mx-auto flex h-[512px] max-w-sm flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-md">
+        <div className="h-24 bg-blue-900"></div>
+
+        <div className="p-4 text-center">
+          <div className="mb-2 text-3xl font-bold">{user.name}</div>
+          <div className="text-xl text-gray-600">{user.email}</div>
+        </div>
+
+        <div className="mx-4 mb-4 text-center">
+          <hr className="my-6" />
+          <Link
+            to={routes.editUser({ id: user.id })}
+            className="rounded-lg bg-blue-900 px-4 py-2 text-white"
+          >
+            Editar Perfil
+          </Link>
+        </div>
       </div>
-      <nav className="rw-button-group">
-        <Link
-          to={routes.editUser({ id: user.id })}
-          className="rw-button rw-button-blue"
-        >
-          Edit
-        </Link>
-      </nav>
     </>
   )
 }

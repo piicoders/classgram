@@ -49,7 +49,10 @@ const Document = ({ document }) => {
         onCorrectionSubmission={handleSubmission}
       />
 
-      <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+      <div
+        id="activity"
+        className="overflow-hidden rounded-lg bg-white shadow-lg"
+      >
         <div className="flex items-center justify-between px-10 py-0">
           <div className="flex flex-col">
             <h2 className="mb-2 text-3xl font-semibold text-blue-800">

@@ -48,13 +48,14 @@ export const Correction = {
     return db.correction.findUnique({ where: { id: root?.id } }).document()
   },
 }
-export const countErrorsByCriterion = async ({documentId}) => {
-  const errorsByCriterion = await db.$queryRaw`SELECT c2."name", COALESCE(count(c.id), 0) AS count
+export const countErrorsByCriterion = async ({ documentId }) => {
+  const errorsByCriterion =
+    await db.$queryRaw`SELECT c2."name", COALESCE(count(c.id), 0) AS count
     FROM "Criterion" c2
     LEFT JOIN "Subfactor" s ON c2.id = s."criterionId"
     LEFT JOIN "Correction" c ON s.id = c."subfactorId" AND c.severity = 'B' AND c."documentId" = ${documentId}
     GROUP BY c2."name"
+    ORDER BY c2."name"
     `
   return errorsByCriterion
 }
-
