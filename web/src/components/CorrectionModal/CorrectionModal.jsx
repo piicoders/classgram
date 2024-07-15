@@ -2,10 +2,8 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import { XIcon } from '@heroicons/react/outline'
 
-import { Form } from '@redwoodjs/forms'
-import { SelectField } from '@redwoodjs/forms'
-import { useQuery, gql } from '@redwoodjs/web'
-import { useMutation } from '@redwoodjs/web'
+import { Form, SelectField } from '@redwoodjs/forms'
+import { useQuery, gql, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
@@ -43,6 +41,7 @@ const CorrectionModal = ({
   const [selectedSubfactor, setSelectedSubfactor] = useState('')
   const [subfactors, setSubfactors] = useState([])
   const [subfactorDescription, setSubfactorDescription] = useState('')
+  const [severity, setSeverity] = useState('')
 
   const descriptionTextAreaRef = useRef(null)
   const correctionTextAreaRef = useRef(null)
@@ -147,6 +146,10 @@ const CorrectionModal = ({
     setSelectedSubfactor(e.target.value)
   }
 
+  const handleSeverityChange = (e) => {
+    setSeverity(e.target.value)
+  }
+
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <Form onSubmit={onSubmit}>
@@ -187,6 +190,7 @@ const CorrectionModal = ({
                   },
                 },
               }}
+              onChange={handleSeverityChange}
             >
               <option value={'G'}>Bom</option>
               <option value={'N'}>Neutro</option>
@@ -258,17 +262,19 @@ const CorrectionModal = ({
               ''
             )}
           </div>
-          <div className="mb-4">
-            <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
-            <textarea
-              name="correction"
-              className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-              placeholder="Digite a correção aqui..."
-              value={correction}
-              onChange={(e) => setCorrection(e.target.value)}
-              ref={correctionTextAreaRef}
-            ></textarea>
-          </div>
+          {severity === 'B' && (
+            <div className="mb-4">
+              <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
+              <textarea
+                name="correction"
+                className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
+                placeholder="Digite a correção aqui..."
+                value={correction}
+                onChange={(e) => setCorrection(e.target.value)}
+                ref={correctionTextAreaRef}
+              ></textarea>
+            </div>
+          )}
           <div className="flex justify-end">
             <button
               type="submit"
