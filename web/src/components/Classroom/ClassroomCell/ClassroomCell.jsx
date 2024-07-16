@@ -6,7 +6,9 @@ export const QUERY = gql`
       id
       name
       code
-      professorId
+      professor {
+        name
+      }
     }
   }
 `
