@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import { XIcon } from '@heroicons/react/outline'
 
-import { Form, SelectField } from '@redwoodjs/forms'
+import { Form, SelectField, FieldError, useForm } from '@redwoodjs/forms'
 import { useQuery, gql, useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
@@ -34,6 +34,7 @@ const CorrectionModal = ({
   onCorrectionSubmission,
 }) => {
   const { currentUser } = useAuth()
+  const formMethods = useForm()
 
   const [description, setDescription] = useState('')
   const [correction, setCorrection] = useState('')
@@ -152,7 +153,7 @@ const CorrectionModal = ({
 
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <Form onSubmit={onSubmit}>
+      <Form formMethods={formMethods} onSubmit={onSubmit}>
         <div
           ref={modalRef}
           className="modal-content relative max-h-[80vh] w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg"
@@ -196,6 +197,7 @@ const CorrectionModal = ({
               <option value={'N'}>Neutro</option>
               <option value={'B'}>Ruim</option>
             </SelectField>
+            <FieldError name="severity" className="rw-field-error" />
           </div>
           <div className="mb-4">
             <h3 className="mb-2 text-lg font-semibold">Critério:</h3>
@@ -204,6 +206,9 @@ const CorrectionModal = ({
               name="criterion"
               value={selectedCriterion || ''}
               onChange={onSelectCriterion}
+              validation={{
+                required: { value: true, message: 'Critério é obrigatório' },
+              }}
             >
               <option value="">Selecione um critério</option>
               {criteria &&
@@ -213,6 +218,7 @@ const CorrectionModal = ({
                   </option>
                 ))}
             </SelectField>
+            <FieldError name="criterion" className="rw-field-error" />
           </div>
           <div className="mb-4">
             <h3 className="mb-2 text-lg font-semibold">Subfatores:</h3>
@@ -222,6 +228,9 @@ const CorrectionModal = ({
               value={selectedCriterion ? selectedSubfactor || '' : ''}
               onChange={onSelectSubfactor}
               disabled={!selectedCriterion}
+              validation={{
+                required: { value: true, message: 'Subfator é obrigatório' },
+              }}
             >
               {!selectedCriterion && (
                 <option value="" disabled>
@@ -238,6 +247,7 @@ const CorrectionModal = ({
                   </option>
                 ))}
             </SelectField>
+            <FieldError name="subfactor" className="rw-field-error" />
           </div>
           <div className="mb-4">
             {selectedSubfactor ? (
