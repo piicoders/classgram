@@ -30,19 +30,19 @@ const ClassroomForm = (props) => {
     <div className="container mx-auto px-4 py-8">
       <Form
         onSubmit={onSubmit}
-        className="mx-auto max-w-md rounded-lg bg-white p-6 shadow-md"
+        className="p-8d mx-auto max-w-lg rounded-lg bg-[#FOF3FA]"
       >
         <FormError
           error={props.error}
-          wrapperClassName="text-red-500"
-          titleClassName="font-bold"
+          wrapperClassName="text-[#395886]"
+          titleClassName="text-lg font-semibold"
           listClassName="list-disc pl-5"
         />
 
         <div className="mb-6">
           <Label
             htmlFor="code"
-            className="block flex justify-center text-lg font-medium text-gray-700"
+            className="block text-center text-xl font-semibold text-gray-800"
           >
             Código da Turma
           </Label>
@@ -57,7 +57,7 @@ const ClassroomForm = (props) => {
         <div className="mb-6">
           <Label
             htmlFor="name"
-            className="block text-lg font-medium text-gray-700"
+            className="block text-center text-xl font-semibold text-gray-800"
           >
             Nome
           </Label>
@@ -74,7 +74,7 @@ const ClassroomForm = (props) => {
         <div className="flex justify-center">
           <Submit
             disabled={props.loading}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="inline-flex items-center rounded-md border border-transparent bg-blue-800 px-6 py-3 text-lg font-semibold text-white  focus:outline-none focus:ring-2 focus:ring-[#8AAEE0] focus:ring-offset-2"
           >
             {props.loading ? 'Criando...' : 'Criar'}
           </Submit>
