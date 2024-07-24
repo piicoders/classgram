@@ -27,7 +27,7 @@ const ClassroomForm = (props) => {
   const code = props.classroom?.code || gerarCodigoAleatorio()
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-4">
       <Form
         onSubmit={onSubmit}
         className="p-8d mx-auto max-w-lg rounded-lg bg-[#FOF3FA]"
@@ -54,7 +54,7 @@ const ClassroomForm = (props) => {
           </div>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-4">
           <Label
             htmlFor="name"
             className="block text-center text-xl font-semibold text-gray-800"
@@ -64,7 +64,8 @@ const ClassroomForm = (props) => {
           <TextField
             name="name"
             defaultValue={props.classroom?.name}
-            className="mt-1 block w-full rounded-md border px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            placeholder="Digite o nome da turma"
+            className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             errorClassName="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 text-sm text-gray-700"
             validation={{ required: true }}
           />
@@ -74,7 +75,7 @@ const ClassroomForm = (props) => {
         <div className="flex justify-center">
           <Submit
             disabled={props.loading}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-800 px-6 py-3 text-lg font-semibold text-white  focus:outline-none focus:ring-2 focus:ring-[#8AAEE0] focus:ring-offset-2"
+            className="inline-flex items-center rounded-md border border-transparent bg-blue-800 hover:bg-blue-600 focus:bg-blue-600 px-6 py-2 text-lg font-semibold text-white"
           >
             {props.loading ? 'Criando...' : 'Criar'}
           </Submit>

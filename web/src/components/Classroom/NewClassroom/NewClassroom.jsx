@@ -38,14 +38,14 @@ const NewClassroom = ({ currentUser }) => {
     <div className="mx-auto max-w-3xl px-6 py-12">
       <Metadata title="Criação de Turmas" />
       <div className="overflow-hidden rounded-lg bg-[#FOF3FA] shadow-md">
-        <header className="border border-b bg-blue-900 p-6 text-center">
-          <h2 className="text-4xl font-bold text-white">
+        <header className="border border-b bg-blue-900 p-2 text-center">
+          <h2 className="text-2xl font-bold text-white">
             {currentUser.roles === 'P'
               ? 'Criar Nova Turma'
               : 'Entrar em uma Turma'}
           </h2>
         </header>
-        <div className="p-8">
+        <div className="p-4">
           {currentUser.roles === 'P' ? (
             <ClassroomForm
               professorID={currentUser.id}

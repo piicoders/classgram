@@ -18,6 +18,7 @@ import { useAuth } from 'src/auth'
 
 const SignupPage = () => {
   const { isAuthenticated, signUp } = useAuth()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -32,12 +33,16 @@ const SignupPage = () => {
   }, [])
 
   const onSubmit = async (data) => {
+    setLoading(true) // Inicia o estado de carregamento
+
     const response = await signUp({
       username: data.email,
       password: data.password,
       roles: data.roles,
       name: data.name,
     })
+
+    setLoading(false)
 
     if (response.message) {
       toast(response.message)
@@ -182,7 +187,7 @@ const SignupPage = () => {
 
             <div>
               <Submit className="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">
-                Registrar
+                {loading ? 'Registrando...' : 'Registrar'}
               </Submit>
             </div>
           </Form>
