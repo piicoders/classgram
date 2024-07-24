@@ -125,10 +125,10 @@ const StudentDocument = ({ document, title, corrections }) => {
       <div id="documentContent" className="mb-16">
         <h3 className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800">
           {title}
-          {currentUser.roles === 'P' && document.mark == null && (
+          {currentUser.roles === 'P' && (
             <button
               onClick={handleModalOpen}
-              className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+              className="focus:shadow-outline rounded bg-blue-800 px-4 py-2 font-bold text-white hover:bg-blue-500 focus:outline-none"
             >
               Avaliar
             </button>

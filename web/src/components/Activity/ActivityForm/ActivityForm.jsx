@@ -158,7 +158,7 @@ const ActivityForm = (props) => {
         <div className="flex justify-center">
           <Submit
             disabled={props.loading}
-            className="rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600 focus:outline-none"
+            className="rounded bg-blue-800 px-6 py-2 text-white hover:bg-blue-500 focus:outline-none"
           >
             {props.loading ? 'Criando...' : 'Criar'}
           </Submit>
