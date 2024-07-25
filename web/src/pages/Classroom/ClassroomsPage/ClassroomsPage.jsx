@@ -12,7 +12,7 @@ const ClassroomsPage = () => {
         <h1 className="rw-heading rw-heading-primary">
           <p>Turmas</p>
         </h1>
-        <Link to={routes.newClassroom()} className="rw-button rw-button-green">
+        <Link to={routes.newClassroom()} className="text-gray-200 rw-button bg-customGreen hover:bg-customGreen-light">
           <div className="rw-button-icon">+</div>{' '}
           {currentUser?.roles == 'P' ? 'Nova Turma' : 'Entrar em turma'}
         </Link>
