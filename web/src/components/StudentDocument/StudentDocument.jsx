@@ -70,7 +70,7 @@ const StudentDocument = ({ document, title, corrections }) => {
       let color = ''
       switch (correction.severity) {
         case 'G':
-          color = '#6df2a8'
+          color = '#18712B'
           break
         case 'N':
           color = '#f5f578'
@@ -114,7 +114,7 @@ const StudentDocument = ({ document, title, corrections }) => {
     <>
       <SidebarMenu />
       <Tooltip id="tooltip-B" style={{ backgroundColor: 'rgb(180, 20, 20)' }} />
-      <Tooltip id="tooltip-G" style={{ backgroundColor: 'rgb(0, 128, 0)' }} />
+      <Tooltip id="tooltip-G" style={{ backgroundColor: '#18712B' }} />
       <Tooltip
         id="tooltip-N"
         style={{ backgroundColor: 'rgb(255, 255, 0)', color: '#222' }}
