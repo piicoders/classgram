@@ -17,7 +17,7 @@ const SidebarMenu = () => {
 
   return (
     <div
-      className={`fixed left-1 top-1/4 z-10 rounded-lg bg-blue-900/85 p-2 text-white shadow-md transition-transform duration-300 ${
+      className={`fixed left-1 top-1/4 z-10 rounded-lg bg-blue-900 p-2 text-white shadow-md transition-transform duration-300 ${
         isVisible ? '' : '-translate-x-32'
       }`}
       onClick={toggleSidebar}
