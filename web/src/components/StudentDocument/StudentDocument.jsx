@@ -73,10 +73,10 @@ const StudentDocument = ({ document, title, corrections }) => {
           color = '#18712B'
           break
         case 'N':
-          color = '#f5f578'
+          color = '#B48B26'
           break
         case 'B':
-          color = '#f57a7a'
+          color = '#8C1E1E'
           break
         default:
           color = 'inherit'
@@ -113,11 +113,11 @@ const StudentDocument = ({ document, title, corrections }) => {
   return (
     <>
       <SidebarMenu />
-      <Tooltip id="tooltip-B" style={{ backgroundColor: 'rgb(180, 20, 20)' }} />
+      <Tooltip id="tooltip-B" style={{ backgroundColor: '#8C1E1E' }} />
       <Tooltip id="tooltip-G" style={{ backgroundColor: '#18712B' }} />
       <Tooltip
         id="tooltip-N"
-        style={{ backgroundColor: 'rgb(255, 255, 0)', color: '#222' }}
+        style={{ backgroundColor: '#B48B26' }}
       />
       {showModal && (
         <ActivityReview documentId={document.id} onClose={handleModalClose} />
