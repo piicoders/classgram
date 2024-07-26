@@ -70,13 +70,13 @@ const StudentDocument = ({ document, title, corrections }) => {
       let color = ''
       switch (correction.severity) {
         case 'G':
-          color = '#18712B'
+          color = 'rgba(28, 205, 4, 0.7)'
           break
         case 'N':
-          color = '#B48B26'
+          color = 'rgba(235, 186, 10, 0.7)'
           break
         case 'B':
-          color = '#8C1E1E'
+          color = 'rgba(235, 44, 26, 0.7)'
           break
         default:
           color = 'inherit'
@@ -117,7 +117,7 @@ const StudentDocument = ({ document, title, corrections }) => {
       <Tooltip id="tooltip-G" style={{ backgroundColor: '#18712B' }} />
       <Tooltip
         id="tooltip-N"
-        style={{ backgroundColor: '#B48B26' }}
+        style={{ backgroundColor: '#FFDD57', color: '#222' }}
       />
       {showModal && (
         <ActivityReview documentId={document.id} onClose={handleModalClose} />
