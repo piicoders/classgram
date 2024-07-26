@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import Modal from 'react-modal'
+
 import { Link, routes, navigate, useParams } from '@redwoodjs/router'
 import { useQuery, useMutation, gql } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -57,6 +59,8 @@ const Activity = ({ activity }) => {
   })
 
   const [document, setDocument] = useState(null)
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [deleteActivityId, setDeleteActivityId] = useState(null)
 
   useEffect(() => {
     if (!loading && !error && data.findByActivityAndStudent) {
@@ -75,9 +79,17 @@ const Activity = ({ activity }) => {
   })
 
   const onDeleteClick = (id) => {
-    if (confirm('Tem certeza que deseja deletar a atividade ' + id + '?')) {
-      deleteActivity({ variables: { id } })
-    }
+    setDeleteActivityId(id)
+    setModalIsOpen(true)
+  }
+
+  const confirmDelete = () => {
+    deleteActivity({ variables: { id: deleteActivityId } })
+    setModalIsOpen(false)
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false)
   }
 
   return (
@@ -155,6 +167,33 @@ const Activity = ({ activity }) => {
             ))}
         </div>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={true}
+        contentLabel="Confirm Delete"
+        className="fixed inset-0 flex items-center justify-center p-4"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+      >
+        <div className="w-full max-w-md rounded bg-white p-8 shadow-lg">
+          <h2 className="mb-4 text-xl font-semibold">Confirmar Exclusão</h2>
+          <p className="mb-6">Tem certeza que deseja deletar a atividade?</p>
+          <div className="flex justify-end">
+            <button
+              className="mr-4 rounded bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
+              onClick={closeModal}
+            >
+              Cancelar
+            </button>
+            <button
+              className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+              onClick={confirmDelete}
+            >
+              Confirmar
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

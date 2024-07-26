@@ -191,7 +191,7 @@ const ActivityReview = ({ documentId, onClose }) => {
             <h3 className="text-lg font-semibold">Nota Total: {totalMarks}</h3>
           </div>
           <Submit
-            className="mt-4 w-full rounded-lg bg-blue-500 px-4 py-2 text-white"
+            className="mt-4 w-full rounded-lg bg-blue-800 hover:bg-blue-500 px-4 py-2 text-white"
             disabled={loading}
           >
             {loading ? 'Enviando...' : 'Enviar'}

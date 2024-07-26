@@ -45,7 +45,7 @@ const Classroom = ({ classroom }) => {
           {currentUser.roles === 'P' && (
             <NavLink
               to={routes.newActivity({ classId: classroom.id })}
-              className="rw-button rw-button-green"
+              className="rw-button text-gray-200 bg-customGreen hover:bg-customGreen-light"
             >
               <div className="rw-button-icon">+</div> Nova Atividade
             </NavLink>

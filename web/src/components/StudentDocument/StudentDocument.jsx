@@ -70,13 +70,13 @@ const StudentDocument = ({ document, title, corrections }) => {
       let color = ''
       switch (correction.severity) {
         case 'G':
-          color = '#6df2a8'
+          color = 'rgba(28, 205, 4, 0.7)'
           break
         case 'N':
-          color = '#f5f578'
+          color = 'rgba(235, 186, 10, 0.7)'
           break
         case 'B':
-          color = '#f57a7a'
+          color = 'rgba(235, 44, 26, 0.7)'
           break
         default:
           color = 'inherit'
@@ -113,11 +113,11 @@ const StudentDocument = ({ document, title, corrections }) => {
   return (
     <>
       <SidebarMenu />
-      <Tooltip id="tooltip-B" style={{ backgroundColor: 'rgb(180, 20, 20)' }} />
-      <Tooltip id="tooltip-G" style={{ backgroundColor: 'rgb(0, 128, 0)' }} />
+      <Tooltip id="tooltip-B" style={{ backgroundColor: '#8C1E1E' }} />
+      <Tooltip id="tooltip-G" style={{ backgroundColor: '#18712B' }} />
       <Tooltip
         id="tooltip-N"
-        style={{ backgroundColor: 'rgb(255, 255, 0)', color: '#222' }}
+        style={{ backgroundColor: '#FFDD57', color: '#222' }}
       />
       {showModal && (
         <ActivityReview documentId={document.id} onClose={handleModalClose} />
@@ -125,10 +125,10 @@ const StudentDocument = ({ document, title, corrections }) => {
       <div id="documentContent" className="mb-16">
         <h3 className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800">
           {title}
-          {currentUser.roles === 'P' && document.mark == null && (
+          {currentUser.roles === 'P' && (
             <button
               onClick={handleModalOpen}
-              className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+              className="focus:shadow-outline rounded bg-blue-800 px-4 py-2 font-bold text-white hover:bg-blue-500 focus:outline-none"
             >
               Avaliar
             </button>

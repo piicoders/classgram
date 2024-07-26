@@ -61,7 +61,7 @@ const CriterionForm = (props) => {
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
+            {createLoading ? 'Salvando...' : 'Salvar'}
           </Submit>
         </div>
       </Form>

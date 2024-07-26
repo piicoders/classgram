@@ -1,3 +1,5 @@
+import { gql } from '@apollo/client'
+
 import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
@@ -19,11 +21,11 @@ const NewClassroom = ({ currentUser }) => {
     CREATE_CLASSROOM_MUTATION,
     {
       onCompleted: () => {
-        toast.success('Turma criada!')
+        toast.success('Turma criada com sucesso!')
         navigate(routes.classrooms())
       },
       onError: (error) => {
-        toast.error(error.message)
+        toast.error(`Erro: ${error.message}`)
       },
     }
   )
@@ -33,34 +35,29 @@ const NewClassroom = ({ currentUser }) => {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <Metadata title="Turmas" />
-      {currentUser.roles == 'P' ? (
-        <div className="rounded bg-white">
-          <div className="p-6">
-            <header className="mb-8 text-center">
-              <h2 className="text-2xl font-bold text-gray-800">Nova Turma</h2>
-            </header>
+    <div className="mx-auto max-w-3xl px-6 py-12">
+      <Metadata title="Criação de Turmas" />
+      <div className="overflow-hidden rounded-lg bg-[#FOF3FA] shadow-md">
+        <header className="border border-b bg-blue-900 p-2 text-center">
+          <h2 className="text-2xl font-bold text-white">
+            {currentUser.roles === 'P'
+              ? 'Criar Nova Turma'
+              : 'Entrar em uma Turma'}
+          </h2>
+        </header>
+        <div className="p-4">
+          {currentUser.roles === 'P' ? (
             <ClassroomForm
               professorID={currentUser.id}
               onSave={onSave}
               loading={loading}
               error={error}
             />
-          </div>
+          ) : (
+            <JoinClassForm studentID={currentUser.id} />
+          )}
         </div>
-      ) : (
-        <div className="rounded bg-white">
-          <div className="p-6">
-            <header className="mb-8 text-center">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Entrar em uma Turma
-              </h2>
-            </header>
-            <JoinClassForm studentID={currentUser.id}>teste</JoinClassForm>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   )
 }

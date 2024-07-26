@@ -14,6 +14,7 @@ const CREATE_DOCUMENT_MUTATION = gql`
 const DocumentForm = (props) => {
   const [response, setResponse] = useState('')
   const textAreaRef = useRef(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (props.currentUser.roles === 'S') {
@@ -37,6 +38,7 @@ const DocumentForm = (props) => {
   }
 
   const handleSubmitResponse = () => {
+    setLoading(true)
     const documentInput = {
       input: {
         content: response.trim(),
@@ -45,6 +47,8 @@ const DocumentForm = (props) => {
         studentId: props.currentUser.id,
       },
     }
+
+    setLoading(false)
 
     createDocument({ variables: documentInput })
 
@@ -64,11 +68,11 @@ const DocumentForm = (props) => {
       ></textarea>
       <div className="mt-4">
         <button
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-blue-300"
+          className="rounded bg-blue-800 px-4 py-2 text-white hover:bg-blue-500 disabled:bg-blue-300"
           onClick={handleSubmitResponse}
           disabled={!response.trim()}
         >
-          Enviar Resposta
+          {loading ? 'Enviando...' : 'Enviar Resposta'}
         </button>
       </div>
     </div>

@@ -126,6 +126,7 @@ const ActivityForm = (props) => {
             className="block w-full rounded border px-4 py-2 focus:border-blue-500 focus:outline-none"
             errorClassName="block w-full px-4 py-2 border border-red-500 rounded focus:outline-none focus:border-red-500"
             validation={{ required: true }}
+            min={1}
           />
           <FieldError name="maxSize" className="text-red-500" />
         </div>
@@ -158,9 +159,9 @@ const ActivityForm = (props) => {
         <div className="flex justify-center">
           <Submit
             disabled={props.loading}
-            className="rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600 focus:outline-none"
+            className="rounded bg-blue-800 px-6 py-2 text-white hover:bg-blue-500 focus:outline-none"
           >
-            Criar
+            {props.loading ? 'Criando...' : 'Criar'}
           </Submit>
         </div>
       </Form>

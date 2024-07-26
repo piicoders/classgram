@@ -72,7 +72,7 @@ const UserForm = (props) => {
               disabled={props.loading}
               className="rounded-lg bg-blue-900 px-4 py-2 text-white"
             >
-              Salvar Alterações
+              {props.loading ? 'Salvando...' : 'Salvar Alterações'}
             </Submit>
           </div>
         </Form>

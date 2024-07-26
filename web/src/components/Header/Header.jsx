@@ -18,11 +18,11 @@ const Header = () => {
         <div className="flex flex-col px-2">
           <span>{currentUser?.name}</span>
           {currentUser?.roles == 'P' ? (
-            <span className="rounded-md bg-gray-800 px-2 py-1 text-center text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600">
+            <span className="rounded-md px-2 py-1 text-center text-xs font-medium text-green-500 ring-1 ring-inset ring-green-500">
               Professor
             </span>
           ) : (
-            <span className="rounded-md bg-gray-800 px-2 py-1 text-center text-xs font-medium text-rose-500 ring-1 ring-inset ring-rose-500">
+            <span className="rounded-md px-2 py-1 text-center text-xs font-medium text-rose-500 ring-1 ring-inset ring-rose-500">
               Aluno
             </span>
           )}
