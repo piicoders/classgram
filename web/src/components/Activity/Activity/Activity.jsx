@@ -108,12 +108,7 @@ const Activity = ({ activity }) => {
               }`}
             >
               Prazo:{' '}
-              {`${new Date(activity.dueDate).getDate()}/${
-                new Date(activity.dueDate).getMonth() + 1
-              } - ${new Date(activity.dueDate).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}h`}
+              {format(new Date(document.handed), 'dd/MM/yyyy - HH:mm')}
             </p>
           </div>
           {currentUser.roles === 'P' && (
