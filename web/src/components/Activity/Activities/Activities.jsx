@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { Link, routes } from '@redwoodjs/router'
 
 const ActivitiesList = ({ activities }) => {
@@ -23,11 +24,7 @@ const ActivitiesList = ({ activities }) => {
                       : 'text-red-600'
                   }`}
                 >
-                  {`${new Date(activity.dueDate).getDate()}/${
-                  new Date(activity.dueDate).getMonth() + 1
-                } - ${new Date(activity.dueDate).getHours()}:${new Date(
-                  activity.dueDate
-                ).getMinutes()}h`}</p>
+                    {format(new Date(activity.dueDate), 'dd/MM/yyyy - HH:mm')}</p>
               </div>
             </div>
           </div>
