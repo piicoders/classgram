@@ -22,8 +22,12 @@ const ActivitiesList = ({ activities }) => {
                       ? 'text-indigo-900'
                       : 'text-red-600'
                   }`}
-                >{format(new Date(activity.dueDate), 'dd/MM/yyyy - HH:mm')}
-                </p>
+                >
+                  {`${new Date(activity.dueDate).getDate()}/${
+                  new Date(activity.dueDate).getMonth() + 1
+                } - ${new Date(activity.dueDate).getHours()}:${new Date(
+                  activity.dueDate
+                ).getMinutes()}h`}</p>
               </div>
             </div>
           </div>
