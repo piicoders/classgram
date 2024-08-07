@@ -108,7 +108,7 @@ const Activity = ({ activity }) => {
               }`}
             >
               Prazo:{' '}
-              {format(new Date(document.handed), 'dd/MM/yyyy - HH:mm')}
+              {format(new Date(activity.dueDate), 'dd/MM/yyyy - HH:mm')}
             </p>
           </div>
           {currentUser.roles === 'P' && (
