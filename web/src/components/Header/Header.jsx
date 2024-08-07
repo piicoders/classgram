@@ -7,6 +7,19 @@ import { useAuth } from 'src/auth'
 
 const Header = () => {
   const { currentUser, logOut } = useAuth()
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogout = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <header className="flex items-center justify-between bg-blue-950 px-6 py-2 text-white">
@@ -47,9 +60,10 @@ const Header = () => {
                 <button
                   className="flex w-full items-center justify-between bg-gray-100 px-4 py-2 text-sm text-gray-800"
                   type="button"
-                  onClick={logOut}
+                  onClick={handleLogout}
+                  disabled={isLoading}
                 >
-                  Logout
+                  {isLoading ? 'Encerrando...' : 'Logout'}
                 </button>
               ) : (
                 <Link
