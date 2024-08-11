@@ -31,6 +31,8 @@ model User {
   Document            Document[]
   Correction          Correction[]
   Comment             Comment[]
+  geminiKey           String?      @db.VarChar()
+  gptKey              String?      @db.VarChar()
 }
 
 model Classroom {

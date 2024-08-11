@@ -2578,6 +2578,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@google/generative-ai@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@google/generative-ai@npm:0.16.0"
+  checksum: 10c0/5d561a41cb7be60fc9b49965b66359e15df907bf6679009de7917beff138ba69d4a0772ab2a9d6f0e543d658d72bd19b83e6abdb87a6cdfa402a8764b08eed4c
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/add@npm:4.0.1":
   version: 4.0.1
   resolution: "@graphql-codegen/add@npm:4.0.1"
@@ -18647,6 +18654,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@google/generative-ai": "npm:^0.16.0"
     "@redwoodjs/auth-dbauth-setup": "npm:7.0.2"
     "@redwoodjs/cli-data-migrate": "npm:7.0.2"
     "@redwoodjs/core": "npm:7.0.2"

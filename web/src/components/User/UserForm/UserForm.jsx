@@ -14,9 +14,7 @@ const UserForm = (props) => {
 
   return (
     <div className="">
-      {/* NEW */}
-
-      <div className="mx-auto flex h-[350px] max-w-sm flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-md">
+      <div className="mx-auto flex  max-w-sm flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-md">
         <div className="h-24 bg-blue-900"></div>
 
         <Form onSubmit={onSubmit} error={props.error} className="mx-4">
@@ -61,12 +59,46 @@ const UserForm = (props) => {
             validation={{ required: true }}
           />
 
+          <FieldError name="name" className="rw-field-error" />
+
+          <Label
+            name="geminiKey"
+            className="rw-label"
+            errorClassName="rw-label rw-label-error"
+          >
+            Chave Gemini
+          </Label>
+
+          <TextField
+            name="geminiKey"
+            defaultValue={props.user?.geminiKey}
+            className="rw-input"
+            errorClassName="rw-input rw-input-error"
+            validation={{ required: false }}
+          />
+
+          <FieldError name="geminiKey" className="rw-field-error" />
+
+          <Label
+            name="gptKey"
+            className="rw-label"
+            errorClassName="rw-label rw-label-error"
+          >
+            Chave ChatGPT
+          </Label>
+
+          <TextField
+            name="gptKey"
+            defaultValue={props.user?.gptKey}
+            className="rw-input"
+            errorClassName="rw-input rw-input-error"
+            validation={{ required: false }}
+          />
+
+          <FieldError name="gptKey" className="rw-field-error" />
           <div className="mb-4 text-center">
             <hr className="my-6" />
           </div>
-
-          <FieldError name="name" className="rw-field-error" />
-
           <div className="rw-button-group">
             <Submit
               disabled={props.loading}

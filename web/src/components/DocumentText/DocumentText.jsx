@@ -6,7 +6,7 @@ import { useAuth } from 'src/auth'
 
 import ActivityReview from '../ActivityReview/ActivityReview'
 
-const DocumentText = ({ title, content, handed, corrections }) => {
+const DocumentText = ({ title, content, handed, corrections, documentId }) => {
   const { currentUser } = useAuth()
   const [showModal, setShowModal] = useState(false)
 
@@ -83,7 +83,7 @@ const DocumentText = ({ title, content, handed, corrections }) => {
         style={{ backgroundColor: '#FFDD57', color: '#222' }}
       />
       {showModal && (
-        <ActivityReview documentId={document.id} onClose={handleModalClose} />
+        <ActivityReview documentId={documentId} onClose={handleModalClose} />
       )}
       <div id="documentContent" className="mb-16">
         <h3 className="mb-2 flex items-center justify-between text-2xl font-semibold text-gray-800">
@@ -97,7 +97,9 @@ const DocumentText = ({ title, content, handed, corrections }) => {
             </button>
           )}
         </h3>
-        <p className="mb-2 text-sm text-gray-600">{formatDate(handed)}</p>
+        <p className="mb-2 text-sm text-gray-600">
+          {formatDate(handed ? handed : new Date())}
+        </p>
         <p
           id="documentContent"
           className="text-base"

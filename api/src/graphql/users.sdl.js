@@ -6,6 +6,8 @@ export const schema = gql`
     hashedPassword: String!
     salt: String!
     roles: UserType!
+    geminiKey: String
+    gptKey: String
     resetToken: String
     resetTokenExpiredAt: DateTime
     classesAsProfessor: [Classroom]!
@@ -40,6 +42,8 @@ export const schema = gql`
     roles: UserType
     resetToken: String
     resetTokenExpiredAt: DateTime
+    gptKey: String
+    geminiKey: String
   }
 
   type Mutation {

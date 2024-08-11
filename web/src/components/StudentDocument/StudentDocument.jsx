@@ -36,6 +36,7 @@ const StudentDocument = ({ document, title, corrections }) => {
     <>
       <SidebarMenu />
       <DocumentText
+        documentId={document.id}
         title={title}
         corrections={corrections}
         content={document.content}
@@ -43,7 +44,7 @@ const StudentDocument = ({ document, title, corrections }) => {
       />
       <DocumentMark
         mark={document.mark}
-        subFactorsMark={document.subFactorsMark}
+        subFactorsMark={JSON.parse(document.subFactorsMark)}
       />
       <DocumentCorrection corrections={corrections} />
       <DocumentComments comments={comments} />

@@ -11,13 +11,11 @@ const DocumentMark = ({ mark, subFactorsMark }) => {
               </span>
             </h2>
             <ul className="list-disc pl-8">
-              {Object.entries(JSON.parse(subFactorsMark)).map(
-                ([key, value]) => (
-                  <li key={key} className="mb-2">
-                    <span className="font-bold">{key}:</span> {value}
-                  </li>
-                )
-              )}
+              {Object.entries(subFactorsMark).map(([key, value]) => (
+                <li key={key} className="mb-2">
+                  <span className="font-bold">{key}:</span> {value}
+                </li>
+              ))}
             </ul>
           </div>
         </>
