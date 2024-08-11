@@ -142,7 +142,6 @@ No entanto, o acesso limitado a livros e a predominância das mídias digitais s
           console.log(responseText)
           if (responseText && responseText.trim().startsWith('{')) {
             const responseJson = JSON.parse(responseText)
-            console.log(geminiResponse)
             setResponse(responseJson)
           } else {
             console.error('Resposta não é um JSON válido.')
