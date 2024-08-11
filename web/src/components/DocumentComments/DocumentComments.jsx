@@ -13,7 +13,7 @@ const DocumentComments = ({ comments }) => {
               className="mb-4 rounded-lg bg-white p-6 shadow-md"
             >
               <h1 className="mb-4 text-2xl font-bold text-gray-900">
-                {comment.user.name}:
+                {comment?.user?.name ? comment.user.name : 'Gerador'}:
               </h1>
               <p>{comment.content}</p>
             </div>
