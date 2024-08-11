@@ -42,6 +42,8 @@ export const schema = gql`
     roles: UserType
     resetToken: String
     resetTokenExpiredAt: DateTime
+    gptKey: String
+    geminiKey: String
   }
 
   type Mutation {

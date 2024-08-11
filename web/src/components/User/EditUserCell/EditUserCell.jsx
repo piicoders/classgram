@@ -10,6 +10,8 @@ export const QUERY = gql`
       id
       email
       name
+      gptKey
+      geminiKey
     }
   }
 `
@@ -20,6 +22,8 @@ const UPDATE_USER_MUTATION = gql`
       id
       email
       name
+      gptKey
+      geminiKey
     }
   }
 `
