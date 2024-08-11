@@ -34,7 +34,6 @@ const JoinClassForm = (props) => {
     createUser({
       variables: { classCode: data.classCode, studentId: props.studentID },
     })
-    console.log('Código da turma:', data.code)
   }
 
   return (
@@ -69,7 +68,7 @@ const JoinClassForm = (props) => {
       <div className="flex justify-center">
         <Submit
           disabled={loading}
-          className="inline-flex items-center rounded-md border border-transparent bg-blue-800 hover:bg-blue-500 focus:bg-blue-500 px-6 py-2 text-lg font-semibold text-white"
+          className="inline-flex items-center rounded-md border border-transparent bg-blue-800 px-6 py-2 text-lg font-semibold text-white hover:bg-blue-500 focus:bg-blue-500"
         >
           {loading ? 'Entrando...' : 'Entrar na Turma'}
         </Submit>
