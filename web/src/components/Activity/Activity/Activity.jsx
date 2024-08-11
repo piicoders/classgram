@@ -163,6 +163,7 @@ const Activity = ({ activity }) => {
                 maxSize={activity.maxSize}
                 activityId={activity.id}
                 currentUser={currentUser}
+                theme={activity.name}
               />
             ))}
         </div>
