@@ -6,6 +6,8 @@ export const schema = gql`
     hashedPassword: String!
     salt: String!
     roles: UserType!
+    geminiKey: String
+    gptKey: String
     resetToken: String
     resetTokenExpiredAt: DateTime
     classesAsProfessor: [Classroom]!
