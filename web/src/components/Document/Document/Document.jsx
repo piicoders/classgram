@@ -66,6 +66,7 @@ const Document = ({ document }) => {
         <div className="border-t border-gray-200 bg-gray-100 px-8 py-4"></div>
         <div className="px-8 py-4">
           <StudentDocument
+            theme={document.activity.name}
             document={document}
             title={'Entregue por: ' + document.student.name}
             corrections={correctionsData}

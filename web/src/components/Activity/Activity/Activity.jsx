@@ -1,5 +1,6 @@
-import { format } from 'date-fns'
 import { useState, useEffect } from 'react'
+
+import { format } from 'date-fns'
 import Modal from 'react-modal'
 
 import { Link, routes, navigate, useParams } from '@redwoodjs/router'
@@ -107,8 +108,7 @@ const Activity = ({ activity }) => {
                   : 'text-red-600'
               }`}
             >
-              Prazo:{' '}
-              {format(new Date(activity.dueDate), 'dd/MM/yyyy - HH:mm')}
+              Prazo: {format(new Date(activity.dueDate), 'dd/MM/yyyy - HH:mm')}
             </p>
           </div>
           {currentUser.roles === 'P' && (
@@ -151,6 +151,7 @@ const Activity = ({ activity }) => {
                   document={document}
                   title={'Sua Resposta'}
                   corrections={document.Correction}
+                  theme={activity.name}
                 />
               </div>
             ) : (

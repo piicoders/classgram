@@ -8,6 +8,15 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 
+const CRITERIA_QUERY = gql`
+  query Criteria {
+    criteria {
+      id
+      name
+    }
+  }
+`
+
 const SUBFACTORS_BY_CRITERION_ID = gql`
   query SubfactorsByCriterionId($criterionId: Int!) {
     subfactorsByCriterionId(criterionId: $criterionId) {
@@ -29,15 +38,18 @@ const CREATE_CORRECTION_MUTATION = gql`
 const CorrectionModal = ({
   documentId,
   selection,
-  criteria,
   onClose,
+  descriptionAi,
+  correctionAi,
   onCorrectionSubmission,
 }) => {
   const { currentUser } = useAuth()
   const formMethods = useForm()
 
-  const [description, setDescription] = useState('')
-  const [correction, setCorrection] = useState('')
+  const [description, setDescription] = useState(
+    descriptionAi ? descriptionAi : ''
+  )
+  const [correction, setCorrection] = useState(correctionAi ? correctionAi : '')
   const [selectedCriterion, setSelectedCriterion] = useState('')
   const [selectedSubfactor, setSelectedSubfactor] = useState('')
   const [subfactors, setSubfactors] = useState([])
@@ -47,6 +59,29 @@ const CorrectionModal = ({
   const descriptionTextAreaRef = useRef(null)
   const correctionTextAreaRef = useRef(null)
   const modalRef = useRef(null)
+
+  // Fetch criteria
+  const {
+    loading: criteriaLoading,
+    error: criteriaError,
+    data: criteriaData,
+  } = useQuery(CRITERIA_QUERY)
+
+  // Fetch subfactors based on selected criterion
+  const {
+    loading: subfactorsLoading,
+    error: subfactorsError,
+    data: subfactorsData,
+  } = useQuery(SUBFACTORS_BY_CRITERION_ID, {
+    variables: { criterionId: parseInt(selectedCriterion) },
+    skip: !selectedCriterion,
+  })
+
+  useEffect(() => {
+    if (subfactorsData && subfactorsData.subfactorsByCriterionId) {
+      setSubfactors(subfactorsData.subfactorsByCriterionId)
+    }
+  }, [subfactorsData])
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -61,11 +96,6 @@ const CorrectionModal = ({
   }, [onClose])
 
   useEffect(() => {
-    adjustTextArea(descriptionTextAreaRef)
-    adjustTextArea(correctionTextAreaRef)
-  }, [subfactorDescription, description, correction])
-
-  useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         onClose()
@@ -78,38 +108,6 @@ const CorrectionModal = ({
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [onClose])
-
-  const adjustTextArea = (textAreaRef) => {
-    if (textAreaRef.current) {
-      textAreaRef.current.style.height = 'auto'
-      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
-    }
-  }
-
-  const { loading, error, data } = useQuery(SUBFACTORS_BY_CRITERION_ID, {
-    variables: { criterionId: parseInt(selectedCriterion) },
-    skip: !selectedCriterion,
-  })
-
-  useEffect(() => {
-    if (!loading && !error && data && data.subfactorsByCriterionId) {
-      setSubfactors(data.subfactorsByCriterionId)
-    } else if (error) {
-      console.error('Erro:', error)
-    }
-  }, [loading, error, data])
-
-  useEffect(() => {
-    if (selectedSubfactor) {
-      const selectedSubfactorObj = subfactors.find(
-        (subfactor) => subfactor.id == selectedSubfactor
-      )
-      if (selectedSubfactorObj) {
-        setSubfactorDescription(selectedSubfactorObj.description || '')
-        setDescription(selectedSubfactorObj.description)
-      }
-    }
-  }, [selectedSubfactor, subfactors])
 
   const [createCorrection, { createLoading, _createError }] = useMutation(
     CREATE_CORRECTION_MUTATION,
@@ -211,8 +209,9 @@ const CorrectionModal = ({
               }}
             >
               <option value="">Selecione um critério</option>
-              {criteria &&
-                criteria.map((criterion) => (
+              {!criteriaLoading &&
+                criteriaData &&
+                criteriaData.criteria.map((criterion) => (
                   <option key={criterion.id} value={criterion.id}>
                     {criterion.name}
                   </option>
@@ -249,49 +248,51 @@ const CorrectionModal = ({
             </SelectField>
             <FieldError name="subfactor" className="rw-field-error" />
           </div>
-          <div className="mb-4">
-            {selectedSubfactor ? (
-              <>
+
+          {/* Show description and correction fields only if both selectors are filled */}
+          {selectedCriterion && selectedSubfactor && (
+            <>
+              <div className="mb-4">
                 <h3 className="mb-2 text-lg font-semibold">Descrição:</h3>
                 <textarea
-                  name="description"
-                  className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-                  placeholder="Digite a descrição aqui..."
-                  value={selectedSubfactor ? subfactorDescription : description}
-                  onChange={(e) => {
-                    if (!selectedSubfactor) {
-                      setDescription(e.target.value)
-                    } else {
-                      setSubfactorDescription(e.target.value)
-                    }
-                  }}
                   ref={descriptionTextAreaRef}
-                ></textarea>
-              </>
-            ) : (
-              ''
-            )}
-          </div>
-          {severity === 'B' && (
-            <div className="mb-4">
-              <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
-              <textarea
-                name="correction"
-                className="h-16 w-full resize-none overflow-hidden rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-                placeholder="Digite a correção aqui..."
-                value={correction}
-                onChange={(e) => setCorrection(e.target.value)}
-                ref={correctionTextAreaRef}
-              ></textarea>
-            </div>
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+                  rows={1}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Descreva seu comentário"
+                />
+              </div>
+              {severity === 'B' && ( // Show correction area only if severity is 'B'
+                <div className="mb-4">
+                  <h3 className="mb-2 text-lg font-semibold">Correção:</h3>
+                  <textarea
+                    ref={correctionTextAreaRef}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
+                    rows={3}
+                    value={correction}
+                    onChange={(e) => setCorrection(e.target.value)}
+                    placeholder="Insira sua correção"
+                  />
+                </div>
+              )}
+            </>
           )}
+
           <div className="flex justify-end">
             <button
-              type="submit"
-              className="mr-2 rounded bg-blue-800 px-4 py-2 text-white hover:bg-blue-500 focus:outline-none"
-              disabled={createLoading}
+              type="button"
+              onClick={onClose}
+              className="mr-2 inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-              {createLoading ? 'Enviando...' : 'Enviar'}
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              disabled={createLoading}
+              className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              {createLoading ? 'Salvando...' : 'Salvar'}
             </button>
           </div>
         </div>
