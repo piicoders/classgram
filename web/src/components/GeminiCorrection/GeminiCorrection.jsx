@@ -131,7 +131,7 @@ export async function geminiRun(
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
     const chat = model.startChat(history)
     const result = await chat.sendMessage(textPrompt(text, theme))
-    const responseText = await result.response.text()
+    const responseText = await result.response.text().replace('json', '').replace('```', '')
     console.log('Resposta bruta:', responseText)
 
     if (responseText && responseText.trim().startsWith('{')) {
