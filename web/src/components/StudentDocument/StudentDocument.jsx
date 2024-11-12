@@ -20,7 +20,7 @@ const COMMENT_BY_DOCUMENT_ID = gql`
   }
 `
 
-const StudentDocument = ({ document, title, corrections }) => {
+const StudentDocument = ({ document, title, corrections, theme }) => {
   const [comments, setComments] = useState([])
   const { loading, error, data } = useQuery(COMMENT_BY_DOCUMENT_ID, {
     variables: { documentId: parseInt(document.id) },
@@ -41,6 +41,8 @@ const StudentDocument = ({ document, title, corrections }) => {
         corrections={corrections}
         content={document.content}
         handed={document.handed}
+        theme={theme}
+        promptId={document.promptId}
       />
       <DocumentMark
         mark={document.mark}
