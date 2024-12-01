@@ -98,6 +98,7 @@ const DocumentForm = (props) => {
         onClose={handleCloseModal}
         initialTheme={props.theme}
         initialText={response}
+        setResponse={setResponse}
       />
     </div>
   )

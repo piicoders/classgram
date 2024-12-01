@@ -43,20 +43,15 @@ const DocumentText = ({
   }
 
   const handleAccept = (event) => {
-    const span = event.currentTarget // Captura o span que foi clicado
-    const id = span.dataset.id // Obtém o id
-    const tooltipHtml = span.dataset.tooltipHtml // Obtém o conteúdo do tooltip
+    const span = event.currentTarget
+    const id = span.dataset.id
+    const tooltipHtml = span.dataset.tooltipHtml
 
-    // Extrai a descrição e a correção do conteúdo do tooltip
     const [description, correction] = tooltipHtml
       .split('<br />')
       .map((item) => item.replace(/^Descrição: /, '').trim())
 
-    const text = span.innerText // Obtém o texto dentro do span
-    console.log('ID:', id)
-    console.log('Descrição:', description)
-    console.log('Correção:', correction)
-    console.log('Texto:', text)
+    const text = span.innerText
 
     handleModalOpen(text, description, correction) // Abre o modal com as informações extraídas
   }

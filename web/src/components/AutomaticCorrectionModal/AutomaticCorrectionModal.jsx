@@ -9,12 +9,18 @@ const AutomaticCorrectionModal = ({
   onClose,
   initialTheme,
   initialText,
+  setResponse,
 }) => {
   const [activeTab, setActiveTab] = useState(null)
   const [theme, setTheme] = useState('')
   const [text, setText] = useState('')
   const [image, setImage] = useState(null)
   const [useImage, setUseImage] = useState(false)
+
+  const handleTextChange = (event) => {
+    setText(event.target.value)
+    setResponse(event.target.value)
+  }
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -41,9 +47,7 @@ const AutomaticCorrectionModal = ({
     if ((theme && text) || (theme && image)) {
       setActiveTab(tab)
     } else {
-      alert(
-        'Por favor, preencha o tema e o texto da redação ou carregue uma imagem.'
-      )
+      alert('Por favor, preencha o tema e o texto da redação.')
     }
   }
 
@@ -95,10 +99,9 @@ const AutomaticCorrectionModal = ({
               <label className="mb-2 block">Texto da Redação:</label>
               <textarea
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={handleTextChange}
                 className="rw-input"
                 rows="4"
-                disabled={!!initialText}
               />
             </div>
           )}
