@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { XIcon } from '@heroicons/react/solid'
 
 import GeminiCorrection from '../GeminiCorrection/GeminiCorrection'
+import GPTCorrection from '../GptCorrection/GptCorrection'
 
 const AutomaticCorrectionModal = ({
   isOpen,
@@ -129,8 +130,7 @@ const AutomaticCorrectionModal = ({
         )}
         {activeTab === 'gpt' && (
           <div>
-            <p>Conteúdo para utilizar GPT.</p>
-            {/* Adicione o conteúdo específico para GPT aqui */}
+            <GPTCorrection text={text} theme={theme} image={image} />
           </div>
         )}
         <button

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { OpenAI } from 'openai'
 
 import { useAuth } from 'src/auth'
 
@@ -8,13 +8,14 @@ import DocumentComments from '../DocumentComments/DocumentComments'
 import DocumentMark from '../DocumentMark/DocumentMark'
 import DocumentText from '../DocumentText/DocumentText'
 
-const history = {
-  history: [
-    {
-      role: 'user',
-      parts: [
-        {
-          text: `Forneça uma análise detalhada da redação abaixo em formato JSON, incluindo correções gramaticais, semânticas e pontuais, além de uma avaliação das competências do ENEM (argumentação, coerência, compreensão do tema, domínio da escrita formal e recursos coesivos). Utilize uma escala de notas de 0 a 200 para cada competência, com incrementos de 20 com nota final entre 0 e 1000. Justifique cada correção e avaliação. O tema da redação é "A importância da leitura na formação do cidadão".
+const history = [
+  {
+    role: 'system',
+    content: `Você é um especialista em análise de textos e redações para o ENEM.`,
+  },
+  {
+    role: 'user',
+    content: `Forneça uma análise detalhada da redação abaixo em formato JSON, incluindo correções gramaticais, semânticas e pontuais, além de uma avaliação das competências do ENEM (argumentação, coerência, compreensão do tema, domínio da escrita formal e recursos coesivos). Utilize uma escala de notas de 0 a 200 para cada competência, com incrementos de 20 com nota final entre 0 e 1000. Justifique cada correção e avaliação. O tema da redação é "A importância da leitura na formação do cidadão".
 
 Redação:
 
@@ -25,14 +26,10 @@ Primeiramente, a leitura é vital para o aprimoramento do pensamento crítico e 
 Além disso, a leitura desempenha um papel significativo na formaçao da cidadania. Por meio de livros que abordam temas como direitos humanos, justiça e história, o cidadão se torna mais consciente das dinâmicas sociais e dos problemas enfrentados pela sociedade. Isso promove um maior engajamento cívico e uma atitude mais responsável em relaçao às questoes coletivas.
 
 No entanto, o acesso limitado a livros e a predominância das mídias digitais são desafios que dificultam a pratica da leitura. Para superar essas barreiras, é crucial promover politicas públicas que incentivem o hábito da leitura desde a infância, além de utilizar a tecnologia para facilitar o acesso a livros digitais e audiobooks. Somente com essas medidas será possível garantir que mais pessoas se beneficiem dos impactos positivos da leitura.`,
-        },
-      ],
-    },
-    {
-      role: 'model',
-      parts: [
-        {
-          text: `{
+  },
+  {
+    role: 'system',
+    content: `{
   "corrections": [
     {
       "text": "A leitura desempenha um papel crucial na formaçao do cidadão",
@@ -90,34 +87,31 @@ No entanto, o acesso limitado a livros e a predominância das mídias digitais s
   ],
   "mark": 800,
   "subfactors_marks": {
-    "1. Domínio da modalidade de escrita formal": 140,
-    "2. Compreensão do tema": 200,
-    "3. Argumentação e coerência": 160,
-    "4. Atendimento ao gênero/Tipo": 180,
-    "5. Recursos coesivos": 120
+    "1. Domínio da modalidade de escrita formal": A redação apresenta um bom domínio da norma culta da língua portuguesa, embora com alguns erros gramaticais e ortográficos. A escrita é clara e compreensível, mas a presença de erros compromete a fluência do texto.,
+    "2. Compreensão do tema": O tema é muito bem compreendido e desenvolvido, com uma reflexão clara sobre a importância da educação inclusiva e as dificuldades para implementá-la nas escolas brasileiras. A redação aborda as limitações dos recursos, a falta de treinamento de professores, a resistência ao preconceito e o descaso das autoridades.,
+    "3. Argumentação e coerência": A argumentação é razoável, mas poderia ser mais aprofundada, especialmente em relação às soluções propostas. O desenvolvimento do tema é linear, mas faltam mais exemplos práticos ou dados concretos que reforcem os argumentos apresentados.,
+    "4. Atendimento ao gênero/Tipo": A redação segue o gênero dissertativo-argumentativo de forma adequada, mas há momentos em que a estrutura do texto poderia ser mais organizada, com transições mais suaves entre os parágrafos. Apesar disso, a organização geral está boa.,
+    "5. Recursos coesivos": A utilização de recursos coesivos é razoável. Algumas frases estão bem conectadas, mas há momentos em que a coesão entre as ideias não é perfeita, prejudicando a fluidez do texto. O uso de conectivos pode ser melhorado.
   },
   "comments": [
     {
       "id": 1,
-      "content": "A redação aborda de forma adequada o tema 'A importância da leitura na formação do cidadão'. A argumentação é clara e coerente, e a compreensão do tema é excelente. No entanto, há alguns erros ortográficos e gramaticais que precisam ser corrigidos. O domínio da escrita formal é bom, mas pode ser melhorado. A utilização de recursos coesivos também pode ser mais sofisticada.",
+      "content": "A redação aborda de maneira relevante e clara o tema da educação inclusiva, destacando as principais dificuldades enfrentadas pelas escolas brasileiras para garantir uma educação de qualidade para todos os alunos, independentemente de suas deficiências. A argumentação é válida, ressaltando questões como a falta de recursos, o preconceito e a ausência de formação adequada dos professores. No entanto, a redação apresenta alguns erros ortográficos e gramaticais que comprometem a fluidez do texto e a formalidade exigida para o gênero dissertativo-argumentativo. Além disso, a argumentação poderia ser mais aprofundada, especialmente ao discutir soluções práticas para os problemas apontados. A utilização de exemplos concretos ou dados estatísticos ajudaria a fortalecer os argumentos e a tornar o texto mais persuasivo. Apesar das falhas, a redação demonstra boa compreensão do tema e oferece uma reflexão importante sobre a importância da inclusão na educação brasileira.",
       "user": {
-        "name": "Gemini"
+        "name": "GPT"
       }
     }
   ]
 }`,
-        },
-      ],
-    },
-  ],
-}
+  },
+]
 
 const textPrompt = (text, theme) => `
-    Forneça uma análise detalhada da redação abaixo em formato JSON, incluindo correções gramaticais, semânticas e pontuais, além de uma avaliação das competências do ENEM (argumentação, coerência, compreensão do tema, domínio da escrita formal e recursos coesivos). Utilize uma escala de notas de 0 a 200 para cada competência, com incrementos de 20 com nota final entre 0 e 1000. Justifique cada correção e avaliação. O tema da redação é "${theme}".
-    Redação: ${text.replace('\n', ' ')}
-  `
+Forneça uma análise detalhada da redação abaixo em formato JSON, incluindo correções gramaticais, semânticas e pontuais, além de uma avaliação das competências do ENEM (argumentação, coerência, compreensão do tema, domínio da escrita formal e recursos coesivos). Utilize uma escala de notas de 0 a 200 para cada competência, com incrementos de 20 com nota final entre 0 e 1000. Justifique cada correção e avaliação. O tema da redação é "${theme}".
+Redação: ${text.replace('\n', ' ')}
+`
 
-export async function geminiRun(
+export async function gptRun(
   text,
   theme,
   setLoading,
@@ -126,12 +120,27 @@ export async function geminiRun(
 ) {
   setLoading(true)
   try {
-    const genAI = new GoogleGenerativeAI(currentUser.geminiKey)
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
-    const chat = model.startChat(history)
-    const result = await chat.sendMessage(textPrompt(text, theme))
-    const responseText = await result.response.text().replace('json', '').replace('```', '')
-    console.log('Resposta bruta:', responseText)
+    const openai = new OpenAI({
+      apiKey: currentUser.gptKey,
+      dangerouslyAllowBrowser: true,
+    })
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        ...history,
+        {
+          role: 'user',
+          content: textPrompt(text, theme),
+        },
+      ],
+      temperature: 0.7,
+    })
+
+    let responseText = response?.choices?.[0]?.message?.content
+    responseText = responseText.replace('json', '').replace('```', '')
+    console.log(response)
+    console.log(responseText)
 
     if (responseText && responseText.trim().startsWith('{')) {
       const responseJson = JSON.parse(responseText)
@@ -146,36 +155,36 @@ export async function geminiRun(
   }
 }
 
-const GeminiCorrection = ({ text, theme, image }) => {
+const GPTCorrection = ({ text, theme, image }) => {
   const { currentUser } = useAuth()
 
-  const [geminiResponse, setResponse] = useState(null)
+  const [gptResponse, setResponse] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    geminiRun(text, theme, setLoading, setResponse, currentUser)
+    gptRun(text, theme, setLoading, setResponse, currentUser)
   }, [text, currentUser, theme])
 
   return (
     <div>
       {loading
         ? 'Carregando...'
-        : geminiResponse && (
+        : gptResponse && (
             <>
               <DocumentText
                 title={theme}
                 content={text}
-                corrections={geminiResponse.corrections}
+                corrections={gptResponse.corrections}
               />
               <DocumentMark
-                mark={geminiResponse.mark}
-                subFactorsMark={geminiResponse.subfactors_marks}
+                mark={gptResponse.mark}
+                subFactorsMark={gptResponse.subfactors_marks}
               />
-              <DocumentComments comments={geminiResponse.comments} />
+              <DocumentComments comments={gptResponse.comments} />
             </>
           )}
     </div>
   )
 }
 
-export default GeminiCorrection
+export default GPTCorrection
